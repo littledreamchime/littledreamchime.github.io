@@ -1,20 +1,20 @@
 ---
 import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
+import '../styles/header.css';
 ---
 
-<header>
-	<nav>
-		<h2><a href="/">{SITE_TITLE}</a></h2>
-		<div class="internal-links">
+<header class="custom-header">
+		<h2 class="header-signature"><a href="/">{SITE_TITLE}</a></h2>
+		<nav class="header-nav">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/devlog">Devlog</HeaderLink>
 			<HeaderLink href="/about">About</HeaderLink>
-		</div>
-		<div class="social-links">
+		</nav>
+		<div class="header-social">
 			<!--1.Youtube channel -->
-			<a href="https://www.youtube.com/@LittleDreamChime" target="_blank">
+			<a href="https://www.youtube.com/@LittleDreamChime" class="social-youtube" target="_blank">
 				<span class="sr-only">Go to my YouTube channel</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -24,7 +24,7 @@ import HeaderLink from './HeaderLink.astro';
 				>
 			</a>
 			<!--2.X account -->
-			<a href="https://x.com/I_Life_Soul" target="_blank">
+			<a href="https://x.com/I_Life_Soul" class="social-x" target="_blank">
 				<span class="sr-only">Follow me on X</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -34,7 +34,7 @@ import HeaderLink from './HeaderLink.astro';
 				>
 			</a>
 			<!--3.github -->
-			<a href="https://github.com/littledreamchime" target="_blank">
+			<a href="https://github.com/littledreamchime" class="social-github" target="_blank">
 				<span class="sr-only">Go to my GitHub</span>
 				<svg viewBox="0 0 16 16" aria-hidden="true" width="32" height="32"
 					><path
@@ -44,54 +44,4 @@ import HeaderLink from './HeaderLink.astro';
 				>
 			</a>
 		</div>
-	</nav>
 </header>
-<style>
-	@font-face {
-		font-family: 'ArtEnglishFont';
-		src: url('/fonts/ArtEnglish.otf') format('opentype'); 
-	}
-	header {
-		margin: 0;
-		padding: 0 1em;
-		background: var(--bg-color);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-	}
-	h2 {
-		margin: 0;
-		font-size: 2.5em;
-		font-family: 'ArtEnglishFont',sans-serif;
-		font-weight:normal;
-		margin-left: -20px;
-	}
-
-	h2 a,
-	h2 a.active {
-		text-decoration: none;
-    	color: var(--heading-color);
-	}
-	nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
-		text-decoration: none;
-	}
-	nav a.active {
-		text-decoration: none;
-		border-bottom-color: var(--accent);
-	}
-	.social-links,
-	.social-links a {
-		display: flex;
-	}
-	@media (max-width: 720px) {
-		.social-links {
-			display: none;
-		}
-	}
-</style>
