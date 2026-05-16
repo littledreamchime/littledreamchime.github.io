@@ -4,23 +4,18 @@
  */
 
 :root {
-	/* 🎨 语义化主题变量 (高可维护性) */
 	
-	/* 1. 背景与文字 */
 	--bg-color: #0d1117;         
 	--text-color: #c9d1d9;      
 	--heading-color: #ffffff;   
 	--gray:#808080;
 	
-	/* 2. 强调色*/
 	--accent: #58a6ff;          
 	--accent-hover: #79b8ff;
 	
-	/* 3. 辅助颜色*/
 	--code-bg: #161b22;      
 	--border-color: #30363d;   
 	
-	/* 4. 渐变与阴影 */
 	--bg-gradient: linear-gradient(to bottom, #161b22, #0d1117); 
 	--box-shadow:
 		0 2px 6px rgba(0, 0, 0, 0.4), 
@@ -29,6 +24,11 @@
 }
 
 body {
+
+	display: flex;
+    flex-direction: column;
+	min-height: 100vh;
+
 	font-family: var(--font-atkinson);
 	margin: 0;
 	padding: 0;
@@ -44,6 +44,7 @@ body {
 }
 
 main {
+	flex:1;
 	width: 720px;
 	max-width: calc(100% - 2em); 
 	margin: auto;
