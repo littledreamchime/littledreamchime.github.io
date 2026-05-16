@@ -1,0 +1,183 @@
+/*
+  The CSS in this style tag is based off of Bear Blog's default CSS.
+  Adapted for a Deep Dark Mode theme.
+ */
+
+:root {
+	/* 🎨 语义化主题变量 (高可维护性) */
+	
+	/* 1. 背景与文字 */
+	--bg-color: #0d1117;         
+	--text-color: #c9d1d9;      
+	--heading-color: #ffffff;   
+	--gray:#808080;
+	
+	/* 2. 强调色*/
+	--accent: #58a6ff;          
+	--accent-hover: #79b8ff;
+	
+	/* 3. 辅助颜色*/
+	--code-bg: #161b22;      
+	--border-color: #30363d;   
+	
+	/* 4. 渐变与阴影 */
+	--bg-gradient: linear-gradient(to bottom, #161b22, #0d1117); 
+	--box-shadow:
+		0 2px 6px rgba(0, 0, 0, 0.4), 
+		0 8px 24px rgba(0, 0, 0, 0.5),
+		0 16px 32px rgba(0, 0, 0, 0.6);
+}
+
+body {
+	font-family: var(--font-atkinson);
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	background: var(--bg-gradient) no-repeat;
+	background-color: var(--bg-color);
+	background-size: 100% 600px;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	color: var(--text-color);
+	font-size: 20px;
+	line-height: 1.7;
+}
+
+main {
+	width: 720px;
+	max-width: calc(100% - 2em); 
+	margin: auto;
+	padding: 3em 1em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 0.5rem 0;
+	color: var(--heading-color);
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: 3.052em;
+}
+h2 {
+	font-size: 2.441em;
+}
+h3 {
+	font-size: 1.953em;
+}
+h4 {
+	font-size: 1.563em;
+}
+h5 {
+	font-size: 1.25em;
+}
+
+strong,
+b {
+	font-weight: 700;
+	color: var(--heading-color); 
+}
+
+a {
+	color: var(--accent);
+	text-decoration: none;
+}
+
+a:hover {
+	color: var(--accent-hover);
+	text-decoration: underline;
+}
+
+p {
+	margin-bottom: 1em;
+}
+
+.prose p {
+	margin-bottom: 2em;
+}
+
+textarea {
+	width: 100%;
+	font-size: 16px;
+	background-color: var(--code-bg);
+	color: var(--text-color);
+	border: 1px solid var(--border-color);
+}
+
+input {
+	font-size: 16px;
+	background-color: var(--code-bg);
+	color: var(--text-color);
+	border: 1px solid var(--border-color);
+}
+
+table {
+	width: 100%;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 8px;
+	box-shadow: var(--box-shadow); 
+}
+
+code {
+	padding: 2px 5px;
+	background-color: var(--code-bg);
+	color: var(--accent); 
+	border-radius: 4px;
+}
+
+pre {
+	padding: 1.5em;
+	border-radius: 8px;
+	background-color: var(--code-bg) !important;
+	box-shadow: var(--box-shadow);
+}
+
+pre > code {
+	all: unset;
+	color: var(--text-color);
+}
+
+blockquote {
+	border-left: 4px solid var(--accent);
+	padding: 0 0 0 20px;
+	margin: 0;
+	font-size: 1.333em;
+	color: #8b949e;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 720px) {
+	body {
+		font-size: 18px;
+	}
+	main {
+		padding: 1em;
+	}
+}
+
+.sr-only {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+	clip: rect(1px 1px 1px 1px);
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
