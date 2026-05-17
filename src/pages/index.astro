@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import ComputerDesk from '../components/InteractiveHome/ComputerDesk.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
@@ -10,10 +11,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
-	<body>
+	<body style="margin:0; padding:0;">
 		<Header />
+		<ComputerDesk />
 		<main>
-			<h1>This is Home Page</h1>
 		</main>
 		<Footer />
 	</body>
