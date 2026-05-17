@@ -1,14 +1,16 @@
 ---
-import '../styles/footer.css';
+import '../styles/global.css';
 const today = new Date();
 ---
 
 <footer class="customer-footer">
+	<!--Nav Menu -->
 	<div class="footer-nav">
 		<a href="#top">↑ Back to top</a>
 		<a href="/about">About Me</a>
   		<a href="mailto:littledreamchime@gmail.com">Mail Me ✉️</a>
 	</div>
+	<!--Web info -->
 	<div class="footer-info">
 		<p>・Email: littledreamchime@gmail.com</p>
 		<p> ・Since 2026 | 0 Posts | 0 Notes</p>
@@ -18,3 +20,61 @@ const today = new Date();
 		<p>
 	</div>
 </footer>
+
+<style>
+	/*Main footer*/
+	.customer-footer
+	{
+		--border: #64467c;
+		--footer-text:#949494;
+		--footer-link:#825491;
+		--footer-link-hover:linear-gradient(0deg, #a329bb, #e3c1e4,#ffffff);
+
+		padding:0.8rem 2rem;
+		border-top: 1px dashed var(--border);
+
+		text-align: left;
+		font-size:0.9rem;
+	}
+	/*Nav Menu*/
+	.customer-footer a{
+		display: inline-block;
+
+		color:var(--footer-link);
+
+		text-decoration: none;
+
+		transition: transform 0.2s ease; 
+	}
+	.customer-footer a:hover{
+		background-image: var(--footer-link-hover);
+		-webkit-background-clip: text;
+		background-clip:text;
+		color:transparent;
+
+		text-decoration:none;
+
+		transform: scale(1.2); 
+	}
+	.footer-nav{
+		display: flex;
+		gap: 2rem;
+	}
+	.footer-nav a{
+		text-decoration: none;
+	}
+	/*info*/
+	.customer-footer p {
+		margin: 0.2rem 0; 
+	}
+	.footer-info a{
+		padding: 0.2rem 0.2rem; 
+		margin: -0.2rem 0.1rem; 
+		
+		color:var(--footer-link);
+	}
+	.footer-info p{
+		color:var(--footer-text);
+		line-height: 1;
+	}
+</style>
