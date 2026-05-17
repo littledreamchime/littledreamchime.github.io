@@ -1,23 +1,32 @@
 ---
 import '../styles/global.css';
+import { SITE_TITLE } from '../consts';
 const today = new Date();
 ---
 
 <footer class="customer-footer">
-	<!--Nav Menu -->
-	<div class="footer-nav">
-		<a href="#top">↑ Back to top</a>
-		<a href="/about">About Me</a>
-  		<a href="mailto:littledreamchime@gmail.com">Mail Me ✉️</a>
-	</div>
-	<!--Web info -->
-	<div class="footer-info">
-		<p>・Email: littledreamchime@gmail.com</p>
-		<p> ・Since 2026 | 0 Posts | 0 Notes</p>
-  		<p>・Built with <a href="https://astro.build"target="_blank">Astro</a> | Hosted on github
-		</p>
-		<p> &copy; {today.getFullYear()} Bob Smith. No rights reserved.😋</p>
-		<p>
+	<div class="footer-content">
+		<!--Footer left ( Menu and info ) -->
+		<div class="footer-left">
+			<!--Nav Menu -->
+			<div class="footer-nav">
+				<a href="#top">↑ Back to top</a>
+				<a href="/about">About Me</a>
+				<a href="mailto:littledreamchime@gmail.com">Mail Me ✉️</a>
+			</div>
+			<!--Web info -->
+			<div class="footer-info">
+				<p>・Email: littledreamchime@gmail.com</p>
+				<p> ・Since 2026 | 0 Posts | 0 Notes</p>
+				<p>・Built with <a href="https://astro.build"target="_blank" rel="noopener noreferrer">Astro</a> | Hosted on github
+				</p>
+				<p> &copy; {today.getFullYear()} Bob Smith. No rights reserved.😋</p>
+			</div>
+		</div>
+		<!--Footer right ( Logo )-->
+		<div class="footer-right">
+			<h2 class="footer-signature"><a href="/">{SITE_TITLE}</a></h2>
+		</div>
 	</div>
 </footer>
 
@@ -36,6 +45,36 @@ const today = new Date();
 		text-align: left;
 		font-size:0.9rem;
 	}
+	/*Footer content*/
+	.footer-content{
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+	}
+	/*Footer left ( Menu and info )*/
+	.footer-left{
+		display: flex;
+		flex-direction: column;
+	}
+	/*Footer right ( Logo )*/
+	.footer-right{
+		display: flex;
+		align-items: center;
+
+		padding-right: 0.5rem;
+		padding-bottom: 0.5rem;
+	}
+	.footer-signature{ 
+        font-family: var(--font-title), serif; 
+        font-size: 3rem;
+        font-weight: normal;
+        opacity: 0.5;
+
+        transition: opacity 0.3s ease;
+	}
+	.footer-signature:hover {
+        opacity: 1;
+    }
 	/*Nav Menu*/
 	.customer-footer a{
 		display: inline-block;
