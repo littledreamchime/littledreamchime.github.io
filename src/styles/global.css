@@ -2,11 +2,18 @@
   The CSS in this style tag is based off of Bear Blog's default CSS.
   Adapted for a Deep Dark Mode theme.
  */
+@font-face{
+    font-family: 'ArtEnglish';
+    src:url('/fonts/ArtEnglish.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 :root {
 	
 	--bg-color: #0d1117;         
-	--text-color: #c9d1d9;      
+	--text-color: #c9d1d9;     
+    --text-primary:#ffffff; 
 	--heading-color: #ffffff;   
 	--gray:#808080;
 	
@@ -21,6 +28,10 @@
 		0 2px 6px rgba(0, 0, 0, 0.4), 
 		0 8px 24px rgba(0, 0, 0, 0.5),
 		0 16px 32px rgba(0, 0, 0, 0.6);
+
+	
+    --font-title:'ArtEnglish',serif;
+    --font-nav:'system-ui',sans-serif;
 }
 
 body {
