@@ -2,6 +2,10 @@
   The CSS in this style tag is based off of Bear Blog's default CSS.
   Adapted for a Deep Dark Mode theme.
  */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 @font-face{
     font-family: 'ArtEnglish';
     src:url('/fonts/ArtEnglish.otf') format('opentype');
