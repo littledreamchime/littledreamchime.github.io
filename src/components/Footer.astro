@@ -82,16 +82,9 @@ const today = new Date();
 		color:var(--footer-link);
 
 		text-decoration: none;
-		white-space: nowrap;
+		white-space:nowrap;
 
 		transition: transform 0.2s ease; 
-	}
-	@media(max-width:480px)
-	{
-		.foot-nav{
-			flex-direction: column;
-			gap:0.8rem;
-		}
 	}
 	.customer-footer a:hover{
 		background-image: var(--footer-link-hover);
@@ -106,6 +99,7 @@ const today = new Date();
 	.footer-nav{
 		display: flex;
 		gap: 2rem;
+		flex-wrap: wrap;
 	}
 	.footer-nav a{
 		text-decoration: none;
@@ -122,6 +116,24 @@ const today = new Date();
 	}
 	.footer-info p{
 		color:var(--footer-text);
-		line-height: 1;
+
+		line-height: 1;overflow-wrap: break-word;
+        word-break: break-all;
+	}
+	@media(max-width:480px)
+	{
+		.footer-content {
+            flex-direction: column; 
+            align-items: flex-start;
+            gap: 0.4rem;
+        }
+		.footer-nav{
+			flex-direction: column;
+			gap:0.01rem;
+		}
+		.footer-right {
+            padding-right: 0;
+            padding-bottom: 0;
+        }
 	}
 </style>
