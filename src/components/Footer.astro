@@ -82,8 +82,16 @@ const today = new Date();
 		color:var(--footer-link);
 
 		text-decoration: none;
+		white-space: nowrap;
 
 		transition: transform 0.2s ease; 
+	}
+	@media(max-width:480px)
+	{
+		.foot-nav{
+			flex-direction: column;
+			gap:0.8rem;
+		}
 	}
 	.customer-footer a:hover{
 		background-image: var(--footer-link-hover);
