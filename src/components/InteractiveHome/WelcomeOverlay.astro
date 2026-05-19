@@ -76,7 +76,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
     :global(#scroll-arrow) {
         opacity: 0;
         pointer-events: none;
-        transition: opacity 1s ease; 
     }
     
     :global(#scroll-arrow.visible) {
@@ -94,7 +93,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
         
         if (!overlay || !arrowBtn || !titleEl || !subtitleEl) return;
 
-        // 核心升级：检查用户是否已经看过了入场动画
         if (sessionStorage.getItem('introSeen') === 'true') {
             overlay.style.display = 'none';
             document.body.style.overflow = '';
@@ -109,7 +107,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             if (!canDismiss || isDismissed) return;
             isDismissed = true;
 
-            // 记在小本本上，下次刷新不再打扰
             sessionStorage.setItem('introSeen', 'true');
 
             overlay.classList.add('dismissed');
@@ -120,7 +117,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             }, 1000); 
         };
 
-        // 👇 你的 TS 防报错机制完美回归！
         function typeWriter(element: HTMLElement | null, baseSpeed: number, onComplete?: () => void) {
             if (!element) return;
             
@@ -129,7 +125,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 
             let i = 0;
             function type() {
-                if(!element) return; // 你的严谨判断也保留了
+                if(!element) return;
                 if (i < text.length) {
                     const char = text.charAt(i); 
                     i++; 
@@ -161,7 +157,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             });
         }, 500);
 
-        // 👇 去重后干干净净的事件监听
         arrowBtn.addEventListener('click', dismissOverlay);
 
         window.addEventListener('wheel', (e) => {
