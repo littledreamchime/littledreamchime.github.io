@@ -24,10 +24,10 @@ const { class: className, width = "36", ...rest } = Astro.props;
 </button>
 
 <style>
-    /* Arrow */
+    /* Main */
     .scroll-arrow {
-        --scroll-arrow-hovering:#a159bb;
-        --scroll-arrow-hovering-animation-time:0.4s;
+        --scroll-arrow-hover:#a159bb;
+        --scroll-arrow-hover-animation-time:0.4s;
 
         position: absolute;
         bottom: 8%; 
@@ -41,36 +41,36 @@ const { class: className, width = "36", ...rest } = Astro.props;
         color: white; 
         cursor: pointer;
 
-        transition: opacity 1.5s ease,color var(--scroll-arrow-hovering-animation-time) ease, transform var(--scroll-arrow-hovering-animation-time) ease, gap var(--scroll-arrow-hovering-animation-time) ease;
+        transition: opacity 1.5s ease,color var(--scroll-arrow-hover-animation-time) ease, transform var(--scroll-arrow-hover-animation-time) ease, gap var(--scroll-arrow-hover-animation-time) ease;
     }
     .scroll-arrow:hover {
         gap:2.0rem;
 
-        color:var(--scroll-arrow-hovering);
+        color:var(--scroll-arrow-hover);
 
         transform: scale(1.15); 
     }
     .scroll-arrow:hover .arrow-line {
-        animation-duration: 3s;
+        animation-duration: 4s;
     }
 
+    /* Scroll Text*/
     .hint-text {
         font-size: 1.5rem;
         letter-spacing: 0.2rem;
         text-transform: uppercase;
         
         animation: textBreathe 1s ease-in-out infinite;
-        
-        transition: color 0.4s ease, text-shadow 0.4s ease, opacity 0.4s ease;
+        transition: color var(--scroll-arrow-hover-animation-time) ease, text-shadow var(--scroll-arrow-hover-animation-time) ease, opacity var(--scroll-arrow-hover-animation-time) ease,letter-spacing var(--scroll-arrow-hover-animation-time) ease;
     }
-
     .scroll-arrow:hover .hint-text {
-        animation: none;
         opacity: 1;
         color: inherit; 
         text-shadow: 0 0 12px rgba(190, 10, 190, 0.6);
-    }
+        letter-spacing: 0.4rem;
 
+        animation: none;
+    }
     @keyframes textBreathe {
         0%, 100% { 
             opacity: 0.5; 
@@ -84,14 +84,13 @@ const { class: className, width = "36", ...rest } = Astro.props;
         }
     }
 
+    /* Arrows */
     .arrows-container {
         display: flex;
         flex-direction: column;
         align-items: center;
         gap: 0rem; 
-
     }
-
     .arrow-line {
         animation: cascadeFade 1.5s infinite;
         transition: animation-duration 0.4s ease;

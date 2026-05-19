@@ -4,31 +4,35 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 
 
 <div id="welcome-overlay" class="welcome-overlay">
-    <!--Content -->
+    <!-- Content -->
     <div class="content">
         <h1 id="type-title" data-text="[ SYSTEM // ONLINE ]"></h1>
         <p id="type-subtitle" class="subtitle" data-text="Initializing digital workspace...^ Scroll to access."></p>
     </div>
+
     <!--Scroll arrow -->
     <ScrollArrowIcon width="48"/> 
 </div>
 
 <style>
+    /* Main */
     .welcome-overlay {
         display: flex;
+        position: fixed;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        position: fixed;
         inset: 0; 
         z-index: 200; 
         
         background: linear-gradient(
             to bottom, 
-            rgba(0, 0, 0, 1) 30%, 
-            rgba(0, 0, 0, 0.4) 100%
+            rgba(0, 0, 0, 1) 30%,
+            rgba(0,0,0,0.6) 60%,
+            rgba(0, 0, 0, 0.05) 90%,
+            rgba(0, 0, 0, 0) 100%
         );
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(12px);
         color: white;
         
@@ -36,7 +40,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
                     opacity 1s ease-in-out,
                     backdrop-filter 1s ease;
     }
-
     .welcome-overlay.dismissed {
         opacity: 0;
         backdrop-filter: blur(0px); 
@@ -45,11 +48,18 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
         transform: translateY(-100vh);
     }
 
+    /*Content*/
     .content {
         text-align: center;
 
         transform: translateY(-2rem);
     }
+    @media (max-width: 400px){
+        .content{
+            text-align:left;
+        }
+    } 
+    /* title */
     h1 {
         margin-bottom: 0.5rem;
 
@@ -68,7 +78,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
         color: #be0abe; 
         animation: cursorBlink 0.8s step-end infinite;
     }
-
     @keyframes cursorBlink {
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
@@ -77,7 +86,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
         opacity: 0;
         pointer-events: none;
     }
-    
     :global(#scroll-arrow.visible) {
         opacity: 1;
         pointer-events: auto;
@@ -86,23 +94,23 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+
         const overlay = document.getElementById('welcome-overlay');
         const arrowBtn = document.getElementById('scroll-arrow');
         const titleEl = document.getElementById('type-title');
         const subtitleEl = document.getElementById('type-subtitle');
+        let isDismissed = false;
+        let canDismiss = false;
         
         if (!overlay || !arrowBtn || !titleEl || !subtitleEl) return;
 
+        /*Input Overlay*/
         if (sessionStorage.getItem('introSeen') === 'true') {
             overlay.style.display = 'none';
             document.body.style.overflow = '';
             return;
         }
-
-        let isDismissed = false;
-        let canDismiss = false;
         document.body.style.overflow = 'hidden';
-
         const dismissOverlay = () => {
             if (!canDismiss || isDismissed) return;
             isDismissed = true;
@@ -117,6 +125,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             }, 1000); 
         };
 
+        /*Type Writer*/
         function typeWriter(element: HTMLElement | null, baseSpeed: number, onComplete?: () => void) {
             if (!element) return;
             
@@ -146,7 +155,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             }
             type();
         }
-
         setTimeout(() => {
             typeWriter(titleEl, 45, () => {
                 typeWriter(subtitleEl, 40, () => {
@@ -158,11 +166,9 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
         }, 500);
 
         arrowBtn.addEventListener('click', dismissOverlay);
-
         window.addEventListener('wheel', (e) => {
             if (e.deltaY > 0) dismissOverlay();
         });
-
         let touchStartY = 0;
         window.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
