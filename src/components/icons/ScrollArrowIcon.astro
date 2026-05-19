@@ -24,7 +24,11 @@ const { class: className, width = "36", ...rest } = Astro.props;
 </button>
 
 <style>
+    /* Arrow */
     .scroll-arrow {
+        --scroll-arrow-hovering:#a159bb;
+        --scroll-arrow-hovering-animation-time:0.4s;
+
         position: absolute;
         bottom: 8%; 
         display: flex;
@@ -37,21 +41,21 @@ const { class: className, width = "36", ...rest } = Astro.props;
         color: white; 
         cursor: pointer;
 
-        transition: opacity 1.5s ease,color 0.4s ease, transform 0.4s ease, gap 0.4s ease;
+        transition: opacity 1.5s ease,color var(--scroll-arrow-hovering-animation-time) ease, transform var(--scroll-arrow-hovering-animation-time) ease, gap var(--scroll-arrow-hovering-animation-time) ease;
     }
-    
     .scroll-arrow:hover {
-        color: #a343c9;
-        transform: scale(1.15); 
         gap:2.0rem;
+
+        color:var(--scroll-arrow-hovering);
+
+        transform: scale(1.15); 
     }
-    
     .scroll-arrow:hover .arrow-line {
         animation-duration: 3s;
     }
 
     .hint-text {
-        font-size: 1rem;
+        font-size: 1.5rem;
         letter-spacing: 0.2rem;
         text-transform: uppercase;
         
