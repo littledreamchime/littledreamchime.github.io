@@ -21,10 +21,10 @@
     .desk-container{
         --desk-background:#1c0e20;
         --desk-main:#8d6b9b;
-
         --ratio-w:16;
         --ratio-h:7.925;
 
+        position:relative;
         display: flex;
         overflow:hidden;
         justify-content: center;
@@ -36,6 +36,18 @@
 
         background-color: var(--desk-background) ;
     }
+    .desk-container::before {
+        content: '';
+        position: absolute;
+        inset: -5%; 
+        z-index: -1;
+
+        background-image: url('/Images/desk_bg_Template.png');
+        background-size: cover; 
+        background-position: center;
+        filter: blur(20px); 
+        opacity: 0.6; 
+    }
     .desk-main{
         position: relative;
 
@@ -43,8 +55,11 @@
         max-width: calc(100vh * (var(--ratio-w) / var(--ratio-h) ));
         max-height: 100vh;
         aspect-ratio:var(--ratio-w) / var(--ratio-h);
+        box-shadow: 0 0 60px rgba(100, 86, 109, 0.8);
 
-         background-color:var(--desk-main);
+        background-image: url('/Images/desk_bg_Template.png');background-size: 100% 100%; 
+        background-position: center;
+        background-repeat: no-repeat;
     }
     /*Items*/
     .desk-item{

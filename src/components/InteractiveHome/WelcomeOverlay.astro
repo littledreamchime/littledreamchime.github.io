@@ -54,11 +54,6 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 
         transform: translateY(-2rem);
     }
-    @media (max-width: 400px){
-        .content{
-            text-align:left;
-        }
-    } 
     /* title */
     h1 {
         margin-bottom: 0.5rem;
@@ -71,7 +66,19 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 
         font-family: monospace;
         letter-spacing: 0.1rem;
+        font-size:1.75rem;
     }
+    @media (max-width: 400px){
+        .content{
+            text-align:left;
+        }
+        h1{
+            font-size: clamp(1.75rem, 4vw, 4rem);
+        }
+        .subtitle {
+            font-size:1.125rem;
+        }
+    } 
     .typing-cursor::after {
         content: '█'; 
         margin-left:
