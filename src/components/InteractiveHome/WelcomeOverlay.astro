@@ -1,0 +1,180 @@
+---
+import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
+---
+
+
+<div id="welcome-overlay" class="welcome-overlay">
+    <!--Content -->
+    <div class="content">
+        <h1 id="type-title" data-text="[ SYSTEM // ONLINE ]"></h1>
+        <p id="type-subtitle" class="subtitle" data-text="Initializing digital workspace...^ Scroll to access."></p>
+    </div>
+    <!--Scroll arrow -->
+    <ScrollArrowIcon width="48"/> 
+</div>
+
+<style>
+    .welcome-overlay {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        inset: 0; 
+        z-index: 200; 
+        
+        background: linear-gradient(
+            to bottom, 
+            rgba(0, 0, 0, 1) 30%, 
+            rgba(0, 0, 0, 0.4) 100%
+        );
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        color: white;
+        
+        transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1), 
+                    opacity 1s ease-in-out,
+                    backdrop-filter 1s ease;
+    }
+
+    .welcome-overlay.dismissed {
+        opacity: 0;
+        backdrop-filter: blur(0px); 
+
+        pointer-events: none;
+        transform: translateY(-100vh);
+    }
+
+    .content {
+        text-align: center;
+
+        transform: translateY(-2rem);
+    }
+    h1 {
+        margin-bottom: 0.5rem;
+
+        font-size: clamp(2rem, 5vw, 4rem);
+        letter-spacing: 0.2rem;
+    }
+    .subtitle {
+        color: #a3a3a3;
+
+        font-family: monospace;
+        letter-spacing: 0.1rem;
+    }
+    .typing-cursor::after {
+        content: '█'; 
+        margin-left:
+        color: #be0abe; 
+        animation: cursorBlink 0.8s step-end infinite;
+    }
+
+    @keyframes cursorBlink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+    :global(#scroll-arrow) {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s ease; 
+    }
+    
+    :global(#scroll-arrow.visible) {
+        opacity: 1;
+        pointer-events: auto;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const overlay = document.getElementById('welcome-overlay');
+        const arrowBtn = document.getElementById('scroll-arrow');
+        const titleEl = document.getElementById('type-title');
+        const subtitleEl = document.getElementById('type-subtitle');
+        
+        if (!overlay || !arrowBtn || !titleEl || !subtitleEl) return;
+
+        // 核心升级：检查用户是否已经看过了入场动画
+        if (sessionStorage.getItem('introSeen') === 'true') {
+            overlay.style.display = 'none';
+            document.body.style.overflow = '';
+            return;
+        }
+
+        let isDismissed = false;
+        let canDismiss = false;
+        document.body.style.overflow = 'hidden';
+
+        const dismissOverlay = () => {
+            if (!canDismiss || isDismissed) return;
+            isDismissed = true;
+
+            // 记在小本本上，下次刷新不再打扰
+            sessionStorage.setItem('introSeen', 'true');
+
+            overlay.classList.add('dismissed');
+
+            setTimeout(() => {
+                document.body.style.overflow = '';
+                overlay.style.display = 'none'; 
+            }, 1000); 
+        };
+
+        // 👇 你的 TS 防报错机制完美回归！
+        function typeWriter(element: HTMLElement | null, baseSpeed: number, onComplete?: () => void) {
+            if (!element) return;
+            
+            const text = element.getAttribute('data-text') || '';
+            element.classList.add('typing-cursor'); 
+
+            let i = 0;
+            function type() {
+                if(!element) return; // 你的严谨判断也保留了
+                if (i < text.length) {
+                    const char = text.charAt(i); 
+                    i++; 
+
+                    if (char === '^') {
+                        element.innerHTML += '<br>'; 
+                        setTimeout(type, 1000);
+                        return;
+                    }
+
+                    element.innerHTML += char;
+                    const randomDelay = baseSpeed + Math.random() * 50; 
+                    setTimeout(type, randomDelay);
+                } else {
+                    element.classList.remove('typing-cursor'); 
+                    if (onComplete) onComplete(); 
+                }
+            }
+            type();
+        }
+
+        setTimeout(() => {
+            typeWriter(titleEl, 45, () => {
+                typeWriter(subtitleEl, 40, () => {
+                    if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
+                    canDismiss = true;
+                    if(arrowBtn) arrowBtn.classList.add('visible');
+                });
+            });
+        }, 500);
+
+        // 👇 去重后干干净净的事件监听
+        arrowBtn.addEventListener('click', dismissOverlay);
+
+        window.addEventListener('wheel', (e) => {
+            if (e.deltaY > 0) dismissOverlay();
+        });
+
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+        window.addEventListener('touchmove', (e) => {
+            let currentY = e.touches[0].clientY;
+            if (touchStartY - currentY > 50) dismissOverlay();
+        });
+    });
+</script>

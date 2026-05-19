@@ -1,0 +1,109 @@
+---
+const { class: className, width = "36", ...rest } = Astro.props;
+---
+
+<button 
+    id="scroll-arrow" 
+    class:list={["scroll-arrow", className]} 
+    aria-label="Scroll down to enter"
+    {...rest}
+>
+    <span class="hint-text">Scroll Down</span>
+    
+    <div class="arrows-container">
+        <svg class="arrow-line arrow-1" xmlns="http://www.w3.org/2000/svg" width={width} viewBox="0 6 24 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="5 9 12 16 19 9"></polyline>
+        </svg>
+        <svg class="arrow-line arrow-2" xmlns="http://www.w3.org/2000/svg" width={width} viewBox="0 6 24 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="5 9 12 16 19 9"></polyline>
+        </svg>
+        <svg class="arrow-line arrow-3" xmlns="http://www.w3.org/2000/svg" width={width} viewBox="0 6 24 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="5 9 12 16 19 9"></polyline>
+        </svg>
+    </div>
+</button>
+
+<style>
+    .scroll-arrow {
+        position: absolute;
+        bottom: 8%; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+        
+        background: none;
+        border: none;
+        color: white; 
+        cursor: pointer;
+
+        transition: color 0.4s ease, transform 0.4s ease, gap 0.4s ease;
+    }
+    
+    .scroll-arrow:hover {
+        color: #be0abe;
+        transform: scale(1.15); 
+        gap:2.0rem;
+    }
+    
+    .scroll-arrow:hover .arrow-line {
+        animation-duration: 3s;
+    }
+
+    .hint-text {
+        font-size: 1rem;
+        letter-spacing: 0.2rem;
+        text-transform: uppercase;
+        
+        animation: textBreathe 1s ease-in-out infinite;
+        
+        transition: color 0.4s ease, text-shadow 0.4s ease, opacity 0.4s ease;
+    }
+
+    .scroll-arrow:hover .hint-text {
+        animation: none;
+        opacity: 1;
+        color: inherit; 
+        text-shadow: 0 0 12px rgba(190, 10, 190, 0.6);
+    }
+
+    @keyframes textBreathe {
+        0%, 100% { 
+            opacity: 0.5; 
+            color: #ffffff;
+            text-shadow: 0 0 0px rgba(255, 255, 255, 0);
+        }
+        50% { 
+            opacity: 1; 
+            color: #e6c3e6; 
+            text-shadow: 0 0 8px rgba(190, 10, 190, 0.4); 
+        }
+    }
+
+    .arrows-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0rem; 
+
+    }
+
+    .arrow-line {
+        animation: cascadeFade 1.5s infinite;
+        transition: animation-duration 0.4s ease;
+    }
+    .arrow-1 { 
+        animation-delay: 0s; 
+    }
+    .arrow-2 { 
+        animation-delay: 0.2s; 
+    }
+    .arrow-3 { 
+        animation-delay: 0.4s; 
+    }
+    @keyframes cascadeFade {
+        0% { opacity: 0; transform: translateY(-8px); }
+        50% { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(8px); }
+    }
+</style>
