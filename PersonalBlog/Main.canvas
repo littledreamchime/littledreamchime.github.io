@@ -1,0 +1,31 @@
+{
+	"nodes":[
+		{"id":"4efb597ba9c3a215","type":"group","x":-500,"y":-540,"width":1640,"height":2223,"label":"构思"},
+		{"id":"a08f459102579d2e","type":"text","text":"# 纸\n点击之后，镜头拉近，Header的选择标也滑进About上，上面有关于我的信息\n\n点击返回即可镜头拉远返回Home，Header选择标也同步返回","x":800,"y":585,"width":320,"height":220},
+		{"id":"40b8b6ea2002f776","type":"text","text":"个人网站","x":586,"y":-360,"width":250,"height":60},
+		{"id":"d897d4e23b8aa5ad","type":"file","file":"Progress.md","x":1240,"y":-155,"width":620,"height":275},
+		{"id":"0eb4955d54eac7a2","type":"text","text":"# WelcomeOverlay\n\n显示网站加载图片、字体等信息的进度，加载完成后可以往下滑，进入主界面\n发送加载完成事件\n","x":800,"y":-119,"width":320,"height":218},
+		{"id":"a4c9892cff723409","type":"text","text":"# 主界面\n分为书架、电脑、纸","x":259,"y":260,"width":210,"height":160},
+		{"id":"485e477d78d28528","type":"text","text":"# Header\n分为：Title，导航栏，个人网站\n接收页面跳转事件导航栏同步跳转\n接收加载完成事件后，导航栏出现\n\n","x":209,"y":-420,"width":311,"height":180},
+		{"id":"3a160ef4b92cce37","type":"file","file":"Template/Images/Pasted image 20260520211945.png","x":18,"y":-180,"width":693,"height":340},
+		{"id":"dfdaaa21086044ea","type":"text","text":"分为Home、Blog、Devlog、About\n在加载完成后会落下","x":205,"y":-520,"width":320,"height":64},
+		{"id":"edf33f0e2d66ddfc","type":"text","text":"Title：网站标题，英文艺术字","x":-121,"y":-360,"width":279,"height":60},
+		{"id":"c2d3c560df5b1735","type":"text","text":"# 书架\n点击书架，一个书架的png从右边滑进视野；于此同时，上面的Header的选择标也右划进DevLog；书架上的资料夹是我的各种项目日志，可以左右划查看更多资料夹；\n## 资料夹\n点击一个项目的资料夹，显示打开资料夹动画，出现这个项目的开发日志列表，点击单个日志可以查看","x":-480,"y":520,"width":380,"height":351},
+		{"id":"9fbe5487a25d45f5","type":"file","file":"Template/Images/Pasted image 20260520212657.png","x":18,"y":525,"width":692,"height":341},
+		{"id":"5f79dd39a89a3f75","type":"text","text":"# 电脑\n视线移到电脑屏幕上，Header的选择标也滑进Blog上；电脑桌面上有各种exe，悬浮到exe图标上，旁边就会显示一个中等框，用来展示Description；\n感兴趣的话，点击exe，就进入这个项目的详细说明博客，博客可能也有Devlog的链接，打开链接不会到书架，而是直接显示该项目的资料夹","x":146,"y":965,"width":436,"height":260},
+		{"id":"c8fc4777bf7ff57d","type":"text","text":"# Footer\n\n↑ Back to top\nAbout Me\nMail Me ✉️\n\n・Email: littledreamchime@gmail.com\n\n・Since 2026 | 0 Posts | 0 Notes\n\n・Built with [Astro](https://astro.build/) | Hosted on github\n\n© 2026 Bob Smith. No rights reserved.😋","x":163,"y":1320,"width":402,"height":343}
+	],
+	"edges":[
+		{"id":"594f0c0f603fa8ef","fromNode":"485e477d78d28528","fromSide":"bottom","toNode":"3a160ef4b92cce37","toSide":"top"},
+		{"id":"dac60c65f0f16ebe","fromNode":"485e477d78d28528","fromSide":"left","toNode":"edf33f0e2d66ddfc","toSide":"right"},
+		{"id":"82bb84afa2bfe3a6","fromNode":"485e477d78d28528","fromSide":"top","toNode":"dfdaaa21086044ea","toSide":"bottom"},
+		{"id":"f3b0ec6f63dbb2d4","fromNode":"485e477d78d28528","fromSide":"right","toNode":"40b8b6ea2002f776","toSide":"left"},
+		{"id":"104fa747c18e742b","fromNode":"3a160ef4b92cce37","fromSide":"right","toNode":"0eb4955d54eac7a2","toSide":"left"},
+		{"id":"06e0bb59ea9b6243","fromNode":"9fbe5487a25d45f5","fromSide":"left","toNode":"c2d3c560df5b1735","toSide":"right"},
+		{"id":"38f7b7201e29f76a","fromNode":"9fbe5487a25d45f5","fromSide":"bottom","toNode":"5f79dd39a89a3f75","toSide":"top"},
+		{"id":"9c9b79832fd13eb4","fromNode":"9fbe5487a25d45f5","fromSide":"right","toNode":"a08f459102579d2e","toSide":"left"},
+		{"id":"d7b13226dec49301","fromNode":"a4c9892cff723409","fromSide":"bottom","toNode":"9fbe5487a25d45f5","toSide":"top"},
+		{"id":"92d970632e3800d4","fromNode":"3a160ef4b92cce37","fromSide":"bottom","toNode":"a4c9892cff723409","toSide":"top"},
+		{"id":"0aee8db6df1218bc","fromNode":"5f79dd39a89a3f75","fromSide":"bottom","toNode":"c8fc4777bf7ff57d","toSide":"top"}
+	]
+}

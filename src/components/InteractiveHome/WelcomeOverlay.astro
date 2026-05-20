@@ -7,7 +7,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
     <!-- Content -->
     <div class="content">
         <h1 id="type-title" data-text="[ SYSTEM // ONLINE ]"></h1>
-        <p id="type-subtitle" class="subtitle" data-text="Initializing digital workspace...^ Scroll to access."></p>
+        <p id="type-subtitle" class="subtitle" data-text="Initializing digital workspace...^ Loading Successfully.~Scroll to access."></p>
     </div>
 
     <!--Scroll arrow -->
@@ -151,6 +151,12 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
                         setTimeout(type, 1000);
                         return;
                     }
+                    if(char==='~')
+                    {
+                        element.innerHTML += '<br>'; 
+                        setTimeout(type, 10);
+                        return;
+                    }
 
                     element.innerHTML += char;
                     const randomDelay = baseSpeed + Math.random() * 50; 
@@ -163,8 +169,8 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             type();
         }
         setTimeout(() => {
-            typeWriter(titleEl, 45, () => {
-                typeWriter(subtitleEl, 40, () => {
+            typeWriter(titleEl, 5, () => {
+                typeWriter(subtitleEl, 5, () => {
                     if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
                     canDismiss = true;
                     if(arrowBtn) arrowBtn.classList.add('visible');
