@@ -23,7 +23,7 @@ import MenuIcon from './icons/MenuIcon.astro'
 	<!--Main menu and socialMedia -->
 	<div id="mobile-menu-content" class="header-menu-content">
 		<!--Main menu -->
-		<nav class="header-nav">
+		<nav id="header-nav" class="header-nav">
 			<HeaderLink href="/">Home</HeaderLink>
 			<HeaderLink href="/blog">Blog</HeaderLink>
 			<HeaderLink href="/devlog">Devlog</HeaderLink>
@@ -48,16 +48,6 @@ import MenuIcon from './icons/MenuIcon.astro'
 	</div>
 </header>
 
-<script>
-	const btn = document.getElementById('mobile-menu-btn');
-	const content = document.getElementById('mobile-menu-content');
-
-	if (btn && content) {
-		btn.onclick = () => {
-			content.classList.toggle('show');
-		};
-	}
-</script>
 
 <style>
 /* Header */
@@ -132,8 +122,19 @@ import MenuIcon from './icons/MenuIcon.astro'
     left:50%;
     gap:0.2rem;
 
-    transform:translateX(-50%);
+    /*Hide At Start*/
+    transform: translate(-50%,-150%);
+    opacity: 0;
+    pointer-events: none;
 }
+.header-nav.is-visible{
+    opacity: 1;
+
+    transform: translate(-50%,0);
+    pointer-events: auto;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
+}
+
 .header-nav a{
     position:relative;
 
@@ -233,7 +234,21 @@ import MenuIcon from './icons/MenuIcon.astro'
 	/*Mobile menu*/
     .mobile-menu-btn {
         display: block; 
+
+        /* hide at start*/
+        transform: translateY(-150%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
     }
+    .mobile-menu-btn.is-visible{
+        opacity: 1;
+
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+
     .header-menu-content {
         display: flex; 
         flex-direction: column;
@@ -279,7 +294,10 @@ import MenuIcon from './icons/MenuIcon.astro'
 
         width: 100%;
 
-        transform:none;
+        transform:none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transition: none;
     }
     .header-nav a::before {
         top: 55%;
@@ -305,3 +323,29 @@ import MenuIcon from './icons/MenuIcon.astro'
     }
 }
 </style>
+
+<script>
+    /* Hambuger menu*/
+	const btn = document.getElementById('mobile-menu-btn');
+	const content = document.getElementById('mobile-menu-content');
+
+	if (btn && content) {
+		btn.onclick = () => {
+			content.classList.toggle('show');
+		};
+	}
+
+    /* hide header nav*/
+    import { isWelcomeDismissed } from "../store";
+
+    isWelcomeDismissed.subscribe((dismissed)=>
+    {
+        if(dismissed){
+            
+            const heade_nav= document.getElementById('header-nav');
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            if(heade_nav) heade_nav.classList.add('is-visible');
+            if(mobileBtn) mobileBtn.classList.add('is-visible');
+        }
+    });
+</script>

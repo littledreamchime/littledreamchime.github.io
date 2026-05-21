@@ -51,6 +51,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
     /*Content*/
     .content {
         text-align: center;
+        margin: 5%;
 
         transform: translateY(-2rem);
     }
@@ -100,6 +101,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 </style>
 
 <script>
+    import { isWelcomeDismissed } from "../../store";
     document.addEventListener('DOMContentLoaded', () => {
 
         const overlay = document.getElementById('welcome-overlay');
@@ -115,6 +117,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
         if (sessionStorage.getItem('introSeen') === 'true') {
             overlay.style.display = 'none';
             document.body.style.overflow = '';
+            isWelcomeDismissed.set(true);   
             return;
         }
         document.body.style.overflow = 'hidden';
@@ -123,8 +126,8 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             isDismissed = true;
 
             sessionStorage.setItem('introSeen', 'true');
-
             overlay.classList.add('dismissed');
+            isWelcomeDismissed.set(true);   
 
             setTimeout(() => {
                 document.body.style.overflow = '';
@@ -178,6 +181,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             });
         }, 500);
 
+        /*Event Listener*/
         arrowBtn.addEventListener('click', dismissOverlay);
         window.addEventListener('wheel', (e) => {
             if (e.deltaY > 0) dismissOverlay();
