@@ -337,7 +337,9 @@ import MenuIcon from './icons/MenuIcon.astro'
 
     /* hide header nav*/
     import { isWelcomeDismissed } from "../store";
-
+    if (window.location.pathname !== '/') {
+        isWelcomeDismissed.set(true);
+    }
     isWelcomeDismissed.subscribe((dismissed)=>
     {
         if(dismissed){
@@ -347,5 +349,34 @@ import MenuIcon from './icons/MenuIcon.astro'
             if(heade_nav) heade_nav.classList.add('is-visible');
             if(mobileBtn) mobileBtn.classList.add('is-visible');
         }
+    });
+
+    /*Get current page */
+    import { currentView } from "../store";
+    currentView.subscribe((view)=>{
+        /*Change the nav menu*/
+        const navLinks = document.querySelectorAll('#header-nav a');
+        if (!navLinks.length) return;
+        const viewToPath = {
+            'Home': '/',
+            'Blog': '/blog',
+            'Devlog': '/devlog',
+            'About': '/about'
+        };
+    const targetPath = viewToPath[view as keyof typeof viewToPath];
+
+    navLinks.forEach(link => {
+          let href = link.getAttribute('href');
+          if(!href) return;
+          let normalizedHref = href === '/' ? '/' : href.replace(/\/$/, '');
+
+          if (normalizedHref === targetPath) {
+              link.classList.add('active');
+          } else {
+              link.classList.remove('active');
+          }
+      });
+
+
     });
 </script>
