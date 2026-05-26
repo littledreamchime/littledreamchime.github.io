@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
@@ -85,6 +86,17 @@ const posts = (await getCollection('blog')).sort(
 				}
 			}
 		</style>
+		<ClientRouter />
+		
+		<style is:global>
+            ::-webkit-scrollbar {
+                display: none;
+            }
+            html,body {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
 	</head>
 	<body>
 		<Header />

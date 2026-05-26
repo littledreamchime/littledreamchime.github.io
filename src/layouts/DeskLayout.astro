@@ -1,0 +1,160 @@
+---
+---
+
+<div class="desk-container">
+    <div id="desk-main" class="desk-main">
+        <slot />
+    </div>
+    <button id="return-home-btn" class="return-btn" aria-label="Return to home">
+        ←Back
+    </button>
+</div>
+
+
+<style>
+    /*Desk container*/
+    .desk-container{
+        /*Background*/
+        --desk-background:#1c0e20;
+        --desk-main:#8d6b9b;
+        --ratio-w:16;
+        --ratio-h:7.925;
+
+        /*Main desk*/
+        --time-zoom-in: 1.2s;
+        --time-zoom-out: 3.0s;
+        --ease-silky:cubic-bezier(0.22, 1, 0.36, 1);
+        /*Paper*/
+        --paper-zoom-scale:3.5;
+        --paper-origin-x:85%;
+        --paper-origin-y:90%;
+        /*Computer*/
+        --computer-zoom-scale: 2.2;
+        --computer-origin-x: 50%;
+        --computer-origin-y: 50%;
+
+        position:relative;
+        display: flex;
+        overflow:hidden;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+
+        width:100%;
+        height: 100vh;
+
+        background-color: var(--desk-background) ;
+    }
+    .desk-container::before {
+        content: '';
+        position: absolute;
+        inset: -5%; 
+        z-index: -1;
+
+        background-image: url('/Images/desk_bg_Template.png');
+        background-size: cover; 
+        background-position: center;
+        filter: blur(20px); 
+        opacity: 0.6; 
+    }
+    .desk-main{
+        position: relative;
+
+        width:100%;
+        max-width: calc(100vh * (var(--ratio-w) / var(--ratio-h) ));
+        max-height: 100vh;
+        aspect-ratio:var(--ratio-w) / var(--ratio-h);
+        box-shadow: 0 0 60px rgba(41, 5, 50, 0.927);
+
+        background-image: url('/Images/desk_bg_Template.png');background-size: 100% 100%; 
+        background-position: center;
+        background-repeat: no-repeat;
+
+        transition: transform var(--time-zoom-in) var(--ease-silky),transform-origin var(--time-zoom-out) ease;
+    }
+    /*Return btn*/
+    .return-btn {
+    position: absolute;
+    top: 10rem;
+    left: 2rem;
+    z-index: 400; 
+    
+    padding: 0.8rem 1.5rem;
+    
+    background: var(--header-dark-purple, rgba(48,10,60,0.9));
+    color: white;
+    border: 1px solid #d8b4fe;
+    border-radius: 0.5rem;
+    
+    font-family: var(--font-nav, sans-serif);
+    font-size: 1.1rem;
+    cursor: pointer;
+    
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    }
+    .return-btn.is-visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    /*Zoom in*/
+    .desk-main.zoom-to-paper{
+        transform-origin: var(--paper-origin-x) var(--paper-origin-y);
+        transform: scale(var(--paper-zoom-scale));
+        transition: transform var(--time-zoom-in) var(--ease-silky);
+    }
+    .desk-main.zoom-to-computer{
+        transform-origin: var(--computer-origin-x) calc(var(--computer-origin-y));
+        transform: scale(var(--computer-zoom-scale));
+        transition: transform var(--time-zoom-in) var(--ease-silky);
+    }
+    .desk-main.zoom-to-others{
+    }
+    .no-transition {
+        transition: none !important;
+    }
+</style>
+
+<script>
+    import { currentView } from "../store";
+    import { navigate } from 'astro:transitions/client';
+
+    document.addEventListener('astro:page-load', () => {
+        const deskMain = document.getElementById('desk-main');
+        const returnBtn = document.getElementById('return-home-btn');
+        if (!deskMain || !returnBtn) return;
+
+        const view = currentView.get();
+        if (view === 'About') {
+            deskMain.classList.add('no-transition');
+            deskMain.classList.add('zoom-to-paper');
+            returnBtn.classList.add('is-visible');
+            deskMain.offsetHeight;
+            deskMain.classList.remove('no-transition');
+        } else if (view === 'Blog') {
+            deskMain.classList.add('no-transition');
+            deskMain.classList.add('zoom-to-computer');
+            returnBtn.classList.add('is-visible');
+            deskMain.offsetHeight; 
+            deskMain.classList.remove('no-transition');
+        } else if(view === 'Devlog'){
+
+        } else{
+            deskMain.classList.remove('zoom-to-paper', 'zoom-to-computer');
+            returnBtn.classList.remove('is-visible');
+        }
+
+        returnBtn.onclick = () => {
+            deskMain.classList.remove('zoom-to-paper', 'zoom-to-computer');
+            returnBtn.classList.remove('is-visible');
+            
+            currentView.set('Home');
+
+            setTimeout(() => {
+                navigate('/');
+            }, 3000); 
+        };
+    });
+</script>

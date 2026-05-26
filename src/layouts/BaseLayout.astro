@@ -1,0 +1,36 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import DeskLayout from '../layouts/DeskLayout.astro';
+import WelcomeOverlay from '../components/InteractiveHome/WelcomeOverlay.astro';
+const { title = "Default title", description = "Default description" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+
+		<ClientRouter />
+
+		<style is:global>
+            ::-webkit-scrollbar {
+                display: none;
+            }
+            html,body {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
+	</head>
+	<body style="margin:0; padding:0;">
+		<Header transition:persist="main-header"/>
+		<WelcomeOverlay/>
+		<DeskLayout>
+            <slot />
+		</DeskLayout>
+		<Footer transition:persist="main-footer" />
+	</body>
+</html>
