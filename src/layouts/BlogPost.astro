@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions';
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
@@ -14,10 +15,21 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
+		<ClientRouter />
+		
+		<style is:global>
+            ::-webkit-scrollbar {
+                display: none;
+            }
+            html,body {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        </style>
 	</head>
 
 	<body>
-		<Header />
+		<Header transition:persist="main-header"/>
 		<main>
 			<article>
 				<div class="hero-image">
@@ -42,6 +54,6 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				</div>
 			</article>
 		</main>
-		<Footer />
+		<Footer transition:persist="main-footer" />
 	</body>
 </html>

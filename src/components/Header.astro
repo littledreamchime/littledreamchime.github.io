@@ -322,32 +322,62 @@ import MenuIcon from './icons/MenuIcon.astro'
         width: 100%;
     }
 }
+
+.no-transition {
+    transition: none !important;
+}
 </style>
 
 <script>
-    /* Hambuger menu*/
-	const btn = document.getElementById('mobile-menu-btn');
-	const content = document.getElementById('mobile-menu-content');
-
-	if (btn && content) {
-		btn.onclick = () => {
-			content.classList.toggle('show');
-		};
-	}
-
-    /* hide header nav*/
     import { isWelcomeDismissed } from "../store";
-    if (window.location.pathname !== '/') {
-        isWelcomeDismissed.set(true);
-    }
-    isWelcomeDismissed.subscribe((dismissed)=>
+
+    document.addEventListener('astro:page-load',()=>
+    {
+        /* Hambuger menu*/
+        const btn = document.getElementById('mobile-menu-btn');
+        const content = document.getElementById('mobile-menu-content');
+        const header_nav= document.getElementById('header-nav');
+
+        if (btn && content) {
+            btn.onclick = () => {
+                content.classList.toggle('show');
+            };
+        }
+
+        /* hide header nav*/
+        if (window.location.pathname !== '/') {
+            isWelcomeDismissed.set(true);
+        }
+
+        if(isWelcomeDismissed.get())
+        {
+            if(header_nav) {
+                header_nav.classList.add('no-transition');
+                header_nav.classList.add('is-visible');
+            }
+            if(btn) {
+                btn.classList.add('no-transition');
+                btn.classList.add('is-visible');
+            }
+        }
+    });
+
+
+
+
+    isWelcomeDismissed.listen((dismissed)=>
     {
         if(dismissed){
-            
-            const heade_nav= document.getElementById('header-nav');
+            const header_nav= document.getElementById('header-nav');
             const mobileBtn = document.getElementById('mobile-menu-btn');
-            if(heade_nav) heade_nav.classList.add('is-visible');
-            if(mobileBtn) mobileBtn.classList.add('is-visible');
+            if(header_nav) {
+                header_nav.classList.remove('no-transition');
+                header_nav.classList.add('is-visible');
+            }
+            if(mobileBtn) {
+                mobileBtn.classList.remove('no-transition');
+                mobileBtn.classList.add('is-visible');
+            }
         }
     });
 

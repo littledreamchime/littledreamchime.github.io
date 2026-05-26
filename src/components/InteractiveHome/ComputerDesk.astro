@@ -39,7 +39,7 @@
         /*Computer*/
         --computer-zoom-scale: 2.2;
         --computer-origin-x: 50%;
-        --computer-origin-y: 70%;
+        --computer-origin-y: 50%;
 
         position:relative;
         display: flex;
@@ -125,11 +125,11 @@
         
         background-color: #4a4e69;
         
-        transform: translate(-50%,-100%);
+        transform: translate(-50%,-50%);
         
     }
     .computer:hover {
-        transform: translate(-50%,-100%) scale(1.05);
+        transform: translate(-50%,-50%) scale(1.05);
     }
 
     /* Paper */
@@ -183,7 +183,7 @@
         transition: transform var(--time-zoom-in) var(--ease-silky);
     }
     .desk-main.zoom-to-computer{
-        transform-origin: var(--computer-origin-x) calc(var(--computer-origin-y)- 20%);
+        transform-origin: var(--computer-origin-x) calc(var(--computer-origin-y));
         transform: scale(var(--computer-zoom-scale));
         transition: transform var(--time-zoom-in) var(--ease-silky);
     }
@@ -193,33 +193,47 @@
 
 <script>
     import { currentView } from "../../store";
-    const paperBtn=document.querySelector('.paper');
-    const deskMain=document.querySelector('.desk-main');
-    const returnBtn=document.querySelector('.return-btn');
-    const computerBtn=document.querySelector('.computer');
 
-    if(paperBtn && deskMain && returnBtn && computerBtn){
+    document.addEventListener('astro:page-load',()=>{
 
-    paperBtn.addEventListener('click', () => {
-        deskMain.classList.add('zoom-to-paper');
-        deskMain.classList.remove('zoom-to-computer');
-        returnBtn.classList.add('is-visible');
-        currentView.set('About'); 
-    });
+        const paperBtn=document.querySelector('.paper');
+        const deskMain=document.querySelector('.desk-main');
+        const returnBtn=document.querySelector('.return-btn');
+        const computerBtn=document.querySelector('.computer');
 
-    computerBtn.addEventListener('click',()=>{
-        deskMain.classList.add('zoom-to-computer');
-        deskMain.classList.remove('zoom-to-paper');
-        returnBtn.classList.add('is-visible');
-        currentView.set('Blog'); 
-    });
+        const scrollToTop=()=>{
+            window.scrollTo({
+                top:0,
+                behavior:'auto'
+            });
+        };
 
-    returnBtn.addEventListener('click', () => {
-        deskMain.classList.remove('zoom-to-paper');
-        deskMain.classList.remove('zoom-to-computer');
-        returnBtn.classList.remove('is-visible');
-        currentView.set('Home');
-    }); 
 
-}
+        if(paperBtn && deskMain && returnBtn && computerBtn){
+            paperBtn.addEventListener('click', () => {
+                scrollToTop();
+
+                deskMain.classList.add('zoom-to-paper');
+                deskMain.classList.remove('zoom-to-computer');
+                returnBtn.classList.add('is-visible');
+                currentView.set('About'); 
+            });
+
+            computerBtn.addEventListener('click',()=>{
+                scrollToTop();
+
+                deskMain.classList.add('zoom-to-computer');
+                deskMain.classList.remove('zoom-to-paper');
+                returnBtn.classList.add('is-visible');
+                currentView.set('Blog'); 
+            });
+
+            returnBtn.addEventListener('click', () => {
+                deskMain.classList.remove('zoom-to-paper');
+                deskMain.classList.remove('zoom-to-computer');
+                returnBtn.classList.remove('is-visible');
+                currentView.set('Home');
+            }); 
+        }
+});
 </script>

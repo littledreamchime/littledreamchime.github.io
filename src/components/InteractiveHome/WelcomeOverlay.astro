@@ -102,7 +102,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 
 <script>
     import { isWelcomeDismissed } from "../../store";
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('astro:page-load', () => {
 
         const overlay = document.getElementById('welcome-overlay');
         const arrowBtn = document.getElementById('scroll-arrow');
@@ -114,7 +114,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
         if (!overlay || !arrowBtn || !titleEl || !subtitleEl) return;
 
         /*Input Overlay*/
-        if (sessionStorage.getItem('introSeen') === 'true') {
+        if (sessionStorage.getItem('introSeen') === 'true' || isWelcomeDismissed.get()===true) {
             overlay.style.display = 'none';
             document.body.style.overflow = '';
             isWelcomeDismissed.set(true);   
