@@ -1,12 +1,12 @@
 
 
-<button class="desk-item bookshelf" aria-label="Go to Devlog">
+<button class="desk-item bookshelf" data-target="Devlog" aria-label="Go to Devlog">
     <span>Bookshelf</span>
 </button>
-<button class="desk-item computer" aria-label="Go to Blog">
+<button class="desk-item computer" data-target="Blog" aria-label="Go to Blog">
     <span>Computer</span>
 </button>
-<button class="desk-item paper" aria-label="Go to About">
+<button class="desk-item paper" data-target="About" aria-label="Go to About">
     <span>Paper</span>
 </button>
 
@@ -81,7 +81,7 @@
 </style>
 
 <script>
-    import { currentView } from "../../store";
+    import { currentView,ANIMATION_TIMES } from "../../store";
     import { navigate } from 'astro:transitions/client';
 
     document.addEventListener('astro:page-load',()=>{
