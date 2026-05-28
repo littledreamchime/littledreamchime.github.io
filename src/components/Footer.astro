@@ -137,3 +137,15 @@ const today = new Date();
         }
 	}
 </style>
+
+<script>
+    import { handleAnimatedLinkClick } from "../utils/navigation";
+
+    document.addEventListener('astro:page-load', () => {
+        const footerLinks = document.querySelectorAll('.customer-footer a');
+        
+        footerLinks.forEach(link => {
+            link.addEventListener('click', handleAnimatedLinkClick);
+        });
+    });
+</script>

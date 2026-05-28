@@ -329,7 +329,9 @@ import MenuIcon from './icons/MenuIcon.astro'
 </style>
 
 <script>
-    import { isWelcomeDismissed } from "../store";
+    import { navigate } from "astro:transitions/client";
+    import { isWelcomeDismissed ,ANIMATION_TIMES,currentView} from "../store";
+    import {handleAnimatedLinkClick} from "../utils/navigation";
 
     document.addEventListener('astro:page-load',()=>
     {
@@ -360,6 +362,24 @@ import MenuIcon from './icons/MenuIcon.astro'
                 btn.classList.add('is-visible');
             }
         }
+
+        /* Redefine logo and nav menu click event */
+        const navLinks=document.querySelectorAll('#header-nav a');
+        const logoLink=document.querySelector('.header-signature a');
+        const allLinks = [...navLinks, logoLink].filter(Boolean);
+
+
+        allLinks.forEach(link => {
+            if(!link) return;
+            link.addEventListener('click', (e: Event) => {
+
+                const content = document.getElementById('mobile-menu-content');
+                if (content && content.classList.contains('show')) {
+                    content.classList.remove('show');
+                }
+                handleAnimatedLinkClick(e);
+            });
+        });
     });
 
 
@@ -382,7 +402,6 @@ import MenuIcon from './icons/MenuIcon.astro'
     });
 
     /*Get current page */
-    import { currentView } from "../store";
     currentView.subscribe((view)=>{
         /*Change the nav menu*/
         const navLinks = document.querySelectorAll('#header-nav a');
@@ -393,9 +412,9 @@ import MenuIcon from './icons/MenuIcon.astro'
             'Devlog': '/devlog',
             'About': '/about'
         };
-    const targetPath = viewToPath[view as keyof typeof viewToPath];
+        const targetPath = viewToPath[view as keyof typeof viewToPath];
 
-    navLinks.forEach(link => {
+          navLinks.forEach(link => {
           let href = link.getAttribute('href');
           if(!href) return;
           let normalizedHref = href === '/' ? '/' : href.replace(/\/$/, '');
@@ -406,7 +425,5 @@ import MenuIcon from './icons/MenuIcon.astro'
               link.classList.remove('active');
           }
       });
-
-
     });
 </script>

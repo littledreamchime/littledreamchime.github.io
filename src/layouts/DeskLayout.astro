@@ -1,7 +1,13 @@
 ---
+import { ANIMATION_TIMES } from "../store";
+
+const timeZoomIn=`${ANIMATION_TIMES.ZOOM_IN/1000}s`;
+const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
 ---
 
-<div class="desk-container">
+
+<div class="desk-container"
+    style={`--timeZoomIn: ${timeZoomIn}; --timeZoomOut: ${timeZoomOut};`}>
     <div id="desk-main" class="desk-main">
         <slot />
     </div>
@@ -21,8 +27,6 @@
         --ratio-h:7.925;
 
         /*Main desk*/
-        --time-zoom-in: 1.2s;
-        --time-zoom-out: 3.0s;
         --ease-silky:cubic-bezier(0.22, 1, 0.36, 1);
         /*Paper*/
         --paper-zoom-scale:3.5;
@@ -70,7 +74,7 @@
         background-position: center;
         background-repeat: no-repeat;
 
-        transition: transform var(--time-zoom-in) var(--ease-silky),transform-origin var(--time-zoom-out) ease;
+        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomOut) ease;
     }
     /*Return btn*/
     .return-btn {
@@ -103,12 +107,12 @@
     .desk-main.zoom-to-paper{
         transform-origin: var(--paper-origin-x) var(--paper-origin-y);
         transform: scale(var(--paper-zoom-scale));
-        transition: transform var(--time-zoom-in) var(--ease-silky);
+        transition: transform var(--timeZoomIn) var(--ease-silky);
     }
     .desk-main.zoom-to-computer{
         transform-origin: var(--computer-origin-x) calc(var(--computer-origin-y));
         transform: scale(var(--computer-zoom-scale));
-        transition: transform var(--time-zoom-in) var(--ease-silky);
+        transition: transform var(--timeZoomIn) var(--ease-silky);
     }
     .desk-main.zoom-to-others{
     }
@@ -118,43 +122,57 @@
 </style>
 
 <script>
-    import { currentView } from "../store";
+    import { currentView,ANIMATION_TIMES } from "../store";
     import { navigate } from 'astro:transitions/client';
+    import { pathToView } from "../utils/navigation";
+    
+    let unsubscribe:()=> void=()=>{}; 
 
     document.addEventListener('astro:page-load', () => {
         const deskMain = document.getElementById('desk-main');
         const returnBtn = document.getElementById('return-home-btn');
         if (!deskMain || !returnBtn) return;
 
-        const view = currentView.get();
-        if (view === 'About') {
-            deskMain.classList.add('no-transition');
-            deskMain.classList.add('zoom-to-paper');
-            returnBtn.classList.add('is-visible');
-            deskMain.offsetHeight;
-            deskMain.classList.remove('no-transition');
-        } else if (view === 'Blog') {
-            deskMain.classList.add('no-transition');
-            deskMain.classList.add('zoom-to-computer');
-            returnBtn.classList.add('is-visible');
-            deskMain.offsetHeight; 
-            deskMain.classList.remove('no-transition');
-        } else if(view === 'Devlog'){
+        /*get url as the most important controller */
+        const currentPath = window.location.pathname;
+        const normalizedPath = currentPath === '/' ? '/' : currentPath.replace(/\/$/, '');
+        const expectedView = pathToView[normalizedPath as keyof typeof pathToView] || 'Home';
+        currentView.set(expectedView);
 
-        } else{
+
+        const isNotHome=expectedView!=='Home';
+        if(isNotHome){
+            deskMain.classList.add('no-transition');
+            returnBtn.classList.add('no-transition');
+        }
+        if(unsubscribe) unsubscribe();
+
+        unsubscribe = currentView.subscribe((view) => {
             deskMain.classList.remove('zoom-to-paper', 'zoom-to-computer');
             returnBtn.classList.remove('is-visible');
+
+            if (view === 'About') {
+                deskMain.classList.add('zoom-to-paper');
+                returnBtn.classList.add('is-visible');
+            } else if (view === 'Blog') {
+                deskMain.classList.add('zoom-to-computer');
+                returnBtn.classList.add('is-visible');
+            }
+        });
+
+        if(isNotHome){
+            deskMain.offsetHeight;
+            returnBtn.offsetHeight;
+            deskMain.classList.remove('no-transition');
+            returnBtn.classList.remove('no-transition');
         }
 
         returnBtn.onclick = () => {
-            deskMain.classList.remove('zoom-to-paper', 'zoom-to-computer');
-            returnBtn.classList.remove('is-visible');
-            
-            currentView.set('Home');
+            currentView.set('Home'); 
 
             setTimeout(() => {
                 navigate('/');
-            }, 3000); 
+            }, ANIMATION_TIMES.ZOOM_OUT); 
         };
     });
 </script>

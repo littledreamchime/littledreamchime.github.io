@@ -83,55 +83,24 @@
 <script>
     import { currentView,ANIMATION_TIMES } from "../../store";
     import { navigate } from 'astro:transitions/client';
+    
+    import { navigateWithAnimation } from "../../utils/navigation";
 
     document.addEventListener('astro:page-load',()=>{
 
-        const paperBtn=document.querySelector('.paper');
-        const computerBtn=document.querySelector('.computer');
+        const handleClick=(e: MouseEvent)=>{
+            const target=e.target as HTMLElement;
+            const btn=target.closest('.desk-item');
+            if(!btn) return;
+            const targetView=btn.getAttribute('data-target') ;
+            if(!targetView)return;
+            const href = `/${targetView.toLowerCase()}`;
 
-        const deskMain = document.getElementById('desk-main');
-        const returnBtn = document.getElementById('return-home-btn');
-
-        const scrollToTop=()=>{
-            window.scrollTo({
-                top:0,
-                behavior:'auto'
-            });
+            navigateWithAnimation(href, targetView);
         };
 
+        const items=document.querySelectorAll('.desk-item');
+        items.forEach(item=>item.addEventListener('click',handleClick as EventListener));
 
-        if(paperBtn && deskMain && returnBtn && computerBtn){
-            paperBtn.addEventListener('click', () => {
-                scrollToTop();
-
-                deskMain.classList.add('zoom-to-paper');
-                deskMain.classList.remove('zoom-to-computer');
-                returnBtn.classList.add('is-visible');
-                currentView.set('About'); 
-
-                setTimeout(() => {
-                    navigate('/about');
-                }, 1200);
-            });
-
-            computerBtn.addEventListener('click',()=>{
-                scrollToTop();
-
-                deskMain.classList.add('zoom-to-computer');
-                deskMain.classList.remove('zoom-to-paper');
-                returnBtn.classList.add('is-visible');
-                currentView.set('Blog'); 
-                setTimeout(() => {
-                    navigate('/blog');
-                }, 1200);
-            });
-
-            returnBtn.addEventListener('click', () => {
-                deskMain.classList.remove('zoom-to-paper');
-                deskMain.classList.remove('zoom-to-computer');
-                returnBtn.classList.remove('is-visible');
-                currentView.set('Home');
-            }); 
-        }
-});
+    });
 </script>

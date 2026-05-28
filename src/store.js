@@ -6,5 +6,5 @@ export const currentView = atom('Home');
 
 export const ANIMATION_TIMES={
     ZOOM_IN:1200,
-    ZOOM_OUT:3000
+    ZOOM_OUT:1200
 };
