@@ -122,9 +122,9 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
 </style>
 
 <script>
-    import { currentView,ANIMATION_TIMES } from "../store";
+    import { currentView } from "../store";
     import { navigate } from 'astro:transitions/client';
-    import { pathToView } from "../utils/navigation";
+    import { pathToView ,navigateWithAnimation} from "../utils/navigation";
     
     let unsubscribe:()=> void=()=>{}; 
 
@@ -157,6 +157,8 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
             } else if (view === 'Blog') {
                 deskMain.classList.add('zoom-to-computer');
                 returnBtn.classList.add('is-visible');
+            }else if(view==='Devlog'){
+                returnBtn.classList.add('is-visible');
             }
         });
 
@@ -168,11 +170,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         }
 
         returnBtn.onclick = () => {
-            currentView.set('Home'); 
-
-            setTimeout(() => {
-                navigate('/');
-            }, ANIMATION_TIMES.ZOOM_OUT); 
+            navigateWithAnimation('/','Home');
         };
     });
 </script>

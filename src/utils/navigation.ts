@@ -14,6 +14,12 @@ export function navigateWithAnimation(href: string, targetView: string) {
 
     if (current === targetView) return;
 
+    if(targetView === 'Devlog' || current === 'Devlog'){
+        currentView.set(targetView);
+        navigate(href);
+        return;
+    }
+
     window.scrollTo({ top: 0, behavior: 'auto' });
 
     currentView.set(targetView);

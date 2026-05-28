@@ -11,8 +11,18 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
+
+<BaseLayout title="Blog" description="This is my blog page.">
+	<div class="blog-content">
+		<h1>blog</h1>
+		<p>This is blog page...</p>
+	</div>
+</BaseLayout>
+
+<!-- 
 <!doctype html>
 <html lang="en">
 	<head>
@@ -124,3 +134,4 @@ const posts = (await getCollection('blog')).sort(
 		<Footer />
 	</body>
 </html>
+-->
