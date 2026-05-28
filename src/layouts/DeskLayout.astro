@@ -124,7 +124,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
 <script>
     import { currentView } from "../store";
     import { navigate } from 'astro:transitions/client';
-    import { pathToView ,navigateWithAnimation} from "../utils/navigation";
+    import { getViewFromPath ,navigateWithAnimation} from "../utils/navigation";
     
     let unsubscribe:()=> void=()=>{}; 
 
@@ -136,7 +136,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         /*get url as the most important controller */
         const currentPath = window.location.pathname;
         const normalizedPath = currentPath === '/' ? '/' : currentPath.replace(/\/$/, '');
-        const expectedView = pathToView[normalizedPath as keyof typeof pathToView] || 'Home';
+        const expectedView =getViewFromPath(window.location.pathname)||'Home';
         currentView.set(expectedView);
 
 

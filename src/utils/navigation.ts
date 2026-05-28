@@ -2,12 +2,19 @@
 import { currentView, ANIMATION_TIMES } from "../store";
 import { navigate } from 'astro:transitions/client';
 
-export const pathToView = {
-    '/': 'Home',
-    '/blog': 'Blog',
-    '/devlog': 'Devlog',
-    '/about': 'About'
-};
+
+export function getViewFromPath(pathname: string): string | undefined {
+    const normalizedPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+    
+    if (normalizedPath === '/' || normalizedPath === '') return 'Home';
+    
+    if (normalizedPath === '/blog' || normalizedPath.startsWith('/blog/')) return 'Blog';
+    if (normalizedPath === '/devlog' || normalizedPath.startsWith('/devlog/')) return 'Devlog';
+    if (normalizedPath === '/about' || normalizedPath.startsWith('/about/')) return 'About';
+    
+    return undefined;
+}
+
 
 export function navigateWithAnimation(href: string, targetView: string) {
     const current = currentView.get();
@@ -36,8 +43,7 @@ export function handleAnimatedLinkClick(e: Event) {
     const href = target.getAttribute('href');
     if (!href) return;
 
-    const normalizedHref = href === '/' ? '/' : href.replace(/\/$/, '');
-    const targetView = pathToView[normalizedHref as keyof typeof pathToView];
+    const targetView = getViewFromPath(href);
 
     if (!targetView) return;
 
