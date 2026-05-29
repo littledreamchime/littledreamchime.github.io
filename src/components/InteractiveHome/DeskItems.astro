@@ -1,14 +1,16 @@
 
 
-<button class="desk-item bookshelf" data-target="Devlog" aria-label="Go to Devlog">
+<button class="desk-item bookshelf" data-target="Devlog" aria-label="Browsing Devlogs">
     <span>Bookshelf</span>
 </button>
-<button class="desk-item computer" data-target="Blog" aria-label="Go to Blog">
+<button class="desk-item computer" data-target="Blog" aria-label="Browsing Blogs">
     <span>Computer</span>
 </button>
-<button class="desk-item paper" data-target="About" aria-label="Go to About">
+<button class="desk-item paper" data-target="About" aria-label="About Me">
     <span>Paper</span>
 </button>
+
+<div id="cursor-tooltip" class="cursor-tooltip"></div>
 
 <style>
     .desk-item{
@@ -78,30 +80,92 @@
     .paper:hover {
         transform: rotate(15deg) scale(1.1);
     }
+
+    /*cursor tooltip */
+    .cursor-tooltip{
+        --shadow-width:0.2cqi;
+        --shadow-color:#1b091a;
+
+        position:fixed;
+        top:0;
+        left:0;
+        z-index:9999;
+        pointer-events: none;
+
+        padding: 0.4rem 1rem;
+        
+        color: #d4ffac;
+        font-family: var(--font-cursortooltip);
+        font-size: 2.5cqi;
+        text-shadow:
+         calc(var(--shadow-width) * -1) calc(var(--shadow-width) * -1) 0 var(--shadow-color), 
+        var(--shadow-width)            calc(var(--shadow-width) * -1) 0 var(--shadow-color),  
+        calc(var(--shadow-width) * -1) var(--shadow-width)            0 var(--shadow-color),  
+        var(--shadow-width)            var(--shadow-width)            0 var(--shadow-color);  
+        font-weight: bold;
+        white-space: nowrap;
+        opacity: 0;
+        
+        transform: translate(calc(var(--x, 0px) + 5%), calc(var(--y, 0px) + 5%));
+        
+        transition: opacity 0.2s ease, transform 0.1s ease-out;
+    }
+    .cursor-tooltip.is-visible {
+        opacity: 1;
+    }
 </style>
 
 <script>
-    import { currentView } from "../../store";
-    import { ANIMATION_TIMES } from "../../config";
-    import { navigate } from 'astro:transitions/client';
-    
     import { navigateWithAnimation } from "../../utils/navigation";
+    import { isAnimating } from "../../store";
 
     document.addEventListener('astro:page-load',()=>{
+        const tooltip=document.getElementById('cursor-tooltip');
+        const items=document.querySelectorAll('.desk-item');
 
+        /*click event*/
         const handleClick=(e: MouseEvent)=>{
             const target=e.target as HTMLElement;
             const btn=target.closest('.desk-item');
             if(!btn) return;
-            const targetView=btn.getAttribute('data-target') ;
+            const targetView=btn.getAttribute('data-target');
             if(!targetView)return;
+            if(tooltip) tooltip.classList.remove('is-visible');
             const href = `/${targetView.toLowerCase()}`;
 
             navigateWithAnimation(href, targetView);
         };
 
-        const items=document.querySelectorAll('.desk-item');
-        items.forEach(item=>item.addEventListener('click',handleClick as EventListener));
+        /*cursor tooltip */
+        const handleMouseEnter=(e:MouseEvent)=>{
+            if(isAnimating.get() || !tooltip) return;
+            const target=e.currentTarget as HTMLElement;
+            const text=target.getAttribute('aria-label');
+
+            if(text){
+                tooltip.textContent=text;
+                tooltip.classList.add('is-visible');
+            }
+        };
+
+        const handleMouseMove=(e:MouseEvent)=>{
+            if(!tooltip || !tooltip.classList.contains('is-visible')) return;
+            tooltip.style.setProperty('--x', `${e.clientX}px`);
+            tooltip.style.setProperty('--y', `${e.clientY}px`);
+        }
+
+        const handleMouseLeave = () => {
+            if (tooltip) {
+                tooltip.classList.remove('is-visible');
+            }
+        };
+
+        items.forEach(item=>{
+            item.addEventListener('click', handleClick as EventListener);
+            item.addEventListener('mouseenter', handleMouseEnter as EventListener);
+            item.addEventListener('mousemove', handleMouseMove as EventListener);
+            item.addEventListener('mouseleave', handleMouseLeave as EventListener);
+        });
 
     });
 </script>
