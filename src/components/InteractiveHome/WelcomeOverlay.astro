@@ -6,8 +6,8 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 <div id="welcome-overlay" class="welcome-overlay">
     <!-- Content -->
     <div class="content">
-        <h1 id="type-title" data-text="[ SYSTEM // ONLINE ]"></h1>
-        <p id="type-subtitle" class="subtitle" data-text="Initializing digital workspace...^ Loading Successfully.~Scroll to access."></p>
+        <h1 id="type-title" data-text="[ WELCOME ]"></h1>
+        <p id="type-subtitle" class="subtitle" data-text="Loading resources...^ Loading Successfully, scroll to access."></p>
     </div>
 
     <!--Scroll arrow -->
@@ -101,7 +101,7 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 </style>
 
 <script>
-    import { isWelcomeDismissed } from "../../store";
+    import { isWelcomeDismissed,preloadAssets } from "../../store";
     document.addEventListener('astro:page-load', () => {
 
         const overlay = document.getElementById('welcome-overlay');
@@ -117,7 +117,8 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
         if (sessionStorage.getItem('introSeen') === 'true' || isWelcomeDismissed.get()===true) {
             overlay.style.display = 'none';
             document.body.style.overflow = '';
-            isWelcomeDismissed.set(true);   
+            isWelcomeDismissed.set(true);  
+            preloadAssets(); 
             return;
         }
         document.body.style.overflow = 'hidden';
@@ -171,15 +172,25 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
             }
             type();
         }
-        setTimeout(() => {
-            typeWriter(titleEl, 5, () => {
-                typeWriter(subtitleEl, 5, () => {
-                    if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
-                    canDismiss = true;
-                    if(arrowBtn) arrowBtn.classList.add('visible');
+
+        const typeWriterPromise= new Promise((resolve)=>{
+            setTimeout(() => {
+                typeWriter(titleEl, 3, () => {
+                    typeWriter(subtitleEl, 3, () => {
+                        if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
+                        resolve(true);
+                    });
                 });
-            });
-        }, 500);
+            }, 500);
+        });
+
+        const assetsPromise=preloadAssets();
+
+        Promise.all([typeWriterPromise,assetsPromise]).then(()=>{
+            canDismiss=true;
+            if(arrowBtn) arrowBtn.classList.add('visible');
+        });
+
 
         /*Event Listener*/
         arrowBtn.addEventListener('click', dismissOverlay);

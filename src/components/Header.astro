@@ -346,10 +346,6 @@ import MenuIcon from './icons/MenuIcon.astro'
             };
         }
 
-        /* hide header nav*/
-        if (window.location.pathname !== '/') {
-            isWelcomeDismissed.set(true);
-        }
 
         if(isWelcomeDismissed.get())
         {

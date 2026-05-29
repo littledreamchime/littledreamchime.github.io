@@ -21,6 +21,8 @@ export function navigateWithAnimation(href: string, targetView: string) {
 
     const current = currentView.get();
 
+    if(current === targetView) return;
+
     isAnimating.set(true);
     document.body.style.pointerEvents='none';
 
