@@ -1,5 +1,5 @@
 // src/utils/navigation.ts
-import { currentView, ANIMATION_TIMES } from "../store";
+import { currentView, ANIMATION_TIMES,isAnimating } from "../store";
 import { navigate } from 'astro:transitions/client';
 
 
@@ -17,21 +17,22 @@ export function getViewFromPath(pathname: string): string | undefined {
 
 
 export function navigateWithAnimation(href: string, targetView: string) {
+    if(isAnimating.get())return;
+
     const current = currentView.get();
 
-    if (current === targetView) return;
-
-    if(targetView === 'Devlog' || current === 'Devlog'){
-        currentView.set(targetView);
-        navigate(href);
-        return;
-    }
+    isAnimating.set(true);
+    document.body.style.pointerEvents='none';
 
     window.scrollTo({ top: 0, behavior: 'auto' });
 
     currentView.set(targetView);
 
-    const waitTime = targetView === 'Home' ? ANIMATION_TIMES.ZOOM_OUT : ANIMATION_TIMES.ZOOM_IN;
+    var waitTime = targetView === 'Home' ? ANIMATION_TIMES.ZOOM_OUT : ANIMATION_TIMES.ZOOM_IN;
+    
+    if((current==='Home' && targetView === 'Devlog')|| (current === 'Devlog' && targetView==='Home')){
+        waitTime = ANIMATION_TIMES.ZOOM_DEVLOG;
+    }
 
     setTimeout(() => {
         navigate(href);
@@ -49,4 +50,11 @@ export function handleAnimatedLinkClick(e: Event) {
 
     e.preventDefault();
     navigateWithAnimation(href, targetView);
+}
+
+if(typeof document !=='undefined'){
+    document.addEventListener('astro:page-load',()=>{
+        isAnimating.set(false);
+        document.body.style.pointerEvents='auto';
+    });
 }
