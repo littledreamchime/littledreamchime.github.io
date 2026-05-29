@@ -330,7 +330,8 @@ import MenuIcon from './icons/MenuIcon.astro'
 
 <script>
     import { navigate } from "astro:transitions/client";
-    import { isWelcomeDismissed ,ANIMATION_TIMES,currentView} from "../store";
+    import { isWelcomeDismissed ,currentView} from "../store";
+    import { ANIMATION_TIMES } from "../config";
     import {handleAnimatedLinkClick} from "../utils/navigation";
 
     document.addEventListener('astro:page-load',()=>
@@ -381,7 +382,7 @@ import MenuIcon from './icons/MenuIcon.astro'
 
 
 
-    isWelcomeDismissed.listen((dismissed)=>
+    isWelcomeDismissed.listen((dismissed: boolean)=>
     {
         if(dismissed){
             const header_nav= document.getElementById('header-nav');
@@ -398,7 +399,7 @@ import MenuIcon from './icons/MenuIcon.astro'
     });
 
     /*Get current page */
-    currentView.subscribe((view)=>{
+    currentView.subscribe((view: string)=>{
         /*Change the nav menu*/
         const navLinks = document.querySelectorAll('#header-nav a');
         if (!navLinks.length) return;

@@ -1,22 +1,7 @@
 import { atom } from "nanostores";
-
-export const isWelcomeDismissed=atom(false);
-
-export const currentView = atom('Home');
-
-export const isAnimating=atom(false);
-
-export const ANIMATION_TIMES={
-    ZOOM_IN:1200,
-    ZOOM_OUT:1200,
-    ZOOM_DEVLOG:300,
-};
+import { PRELOAD_IMAGES } from "../config";
 
 
-/*Load resources */
-export const PRELOAD_IMAGES=[
-    '/Images/desk_bg_Template.png',
-];
 export const isAssetsLoaded=atom(false);
 
 export function preloadAssets(){

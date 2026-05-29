@@ -1,0 +1,75 @@
+
+
+<div id="bookshelf-ui" class="bookshelf-ui">
+    <div class="placeholder-content">
+        <h2>📚 Devlog Bookshelf</h2>
+        <p>Markdown list</p>
+    </div>
+</div>
+
+
+<style>
+    /*main */
+    .bookshelf-ui {
+        position: absolute;
+        top: 0;
+        right: 0;
+        overflow:;
+
+        width: 100%;
+        height: 100%;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        border-left: 2px solid #666;
+
+        background-color: #4a4a4a; 
+
+        transform: translateX(100%);
+        
+        transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .bookshelf-ui.slide-in {
+        transform: translateX(0);
+    }
+
+
+    /*temp content */
+    .placeholder-content {
+        padding: 3cqi;
+
+        color: white;
+        font-family: sans-serif;
+    }
+    .placeholder-content h2 {
+        margin-bottom: 2cqi;
+
+        font-size: 5cqi; 
+    }
+    .placeholder-content p {
+        font-size: 2cqi;
+    }
+</style>
+
+<script>
+    import { ANIMATION_TIMES } from "../../config";
+import { onLeaveHook } from "../../store";
+    
+    let unsubscribe: () => void = () => {};
+
+    document.addEventListener('astro:page-load', () => {
+        const bookshelf = document.getElementById('bookshelf-ui');
+        if(!bookshelf)return;
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                bookshelf.classList.add('slide-in');
+            });
+        });
+
+        onLeaveHook.set(()=>{
+            return new Promise((resolve)=>{
+                bookshelf.classList.remove('slide-in');
+                setTimeout(resolve,ANIMATION_TIMES.DEVLOG_LEAVE);
+            });
+        });
+    });
+</script>

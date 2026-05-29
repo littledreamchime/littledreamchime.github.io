@@ -1,5 +1,5 @@
 ---
-import { ANIMATION_TIMES } from "../store";
+import { ANIMATION_TIMES } from "../config";
 
 const timeZoomIn=`${ANIMATION_TIMES.ZOOM_IN/1000}s`;
 const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
@@ -63,6 +63,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
     }
     .desk-main{
         position: relative;
+        container-type:inline-size;
 
         width:100%;
         max-width: calc(100vh * (var(--ratio-w) / var(--ratio-h) ));
@@ -147,7 +148,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         }
         if(unsubscribe) unsubscribe();
 
-        unsubscribe = currentView.subscribe((view) => {
+        unsubscribe = currentView.subscribe((view: string) => {
             deskMain.classList.remove('zoom-to-paper', 'zoom-to-computer');
             returnBtn.classList.remove('is-visible');
 

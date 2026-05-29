@@ -101,7 +101,8 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 </style>
 
 <script>
-    import { isWelcomeDismissed,preloadAssets } from "../../store";
+    import { isWelcomeDismissed } from "../../store";
+    import { preloadAssets } from "../../utils/assets";
     document.addEventListener('astro:page-load', () => {
 
         const overlay = document.getElementById('welcome-overlay');
