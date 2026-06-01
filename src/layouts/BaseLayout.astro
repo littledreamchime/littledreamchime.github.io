@@ -26,11 +26,11 @@ const { title = "Default title", description = "Default description" } = Astro.p
         </style>
 	</head>
 	<body style="margin:0; padding:0;">
-		<Header transition:persist="main-header"/>
+		<Header transition:persist="main-header" transition:animate="none"/>
 		<WelcomeOverlay/>
 		<DeskLayout>
             <slot />
 		</DeskLayout>
-		<Footer transition:persist="main-footer" />
+		<Footer  transition:persist="main-footer" transition:animate="none"/>
 	</body>
 </html>

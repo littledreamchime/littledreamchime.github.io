@@ -4,7 +4,6 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Binder from '../../components/InteractiveHome/Binder.astro';
 import Bookshelf from '../../components/InteractiveHome/Bookshelf.astro';
-import { ClientRouter } from 'astro:transitions';
 
 export async function getStaticPaths() {
     const allDevlogs = await getCollection('devlog');
@@ -29,9 +28,10 @@ export async function getStaticPaths() {
 }
 
 const { folderTitle, entries } = Astro.props;
+import Devlog from '../devlog/index.astro';
 ---
 
-<BaseLayout title={folderTitle} description="Devlog Folder">
-	<Bookshelf/>
-    <Binder title={folderTitle} entries={entries} />
+<BaseLayout title="Devlog" description="This is my Devlog page.">
+	<Bookshelf />
+    <Binder title={folderTitle} entries={entries}  />
 </BaseLayout>
