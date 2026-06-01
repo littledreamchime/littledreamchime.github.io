@@ -1,0 +1,37 @@
+---
+// src/pages/devlog/[folder].astro
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Binder from '../../components/InteractiveHome/Binder.astro';
+import Bookshelf from '../../components/InteractiveHome/Bookshelf.astro';
+import { ClientRouter } from 'astro:transitions';
+
+export async function getStaticPaths() {
+    const allDevlogs = await getCollection('devlog');
+    
+    const configs = allDevlogs.filter(post => post.id.endsWith('/config'));
+
+    return configs.map(config => {
+        const folderSlug = config.id.split('/')[0];
+        
+        const entries = allDevlogs.filter(post => 
+            post.id.startsWith(folderSlug + '/') && !post.id.endsWith('/config')
+        ).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()); 
+
+        return {
+            params: { folder: folderSlug }, // URL
+            props: { 
+                folderTitle: config.data.title,
+                entries: entries
+            }
+        };
+    });
+}
+
+const { folderTitle, entries } = Astro.props;
+---
+
+<BaseLayout title={folderTitle} description="Devlog Folder">
+	<Bookshelf/>
+    <Binder title={folderTitle} entries={entries} />
+</BaseLayout>

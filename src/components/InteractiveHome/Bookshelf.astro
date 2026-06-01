@@ -1,20 +1,35 @@
+---
+import { getCollection } from "astro:content";
 
+const devlogs = (await getCollection('devlog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const books = devlogs.filter(post => post.id.endsWith('/config'));
+books.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const getFolderSlug = (id: string) => id.split('/')[0];
+---
 
-<div id="bookshelf-ui" class="bookshelf-ui">
+<div id="bookshelf-ui" class="bookshelf-ui" transition:name="bookshelf-ui" transition:persist>
     <div class="placeholder-content">
         <h2>📚 Devlog Bookshelf</h2>
-        <p>Markdown list</p>
+        <p>Markdown list: {books.length} books, { devlogs.length - books.length} devlogs</p>
     </div>
     
     <div class="bookshelf-scroll-container" id="bookshelf-scroll">
         <div class="bookshelf-track">
-            <div class="book-card">Book 1</div>
-            <div class="book-card">Book 2</div>
-            <div class="book-card">Book 3</div>
-            <div class="book-card">Book 4</div>
-            <div class="book-card">Book 5</div>
-            <div class="book-card">Book 6</div>
-            <div class="book-card">Book 7</div>
+            {
+                books.map((book) => {
+                    const folderSlug = getFolderSlug(book.id);
+                    return (
+                        <a href={`/devlog/${folderSlug}`} class="book-card">
+                            <div class="book-content">
+                                <h3>{book.data.title}</h3>
+                                <time>{book.data.pubDate.toLocaleDateString()}</time>
+                            </div>
+                        </a>
+                    )
+                })
+            }
         </div>
     </div>
 </div>
@@ -31,7 +46,6 @@
 
         width: 100%;
         height: 100%;
-        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
         border-left: 2px solid #666;
 
         background-color: #4a4a4a; 
@@ -109,6 +123,7 @@
         
         font-size: 2cqi;
         font-weight: bold;
+        text-decoration: none;
         
         transition: transform 0.3s ease, background-color 0.3s ease;
         cursor: pointer;
@@ -120,11 +135,22 @@
 
         transform: translateY(-2cqi);
     }
+    
+    .book-content h3 {
+        font-size: 2.5cqi;
+        margin: 0 0 1cqi 0;
+        color: inherit;
+    }
+
+    .book-content time {
+        font-size: 1.5cqi;
+        opacity: 0.7;
+    }
 </style>
 
 <script>
     import { ANIMATION_TIMES } from "../../config";
-    import { onLeaveHook } from "../../store";
+    import { addLeaveHook } from "../../store";
     
     let unsubscribe: () => void = () => {};
 
@@ -134,17 +160,22 @@
         if(!bookshelf)return;
 
         //Enter
-        requestAnimationFrame(() => {
+         if (!bookshelf.classList.contains('slide-in')){
             requestAnimationFrame(() => {
-                bookshelf.classList.add('slide-in');
+                requestAnimationFrame(() => {
+                    bookshelf.classList.add('slide-in');
+                });
             });
-        });
-
+        }
         //Leave
-        onLeaveHook.set(()=>{
-            return new Promise((resolve)=>{
+        addLeaveHook((targetView) => {
+            if (targetView === 'DevlogBinder' || targetView === 'Devlog') {
+                return Promise.resolve();
+            }
+            
+            return new Promise((resolve) => {
                 bookshelf.classList.remove('slide-in');
-                setTimeout(resolve,ANIMATION_TIMES.DEVLOG_LEAVE);
+                setTimeout(resolve, ANIMATION_TIMES.ZOOM_DEVLOG || 800);
             });
         });
 

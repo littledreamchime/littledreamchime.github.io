@@ -1,5 +1,5 @@
 // src/utils/navigation.ts
-import { currentView,isAnimating, onLeaveHook } from "../store";
+import { currentView,isAnimating, leaveHooks,clearLeaveHooks } from "../store";
 import { ANIMATION_TIMES } from "../config";
 import { navigate } from 'astro:transitions/client';
 
@@ -10,15 +10,24 @@ export function getViewFromPath(pathname: string): string | undefined {
     if (normalizedPath === '/' || normalizedPath === '') return 'Home';
     
     if (normalizedPath === '/blog' || normalizedPath.startsWith('/blog/')) return 'Blog';
-    if (normalizedPath === '/devlog' || normalizedPath.startsWith('/devlog/')) return 'Devlog';
+    if (normalizedPath.startsWith('/devlog')) {
+        const parts = normalizedPath.split('/').filter(Boolean);
+        if (parts.length === 1) return 'Devlog';       
+        if (parts.length === 2) return 'DevlogBinder'; 
+        if (parts.length >= 3) return 'DevlogPaper';   
+    }
     if (normalizedPath === '/about' || normalizedPath.startsWith('/about/')) return 'About';
     
     return undefined;
 }
 
 function getWaitTime(current: string, target: string):number{
-     if ((current === 'Home' && target === 'Devlog') || (current === 'Devlog' && target === 'Home')) {
+     if ((current === 'Home' && target.startsWith('Devlog') ) || 
+     (current.startsWith('Devlog')  && target === 'Home')) {
         return ANIMATION_TIMES.ZOOM_DEVLOG;
+    }
+    if (current.startsWith('Devlog') && target.startsWith('Devlog')) {
+        return 0; 
     }
     return target === 'Home' ? ANIMATION_TIMES.ZOOM_OUT : ANIMATION_TIMES.ZOOM_IN;
 }
@@ -40,11 +49,12 @@ export async function navigateWithAnimation(href: string, targetView: string) {
     isAnimating.set(true);
     document.body.style.pointerEvents='none';
 
-    const leaveHook=onLeaveHook.get();
-    if(leaveHook){
-        await leaveHook();
-        onLeaveHook.set(null);
+    const hooks = leaveHooks.get();
+    if (hooks.length > 0) {
+        await Promise.all(hooks.map(hook => hook(targetView)));
+        clearLeaveHooks(); 
     }
+
     const waitTime=getWaitTime(current,targetView);
     executeTransition(href,targetView,waitTime);
 }
