@@ -5,6 +5,18 @@
         <h2>📚 Devlog Bookshelf</h2>
         <p>Markdown list</p>
     </div>
+    
+    <div class="bookshelf-scroll-container" id="bookshelf-scroll">
+        <div class="bookshelf-track">
+            <div class="book-card">Book 1</div>
+            <div class="book-card">Book 2</div>
+            <div class="book-card">Book 3</div>
+            <div class="book-card">Book 4</div>
+            <div class="book-card">Book 5</div>
+            <div class="book-card">Book 6</div>
+            <div class="book-card">Book 7</div>
+        </div>
+    </div>
 </div>
 
 
@@ -14,7 +26,8 @@
         position: absolute;
         top: 0;
         right: 0;
-        overflow:;
+        display: flex;
+        flex-direction: column;
 
         width: 100%;
         height: 100%;
@@ -38,6 +51,8 @@
 
         color: white;
         font-family: sans-serif;
+
+        flex-shrink: 0;
     }
     .placeholder-content h2 {
         margin-bottom: 2cqi;
@@ -47,29 +62,105 @@
     .placeholder-content p {
         font-size: 2cqi;
     }
+
+    /*scroll view*/
+    .bookshelf-scroll-container {
+        flex: 1;
+        overflow-x: auto;
+        overflow-y: hidden;
+        
+        width: 100%;
+        min-height: 0; 
+        
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+    }
+    .bookshelf-scroll-container::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    .bookshelf-track {
+        display: flex;
+        align-items: center;
+        
+
+        min-height: 100%;
+        width: max-content;
+        padding: 1cqi 5cqi; 
+        gap: 3cqi;
+    }
+
+    /* Book card */
+    .book-card {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 20cqi;
+        height: 20cqi;
+        border: 1px solid #555;
+        border-radius: 12px;
+        
+        margin: 3cqi 0; 
+
+        color: #aaa;
+        background-color: #2d2d2d;
+        
+        font-size: 2cqi;
+        font-weight: bold;
+        
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+    .book-card:hover {
+        background-color: #3d3d3d;
+        color: white;
+
+        transform: translateY(-2cqi);
+    }
 </style>
 
 <script>
     import { ANIMATION_TIMES } from "../../config";
-import { onLeaveHook } from "../../store";
+    import { onLeaveHook } from "../../store";
     
     let unsubscribe: () => void = () => {};
 
     document.addEventListener('astro:page-load', () => {
         const bookshelf = document.getElementById('bookshelf-ui');
+        const scrollContainer = document.getElementById('bookshelf-scroll');
         if(!bookshelf)return;
 
+        //Enter
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 bookshelf.classList.add('slide-in');
             });
         });
 
+        //Leave
         onLeaveHook.set(()=>{
             return new Promise((resolve)=>{
                 bookshelf.classList.remove('slide-in');
                 setTimeout(resolve,ANIMATION_TIMES.DEVLOG_LEAVE);
             });
         });
+
+        //Scroll view
+        if (scrollContainer) {
+            const handleWheel = (e: WheelEvent) => {
+                if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                    e.preventDefault();
+                    scrollContainer.scrollLeft += e.deltaY;
+                }
+            };
+            
+            scrollContainer.addEventListener('wheel', handleWheel, { passive: false });
+        } else {
+            console.error("cannot find bookshelf-scroll content");
+        }
+
     });
 </script>
