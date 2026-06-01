@@ -22,6 +22,7 @@ export function getViewFromPath(pathname: string): string | undefined {
 }
 
 function getWaitTime(current: string, target: string):number{
+    console.log(current+":"+target);
      if ((current === 'Home' && target.startsWith('Devlog') ) || 
      (current.startsWith('Devlog')  && target === 'Home')) {
         return ANIMATION_TIMES.ZOOM_DEVLOG;

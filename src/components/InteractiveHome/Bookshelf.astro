@@ -170,7 +170,7 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 
         //Leave
         addLeaveHook((targetView) => {
-            if (targetView === 'DevlogBinder' || targetView === 'Devlog') {
+            if (targetView === 'DevlogBinder' || targetView === 'Devlog' || targetView==='DevlogPaper') {
                 return Promise.resolve();
             }
             

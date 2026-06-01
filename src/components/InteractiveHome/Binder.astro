@@ -188,7 +188,6 @@ const { title, entries } = Astro.props;
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-                
             if (!binder.classList.contains('open')) binder.classList.add('open');
             if (!overlay.classList.contains('show'))    overlay.classList.add('show');
             });
@@ -197,6 +196,18 @@ const { title, entries } = Astro.props;
         const goBack = () => navigateWithAnimation('/devlog', 'Devlog');
         overlay.addEventListener('click', goBack);
         backBtn?.addEventListener('click', goBack);
+
+        const entryLinks = document.querySelectorAll('.entry-item');
+        entryLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                const href = link.getAttribute('href');
+                if (href) {
+                    navigateWithAnimation(href, 'DevlogPaper');
+                }
+            });
+        });
+
 
         addLeaveHook(() => {
             return new Promise((resolve) => {

@@ -53,10 +53,10 @@ const folderSlug = post.id.split('/')[0];
         background: rgba(0, 0, 0, 0.6);
         z-index: 275;
         backdrop-filter: blur(4px);
-        
+
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.4s ease;
+        transition: opacity 0.6s ease;
     }
     .paper-overlay.show {
         opacity: 1;
@@ -83,7 +83,7 @@ const folderSlug = post.id.split('/')[0];
         flex-direction: column;
         z-index: 300;
         opacity: 0;
-        transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .paper-ui.open {
@@ -183,7 +183,7 @@ const folderSlug = post.id.split('/')[0];
                     overlay.style.display = 'none';
                     paper.style.display = 'none';
                     resolve();
-                }, 600); 
+                }, 800); 
             });
         });
     });
