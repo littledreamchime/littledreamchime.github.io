@@ -21,17 +21,28 @@ export function preloadAssets() {
                 case 'audio':
                 case 'video': {
                     const media = asset.type === 'audio' ? new Audio() : document.createElement('video');
+                    media.preload = 'auto'; 
                     media.src = asset.src;
-                    media.oncanplaythrough = resolve;
+                    
+                    media.onloadeddata = resolve;
                     media.onerror = resolve;
+                    
+                    setTimeout(resolve, 3000);
+                    
                     media.load();
                     break;
                 }
 
                 case 'font': {
-                    document.fonts.load(asset.src)
-                        .then(resolve)
-                        .catch(resolve);
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'font';
+                    link.href = asset.src;
+                    link.crossOrigin = 'anonymous'; 
+                    
+                    link.onload = resolve;
+                    link.onerror = resolve;
+                    document.head.appendChild(link);
                     break;
                 }
 
