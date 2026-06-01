@@ -1,7 +1,11 @@
 ---
 import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 ---
-
+<script is:inline>
+    if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('introSeen') === 'true') {
+        document.documentElement.classList.add('hide-welcome');
+    }
+</script>
 
 <div id="welcome-overlay" class="welcome-overlay">
     <!-- Content -->
@@ -15,6 +19,9 @@ import ScrollArrowIcon from "../icons/ScrollArrowIcon.astro"
 </div>
 
 <style>
+    :global(html.hide-welcome) .welcome-overlay {
+        display: none !important;
+    }
     /* Main */
     .welcome-overlay {
         display: flex;
