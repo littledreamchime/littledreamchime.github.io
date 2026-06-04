@@ -4,28 +4,46 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Bookshelf from '../../components/InteractiveHome/Bookshelf.astro';
 import Binder from '../../components/InteractiveHome/Binder.astro';
+import type { config } from 'astro:schema';
 
 export async function getStaticPaths() {
-    const posts = await getCollection('devlog');
+    const allDevlogs = await getCollection('devlog');
     
-    const actualPosts = posts.filter(post => !post.id.endsWith('/config'));
+    const actualPosts = allDevlogs.filter(post => !post.id.endsWith('/config'));
 
-    return actualPosts.map(post => ({
-        params: { slug: post.id },
-        props: { post },
-    }));
+    return actualPosts.map(post => {
+        const folderSlug = post.id.split('/')[0];
+        
+        const config = allDevlogs.find(p => p.id === `${folderSlug}/config`);
+        const folderTitle = config ? config.data.title : folderSlug;
+
+        const entries = allDevlogs.filter(p => 
+            p.id.startsWith(folderSlug + '/') && !p.id.endsWith('/config')
+        ).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()); 
+
+        return {
+            params: { slug: post.id },
+            props: { 
+                post: post,
+                folderTitle: folderTitle,
+                entries: entries
+            }
+        };
+    });
 }
 
-const { post } = Astro.props;
+const { post, folderTitle, entries } = Astro.props;
 
 const { Content } = await render(post);
 
 const folderSlug = post.id.split('/')[0];
+
 ---
 
 
 <BaseLayout title={post.data.title} description="Devlog Folder" transition:animate="none">
 	<Bookshelf/>
+    <Binder title={folderTitle} entries={entries}/>
 </BaseLayout>
 
 <div id="paper-overlay" class="paper-overlay" transition:animate="none"></div>

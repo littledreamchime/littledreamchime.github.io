@@ -5,7 +5,7 @@ const { title, entries } = Astro.props;
 
 <div id="binder-overlay" class="binder-overlay" transition:animate="none" ></div>
 
-<div id="binder-ui" class="binder-ui"  transition:animate="none">
+<div id="binder-ui" class="binder-ui"  transition:persist="Binder" transition:animate="none">
     <!--Header -->
     <div class="binder-header">
         <button id="binder-back-btn" class="back-btn">← Back</button>
@@ -209,7 +209,10 @@ const { title, entries } = Astro.props;
         });
 
 
-        addLeaveHook(() => {
+        addLeaveHook((targetView) => {
+            if (targetView === 'DevlogBinder' || targetView === 'DevlogPaper') {
+                return Promise.resolve();
+            }
             return new Promise((resolve) => {
                 binder.classList.remove('open');
                 overlay.classList.remove('show');
