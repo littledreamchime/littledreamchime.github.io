@@ -4,52 +4,42 @@
     "type": "split",
     "children": [
       {
-        "id": "ffb2ef54e8935339",
+        "id": "24b8e540da24f289",
         "type": "tabs",
-        "dimension": 65.92960288808665,
         "children": [
           {
-            "id": "9a19e355fcdcfc3c",
+            "id": "a07bd7d82c3da13f",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "01_Architecture/000_Main.canvas",
-                "viewState": {
-                  "x": -435.7452191655225,
-                  "y": 821.0854178438519,
-                  "zoom": 1.1102230246251565e-16
-                }
+                "file": "01_Architecture/Utils/Navigation.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "000_Main"
+              "icon": "lucide-file",
+              "title": "Navigation"
             }
-          }
-        ]
-      },
-      {
-        "id": "e3f582f710ae3c3d",
-        "type": "tabs",
-        "dimension": 34.07039711191336,
-        "children": [
+          },
           {
-            "id": "b74d93a1335e0c2d",
+            "id": "4788304e702d0bc0",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Main.canvas",
+                "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": 1692.3486184087678,
-                  "y": -299.26487999900877,
-                  "zoom": -1.333333333333333
+                  "x": -493.3728201691327,
+                  "y": -1644.5374114534195,
+                  "zoom": -0.12590219760438626
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "Main"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -208,29 +198,44 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "bases:新建数据库": false
+      "bases:新建数据库": false,
+      "excalidraw-cn:Create New Excalidraw File": false
     }
   },
-  "active": "9a19e355fcdcfc3c",
+  "active": "4788304e702d0bc0",
   "lastOpenFiles": [
+    "01_Architecture/Utils/Assets.md",
+    "01_Architecture/Utils/Navigation.md",
+    "01_Architecture/Utils",
+    "01_Architecture/Main.canvas",
+    "01_Architecture/Layout/BaseLayout.md",
+    "01_Architecture/Layout",
+    "01_Architecture/Component/Footer.md",
+    "01_Architecture/Component/Header.md",
+    "01_Architecture/Component",
+    "01_Architecture/Z-Index.md",
+    "01_Architecture/Layout/DeskLayout.md",
+    "Template/Images/Diagram 2.svg.xml",
+    "Template/Images/Diagram 2.svg",
+    "Template/Images/Diagram 1.svg.xml",
+    "Template/Images/Diagram 1.svg",
+    "Template/Images/Diagram.svg",
+    "01_Architecture.ex",
+    "Template/Images/Pasted image 20260605160026.png",
     "Main.canvas",
-    "01_Architecture/000_Main.canvas",
-    "01_Architecture/BaseLayout.md",
+    "Template/Images/Pasted image 20260605155912.png",
+    "01_Architecture/Untitled Diagram.svg",
+    "Untitled Diagram.svg",
+    "excalidraw 26-06-05 03.42.17.ex",
     "01_Architecture/Z-index.md",
-    "01_Architecture/Navigation.md",
+    "Template/新建文件夹",
+    "excalidraw 26-06-05 03.04.25.ex",
+    "excalidraw 26-06-05 03.00.58.ex",
     "00_README.md",
     "Progress.md",
-    "04_Assets",
-    "03_Issues",
-    "01_Architecture",
-    "02_Devlogs",
     "Template/Images/Pasted image 20260520213744.png",
     "Template/Images/Pasted image 20260520213703.png",
     "Template/Images/Pasted image 20260520212657 1.png",
-    "Template/Images/Pasted image 20260520212657.png",
-    "Template/Images/Pasted image 20260520211945.png",
-    "欢迎.md",
-    "Template/Images",
-    "Template"
+    "欢迎.md"
   ]
 }

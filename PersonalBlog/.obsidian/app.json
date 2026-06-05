@@ -1,4 +1,5 @@
 {
   "attachmentFolderPath": "Template/Images",
-  "promptDelete": false
+  "promptDelete": false,
+  "alwaysUpdateLinks": true
 }

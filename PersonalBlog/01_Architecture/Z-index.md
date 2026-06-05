@@ -1,14 +1,3 @@
-	- Desk-background : 100
-		- Desk-main : 200
-			 - Desk-items : 220-225
-			 - Tooltip : 230
-			 - Blog : 250
-			 - Devlog : 250
-				 - Devlog-page-overlay:275
-				 - Devlog-children:300
-			 - About : 250
-				 - About-children:300
-			 - Return-btn : 282
-	- Welcome-overlay : 350
-	- Header : 500
-	- Footer : 500
+网站基本的层级关系如下所示：
+
+![[Pasted image 20260605160026.png|818]]

@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"7ad2df551e875f1d","x":-1640,"y":-2200,"width":1100,"height":1160,"type":"group","label":"Utils"},
+		{"id":"9818d72a72ea11de","type":"group","x":-320,"y":-2240,"width":980,"height":1280,"label":"Components"},
+		{"id":"1d19fe5de5eb14bd","type":"file","file":"01_Architecture/Layout/BaseLayout.md","x":2160,"y":-1329,"width":400,"height":480},
+		{"id":"507d76b11ec763f9","type":"file","file":"01_Architecture/Layout/DeskLayout.md","x":1560,"y":-1229,"width":439,"height":281},
+		{"id":"4ca7832d17c96596","type":"file","file":"01_Architecture/Z-Index.md","x":1100,"y":-2214,"width":880,"height":909},
+		{"id":"6a648ab9b491555a","type":"file","file":"01_Architecture/Component/Header.md","x":-280,"y":-2200,"width":480,"height":300},
+		{"id":"237ac2ccd3b1cf58","type":"file","file":"01_Architecture/Component/Footer.md","x":-280,"y":-1820,"width":490,"height":200},
+		{"id":"49bbcd1a31241ccd","type":"file","file":"01_Architecture/Utils/Navigation.md","x":-1600,"y":-2162,"width":400,"height":614},
+		{"id":"0cd90e0847af318f","type":"file","file":"01_Architecture/Utils/Assets.md","x":-1600,"y":-1480,"width":440,"height":140},
+		{"id":"1fd38f3b9619df21","x":-1000,"y":-2162,"width":420,"height":242,"type":"text","text":"- 定义所有一些页面跳转的时间\n- "}
+	],
+	"edges":[
+		{"id":"151cfea9c40040cf","fromNode":"1d19fe5de5eb14bd","fromSide":"left","toNode":"507d76b11ec763f9","toSide":"right"}
+	]
+}
