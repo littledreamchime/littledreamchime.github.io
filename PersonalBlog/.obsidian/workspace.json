@@ -6,6 +6,7 @@
       {
         "id": "9f9d9822921dab6e",
         "type": "tabs",
+        "dimension": 62.093862815884485,
         "children": [
           {
             "id": "60493510e0a8f922",
@@ -15,9 +16,9 @@
               "state": {
                 "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": 2433.2715329565895,
-                  "y": -1242.7270492892842,
-                  "zoom": 1.1102230246251565e-16
+                  "x": 2479.5578416337817,
+                  "y": -1187.1238494145284,
+                  "zoom": 0.3333333333333332
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -29,11 +30,12 @@
       {
         "id": "9ed0cc2af47a3428",
         "type": "split",
+        "dimension": 37.90613718411552,
         "children": [
           {
             "id": "e72be1247bd5383b",
             "type": "tabs",
-            "dimension": 63.212795549374135,
+            "dimension": 52.7816411682893,
             "children": [
               {
                 "id": "d5c4650b6d4ff056",
@@ -54,7 +56,7 @@
           {
             "id": "aab9d241d0ee3a7c",
             "type": "tabs",
-            "dimension": 36.78720445062587,
+            "dimension": 47.21835883171071,
             "children": [
               {
                 "id": "e1591ba38fc64178",
@@ -236,11 +238,12 @@
       "bases:新建数据库": false
     }
   },
-  "active": "60493510e0a8f922",
+  "active": "d5c4650b6d4ff056",
   "lastOpenFiles": [
-    "03_Issues/Issues_001.md",
     "01_Architecture/Main.canvas",
+    "03_Issues/Issues_001.md",
     "03_Issues/Issues_002.md",
+    "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",
     "01_Architecture/Component/Blog",
     "01_Architecture/Component/About",
     "01_Architecture/Component/Main/Footer.md",
@@ -254,7 +257,6 @@
     "Template/Images/Pasted image 20260520212657 1.png",
     "Template/Images/Pasted image 20260520212657.png",
     "Template/Images/Pasted image 20260520211945.png",
-    "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",
     "01_Architecture/Util/Store.md",
     "01_Architecture/Component/Main/DeskItems.md",
     "01_Architecture/Component/Main/WelcomeOverlay.md",

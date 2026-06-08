@@ -1,5 +1,8 @@
 ---
-import ScrollArrowIcon from "../../icons/ScrollArrowIcon.astro"
+import ScrollArrowIcon from "../../icons/ScrollArrowIcon.astro";
+import { ANIMATION_TIMES } from "../../../config";
+import '../../../styles/zIndex.css';
+const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
 ---
 <script is:inline>
     if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('introSeen') === 'true') {
@@ -18,7 +21,7 @@ import ScrollArrowIcon from "../../icons/ScrollArrowIcon.astro"
     <ScrollArrowIcon width="48"/> 
 </div>
 
-<style>
+<style define:vars={{headerShow}}>
     :global(html.hide-welcome) .welcome-overlay {
         display: none !important;
     }
@@ -30,7 +33,7 @@ import ScrollArrowIcon from "../../icons/ScrollArrowIcon.astro"
         justify-content: center;
         align-items: center;
         inset: 0; 
-        z-index: 350; 
+		z-index: var(--z-welcome);
         
         background: linear-gradient(
             to bottom, 
@@ -43,9 +46,9 @@ import ScrollArrowIcon from "../../icons/ScrollArrowIcon.astro"
         -webkit-backdrop-filter: blur(12px);
         color: white;
         
-        transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1), 
-                    opacity 1s ease-in-out,
-                    backdrop-filter 1s ease;
+        transition: transform var(--headerShow) cubic-bezier(0.7, 0, 0.3, 1), 
+                    opacity var(--headerShow) ease-in-out,
+                    backdrop-filter var(--headerShow) ease;
     }
     .welcome-overlay.dismissed {
         opacity: 0;

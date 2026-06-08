@@ -1,0 +1,34 @@
+
+:root {
+    
+    /* desk */
+    --z-desk-bg: 100;
+    --z-desk-main: 200;
+    
+    /* items */
+    --z-desk-items: 220;
+    --z-desk-items-top:223;
+    --z-desk-items-mid:222;
+    --z-desk-items-bottom:221; 
+    --z-tooltip: 230;
+    
+    /* parent */
+    --z-view-main: 250;
+
+    /* return btn */
+    --z-return-btn: 260;
+    
+    /* children overlay */
+    --z-view-overlay: 275;
+    
+    
+    /* Binder */
+    --z-view-children-binder: 300;
+    --z-view-children-page: 325;
+    
+    /* welcome overlay */
+    --z-welcome: 350;
+    
+    /* header, footer */
+    --z-header-footer: 500;
+}

@@ -2,10 +2,14 @@
 import { SITE_TITLE } from '../../../consts';
 import HeaderLink from '../.././HeaderLink.astro';
 import '../../../styles/global.css';
+import '../../../styles/zIndex.css';
 import YoutubeIcon from '../.././icons/YoutubeIcon.astro'
 import XIcon from '../.././icons/XIcon.astro';
 import GithubIcon from '../.././icons/GithubIcon.astro';
 import MenuIcon from '../.././icons/MenuIcon.astro'
+import { ANIMATION_TIMES } from '../../../config';
+const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
+const littleTime=`${ANIMATION_TIMES.NO_ZOOM_LITTLE_WAIT}ms`;
 ---
 
 <header class="custom-header">
@@ -49,7 +53,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
 </header>
 
 
-<style>
+<style define:vars={{headerShow,littleTime}}>
 /* Header */
 .custom-header{
     --header-dark-purple:rgba(48,10,60,0.9);
@@ -68,7 +72,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
     align-items:start;
     top:0;
     left:0;
-    z-index:500;
+    z-index: var(--z-view-overlay);
 
     box-sizing: border-box; 
     width: 100%;
@@ -132,7 +136,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
 
     transform: translate(-50%,0);
     pointer-events: auto;
-    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
+    transition: transform var(--headerShow) cubic-bezier(0.22, 1, 0.36, 1), opacity var(--headerShow) ease;
 }
 
 .header-nav a{
@@ -148,7 +152,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
     text-align: center;
     text-decoration: none;
 
-    transition:color 0.3s ease;
+    transition:color var(--littleTime) ease;
 }
 .header-nav a.active{
     background-image: var(--text-active);
@@ -178,7 +182,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
     content: '';
 
     transform: translateX(-50%);
-    transition: width 0.3s ease; 
+    transition: width var(--littleTime) ease; 
 }
 .header-nav a:hover{
     color:var(--text-hover);
@@ -239,7 +243,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
         transform: translateY(-150%);
         opacity: 0;
         pointer-events: none;
-        transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.8s ease;
+        transition: transform var(--headerShow) cubic-bezier(0.22, 1, 0.36, 1), opacity var(--headerShow) ease;
     }
     .mobile-menu-btn.is-visible{
         opacity: 1;
@@ -267,7 +271,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
 		background-color: var(--header-menu-mobile);
 		opacity:0;
 
-		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+		transition: all var(--littleTime) cubic-bezier(0.4, 0, 0.2, 1);
     }
     .header-menu-content.show {
         display: flex;
@@ -307,7 +311,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
         height: 0;
 
         transform: translateY(-50%);
-        transition: height 0.3s ease;
+        transition: height var(--littleTime) ease;
     }
 	.header-nav a:hover::before,
     .header-nav a.active::before {
@@ -329,9 +333,7 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
 </style>
 
 <script>
-    import { navigate } from "astro:transitions/client";
     import { isWelcomeDismissed ,currentView} from "../../../store";
-    import { ANIMATION_TIMES } from "../../../config";
     import {handleAnimatedLinkClick} from "../../../utils/navigation";
 
     document.addEventListener('astro:page-load',()=>
@@ -414,15 +416,15 @@ import MenuIcon from '../.././icons/MenuIcon.astro'
         const targetPath = viewToPath[view as keyof typeof viewToPath];
 
         navLinks.forEach(link => {
-        let href = link.getAttribute('href');
-        if(!href) return;
-        let normalizedHref = href === '/' ? '/' : href.replace(/\/$/, '');
+            let href = link.getAttribute('href');
+            if(!href) return;
+            let normalizedHref = href === '/' ? '/' : href.replace(/\/$/, '');
 
-        if (normalizedHref === targetPath) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-      });
+            if (normalizedHref === targetPath) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
     });
 </script>

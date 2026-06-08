@@ -1,46 +1,44 @@
 // src/utils/navigation.ts
-import { currentView,isAnimating, leaveHooks,clearLeaveHooks } from "../store";
-import { ANIMATION_TIMES } from "../config";
+import { currentView,isAnimating, leaveHooks,clearLeaveHooks 
+    ,layoutLeaveHooks,clearLayoutLeaveHooks
+} from "../store";
 import { navigate } from 'astro:transitions/client';
 
+/* Get View From Path */
+export interface RouteMeta{
+    view: string;
+    zoom: 'none' | 'paper' | 'computer';
+    showReturnBtn: boolean;
+    parent: 'none' | 'Home' | 'Devlog' | 'About' | 'Blog';
+}
+
+interface RouteDef extends RouteMeta {
+    pattern: RegExp; 
+}
+export const ROUTES: RouteDef[] = [
+    { pattern: /^\/$/, view: 'Home', zoom: 'none', showReturnBtn: false, parent: 'Home'},
+    { pattern: /^\/about(\/.*)?$/, view: 'About', zoom: 'paper', showReturnBtn: true, parent: 'About'},
+    { pattern: /^\/blog(\/.*)?$/, view: 'Blog', zoom: 'computer', showReturnBtn: true, parent: 'Blog'},
+    { pattern: /^\/devlog\/?$/, view: 'Devlog', zoom: 'none', showReturnBtn: true,parent: 'Devlog' },
+    { pattern: /^\/devlog\/[^\/]+\/?$/, view: 'DevlogBinder', zoom: 'none', showReturnBtn: true, parent: 'Devlog' },
+    { pattern: /^\/devlog\/[^\/]+\/.+$/, view: 'DevlogPaper', zoom: 'none', showReturnBtn: true, parent: 'Devlog' },
+];
+const DEFAULT_META: RouteMeta = { view: 'Home', zoom: 'none', showReturnBtn: false, parent:'none' };
 
 export function getViewFromPath(pathname: string): string | undefined {
-    const normalizedPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
+    const pathOnly = pathname.startsWith('http') ? new URL(pathname).pathname : pathname;
+    const normalizedPath = pathOnly === '/' ? '/' : pathOnly.replace(/\/$/, '');
     
-    if (normalizedPath === '/' || normalizedPath === '') return 'Home';
-    
-    if (normalizedPath === '/blog' || normalizedPath.startsWith('/blog/')) return 'Blog';
-    if (normalizedPath.startsWith('/devlog')) {
-        const parts = normalizedPath.split('/').filter(Boolean);
-        if (parts.length === 1) return 'Devlog';       
-        if (parts.length === 2) return 'DevlogBinder'; 
-        if (parts.length >= 3) return 'DevlogPaper';   
-    }
-    if (normalizedPath === '/about' || normalizedPath.startsWith('/about/')) return 'About';
-    
-    return undefined;
+    const route = ROUTES.find(r => r.pattern.test(normalizedPath));
+    return route ? route.view : undefined; 
 }
 
-function getWaitTime(current: string, target: string):number{
-    console.log(current+":"+target);
-     if ((current === 'Home' && target.startsWith('Devlog') ) || 
-     (current.startsWith('Devlog')  && target === 'Home')) {
-        return ANIMATION_TIMES.ZOOM_DEVLOG;
-    }
-    if (current.startsWith('Devlog') && target.startsWith('Devlog')) {
-        return 0; 
-    }
-    return target === 'Home' ? ANIMATION_TIMES.ZOOM_OUT : ANIMATION_TIMES.ZOOM_IN;
-}
-function executeTransition(href:string,targetView:string,waitTime:number){
-    window.scrollTo({top:0,behavior:'auto'});
-    currentView.set(targetView);
-    setTimeout(()=>{
-        navigate(href)
-    },waitTime);
+export function getViewMeta(viewName: string): RouteMeta {
+    const route = ROUTES.find(r => r.view === viewName);
+    return route || DEFAULT_META;
 }
 
-
+/*Control all navigate*/
 export async function navigateWithAnimation(href: string, targetView: string) {
     if(isAnimating.get())return;
 
@@ -50,14 +48,21 @@ export async function navigateWithAnimation(href: string, targetView: string) {
     isAnimating.set(true);
     document.body.style.pointerEvents='none';
 
+
     const hooks = leaveHooks.get();
     if (hooks.length > 0) {
         await Promise.all(hooks.map(hook => hook(targetView)));
         clearLeaveHooks(); 
     }
-
-    const waitTime=getWaitTime(current,targetView);
-    executeTransition(href,targetView,waitTime);
+    currentView.set(targetView);
+    
+    const layoutHooks = layoutLeaveHooks.get();
+    if (layoutHooks.length > 0) {
+        await Promise.all(layoutHooks.map(hook => hook(targetView)));
+        clearLayoutLeaveHooks();
+    }
+    window.scrollTo({top:0,behavior:'auto'});
+    navigate(href);
 }
 
 export function handleAnimatedLinkClick(e: Event) {
@@ -66,15 +71,25 @@ export function handleAnimatedLinkClick(e: Event) {
     if (!href) return;
 
     const targetView = getViewFromPath(href);
-
     if (!targetView) return;
 
     e.preventDefault();
     navigateWithAnimation(href, targetView);
 }
 
+export function syncViewWithUrl(){
+    if(typeof window === 'undefined') return;
+    const expectedView= getViewFromPath(window.location.pathname) || 'Home';
+    if(currentView.get() !== expectedView){
+        currentView.set(expectedView);
+    }
+}
+
+
 if(typeof document !=='undefined'){
     document.addEventListener('astro:page-load',()=>{
+        syncViewWithUrl();
+
         isAnimating.set(false);
         document.body.style.pointerEvents='auto';
     });

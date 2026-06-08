@@ -1,5 +1,8 @@
 ---
 import { getCollection } from "astro:content";
+import { ANIMATION_TIMES } from "../../../config";
+
+const devlogSlideIn=`${ANIMATION_TIMES.DEVLOG_SLIDEIN}ms`
 
 const devlogs = (await getCollection('devlog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -35,7 +38,7 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 </div>
 
 
-<style>
+<style define:vars={{devlogSlideIn}}>
     /*main */
     .bookshelf-ui {
         position: absolute;
@@ -52,7 +55,7 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 
         transform: translateX(100%);
         
-        transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        transition: transform var(--devlogSlideIn) cubic-bezier(0.22, 1, 0.36, 1);
     }
     .bookshelf-ui.slide-in {
         transform: translateX(0);
@@ -170,13 +173,32 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 
         //Leave
         addLeaveHook((targetView) => {
-            if (targetView === 'DevlogBinder' || targetView === 'Devlog' || targetView==='DevlogPaper') {
+            if (targetView.startsWith('Devlog')) {
                 return Promise.resolve();
             }
             
             return new Promise((resolve) => {
+                let isResolved=false;
+                
+                const handleTransitionEnd = (e :any) => {
+                    if (e.propertyName === 'transform' && e.target === bookshelf) {
+                        bookshelf.removeEventListener('transitionend', handleTransitionEnd);
+                        if (!isResolved) {
+                            isResolved = true;
+                            resolve();
+                        }
+                    }
+                };
+                bookshelf.addEventListener('transitionend', handleTransitionEnd);
                 bookshelf.classList.remove('slide-in');
-                setTimeout(resolve, ANIMATION_TIMES.ZOOM_DEVLOG || 800);
+
+                setTimeout(()=>{
+                    if(!isResolved){
+                        bookshelf.removeEventListener('transitionend', handleTransitionEnd);
+                        isResolved = true;
+                        resolve();
+                    }
+                }, ANIMATION_TIMES.DEVLOG_LEAVE +50);
             });
         });
 

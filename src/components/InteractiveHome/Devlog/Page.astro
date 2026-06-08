@@ -1,6 +1,9 @@
 ---
 import {render } from 'astro:content';
 import ChildrenOverlay from '../Main/ChildrenOverlay.astro';
+import '../../../styles/zIndex.css';
+import { ANIMATION_TIMES } from '../../../config';
+const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
 
 const {post,folderSlug}=Astro.props;
 const { Content } = await render(post);
@@ -26,7 +29,7 @@ const { Content } = await render(post);
 </div>
 
 
-<style>
+<style define:vars={{pageShowTime}}>
     /*Main*/
     .paper-ui {
         position: absolute;
@@ -34,7 +37,7 @@ const { Content } = await render(post);
         left: 50%;
 		overflow: hidden;
         display: flex;
-        z-index: 300;
+        z-index: var(--z-view-children-page);
         flex-direction: column;
         
         width: 80%;
@@ -46,7 +49,7 @@ const { Content } = await render(post);
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 0.1cqi rgba(222, 204, 230, 0.2);
         
         transform: translate(-50%, 20%) scale(0.95);
-        transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        transition: all var(--pageShowTime) cubic-bezier(0.22, 1, 0.36, 1);
     }
     .paper-ui.open {
         transform: translate(-50%, 0) scale(1);
@@ -64,7 +67,7 @@ const { Content } = await render(post);
         padding: 0cqi 0cqi 0cqi 0cqi;
         border-bottom: 3px solid #3c2a45;
         
-        transition: height 0.3s;
+        transition: height var(--pageShowTime);
     }
     .paper-header:hover{
     }
@@ -145,7 +148,8 @@ const { Content } = await render(post);
 <script>
     import { addLeaveHook } from '../../../store';
     import { navigateWithAnimation } from '../../../utils/navigation';
-    
+    import { ANIMATION_TIMES } from '../../../config';
+
     document.addEventListener('astro:page-load', () => {
         const paper = document.getElementById('paper-ui');
         const overlay = document.getElementById('paper-overlay');
@@ -176,7 +180,7 @@ const { Content } = await render(post);
                     overlay.style.display = 'none';
                     paper.style.display = 'none';
                     resolve();
-                }, 300); 
+                }, ANIMATION_TIMES.PAGE_SHOW); 
             });
         });
     });

@@ -15,3 +15,15 @@ export function addLeaveHook(hook: (targetView: string) => Promise<void>) {
 export function clearLeaveHooks() {
     leaveHooks.set([]);
 }
+
+
+
+export const layoutLeaveHooks = atom<Array<(targetView: string) => Promise<void>>>([]);
+
+export function addLayoutLeaveHook(hook: (targetView: string) => Promise<void>) {
+    layoutLeaveHooks.set([...layoutLeaveHooks.get(), hook]);
+}
+
+export function clearLayoutLeaveHooks() {
+    layoutLeaveHooks.set([]);
+}

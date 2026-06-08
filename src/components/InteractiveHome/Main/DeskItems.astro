@@ -1,4 +1,6 @@
-
+---
+import '../../../styles/zIndex.css';
+---
 
 <button class="desk-item bookshelf" data-target="Devlog" aria-label="Browse Devlogs">
     <span>Bookshelf</span>
@@ -35,7 +37,7 @@
     .bookshelf {
         top: 15%;        
         left: 5%;      
-        z-index: 220;     
+        z-index: var(--z-desk-items-bottom);     
 
         width: 25%;      
         height: 40%;     
@@ -50,7 +52,7 @@
     .computer {
         top: var(--computer-origin-y); 
         left: var(--computer-origin-x);
-        z-index: 221;
+        z-index: var(--z-desk-items-mid);
 
         width: 45%;
         height: 40%;
@@ -68,7 +70,7 @@
     .paper {
         bottom: calc(100% - var(--paper-origin-y));
         right:calc(100% - var(--paper-origin-x));
-        z-index: 222;
+        z-index: var(--z-desk-items-top);
 
         width: 15%;
         height: 25%;
@@ -89,7 +91,7 @@
         position:fixed;
         top:0;
         left:0;
-        z-index:230;
+        z-index:var(--z-tooltip);
         pointer-events: none;
 
         padding: 0.4rem 1rem;

@@ -1,6 +1,7 @@
 ---
 
 import BaseLayout from '../layouts/BaseLayout.astro';
+import '../styles/zIndex.css';
 ---
 
 <BaseLayout title="About" description="This is about page.">
@@ -12,7 +13,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <style>
     .about-content {
-        z-index: 300; 
+        z-index: var(--z-view-main); 
         position: absolute;
         bottom: 10%;
         right: 15%;

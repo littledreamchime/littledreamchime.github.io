@@ -14,6 +14,10 @@ current View -> target View
 ``` cs
 1. 获取 target view 字符
 2. 等待所有promise (store.ts) 完成 
-3. 获取需要等待的时间
-4. 经过等待时间后，进行跳转
+3. 经过等待时间后，进行跳转
+```
+handleAnimatedLinkClick：
+将href跳转拦截成走navigation
+```c
+            link.addEventListener('click', handleAnimatedLinkClick);
 ```
