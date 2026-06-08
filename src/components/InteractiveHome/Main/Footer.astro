@@ -1,6 +1,6 @@
 ---
-import '../styles/global.css';
-import { SITE_TITLE } from '../consts';
+import '../../../styles/global.css';
+import { SITE_TITLE } from '../../../consts';
 const today = new Date();
 import { getCollection } from "astro:content";
 const devlogs = (await getCollection('devlog')).sort(
@@ -147,7 +147,7 @@ const blogs=(await getCollection('blog')).sort(
 </style>
 
 <script>
-    import { handleAnimatedLinkClick } from "../utils/navigation";
+    import { handleAnimatedLinkClick } from "../../../utils/navigation";
 
     document.addEventListener('astro:page-load', () => {
         const footerLinks = document.querySelectorAll('.customer-footer a');

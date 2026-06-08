@@ -29,3 +29,5 @@
 - 书架的子界面overlay重复写了几次
 - 解决思路：抽离overlay组件到Component
 #Architecture
+
+解决顺序：7 -> 6 -> 8 -> 2 -> 3 -> 4 -> 5 -> 1

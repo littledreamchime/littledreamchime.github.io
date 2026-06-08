@@ -196,8 +196,8 @@ const { title, entries } = Astro.props;
 </style>
 
 <script>
-    import { addLeaveHook } from '../../store';
-    import { navigateWithAnimation } from '../../utils/navigation';
+    import { addLeaveHook } from '../../../store';
+    import { navigateWithAnimation } from '../../../utils/navigation';
     
     document.addEventListener('astro:page-load', () => {
         const binder = document.getElementById('binder-ui');

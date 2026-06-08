@@ -1,11 +1,10 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Bookshelf from '../../components/InteractiveHome/Bookshelf.astro';
+import Bookshelf from '../../components/InteractiveHome/Devlog/Bookshelf.astro';
 ---
 
  

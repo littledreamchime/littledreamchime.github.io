@@ -1,33 +1,33 @@
 {
 	"nodes":[
 		{"id":"30160bf517b24613","type":"group","x":2280,"y":-2000,"width":1240,"height":1890,"label":"Global"},
+		{"id":"9818d72a72ea11de","type":"group","x":-800,"y":-1760,"width":1100,"height":1820,"label":"Components"},
 		{"id":"82e4bc96cf4a54ae","type":"group","x":800,"y":-910,"width":1120,"height":1560,"label":"Page"},
-		{"id":"9818d72a72ea11de","type":"group","x":-680,"y":-1680,"width":980,"height":1740,"label":"Components"},
 		{"id":"7ad2df551e875f1d","type":"group","x":2300,"y":-930,"width":1200,"height":800,"label":"Utils"},
+		{"id":"4f3cacf240a71a81","type":"group","x":-740,"y":-1680,"width":540,"height":1335,"label":"Main"},
 		{"id":"bc1a61032cee00b9","type":"group","x":300,"y":-1680,"width":1220,"height":520,"label":"Layout"},
-		{"id":"4f3cacf240a71a81","type":"group","x":-634,"y":-1000,"width":486,"height":655,"label":"Main"},
 		{"id":"68b27caeb82748fa","type":"group","x":-120,"y":-520,"width":420,"height":580,"label":"Devlog"},
+		{"id":"4ca7832d17c96596","type":"file","file":"01_Architecture/Z-index.md","x":2300,"y":-1934,"width":880,"height":909},
+		{"id":"4ada21c8497315c7","type":"file","file":"01_Architecture/Component/Devlog/BookPage.md","x":-100,"y":-133,"width":386,"height":185},
 		{"id":"1d19fe5de5eb14bd","type":"file","file":"01_Architecture/Layout/BaseLayout.md","x":1080,"y":-1660,"width":400,"height":480},
-		{"id":"4ca7832d17c96596","type":"file","file":"01_Architecture/Z-Index.md","x":2300,"y":-1934,"width":880,"height":909},
 		{"id":"49bbcd1a31241ccd","type":"file","file":"01_Architecture/Util/Navigation.md","x":2380,"y":-872,"width":380,"height":614},
 		{"id":"c5328e72a32e1003","type":"file","file":"01_Architecture/Util/Config.md","x":2940,"y":-872,"width":420,"height":162},
 		{"id":"0cd90e0847af318f","type":"file","file":"01_Architecture/Util/Assets.md","x":2940,"y":-650,"width":440,"height":140},
 		{"id":"fc6cd1dec4d07a18","type":"file","file":"01_Architecture/Util/Store.md","x":2940,"y":-460,"width":440,"height":260},
-		{"id":"6a648ab9b491555a","type":"file","file":"01_Architecture/Component/Header.md","x":-634,"y":-1630,"width":480,"height":300},
-		{"id":"237ac2ccd3b1cf58","type":"file","file":"01_Architecture/Component/Footer.md","x":-634,"y":-1260,"width":480,"height":200},
-		{"id":"99d4e5ca8895ef84","type":"file","file":"01_Architecture/Component/Main/DeskItems.md","x":-600,"y":-957,"width":412,"height":167},
-		{"id":"1db96150e9ca6480","type":"file","file":"01_Architecture/Component/Main/WelcomeOverlay.md","x":-600,"y":-725,"width":412,"height":165},
-		{"id":"ace2ea63c74e5c4a","type":"file","file":"ChildrenOverlay.md","x":-535,"y":-520,"width":282,"height":120},
-		{"id":"7f99b18e3cd8d6d8","type":"file","file":"01_Architecture/Component/Icons.md","x":-677,"y":-80,"width":284,"height":140},
+		{"id":"ea2f86e5369e1ebb","type":"file","file":"01_Architecture/Component/Page/Home.md","x":820,"y":-845,"width":445,"height":287},
+		{"id":"38b24a28772cbe3e","type":"file","file":"01_Architecture/Component/Page/About.md","x":1408,"y":-845,"width":452,"height":287},
+		{"id":"507d76b11ec763f9","type":"file","file":"01_Architecture/Layout/DeskLayout.md","x":381,"y":-1541,"width":439,"height":281},
 		{"id":"da922894ed774e3b","type":"file","file":"01_Architecture/Component/Devlog/BookShelf.md","x":-100,"y":-490,"width":386,"height":145},
 		{"id":"0511ee716645df94","type":"file","file":"01_Architecture/Component/Devlog/Binder.md","x":-100,"y":-300,"width":386,"height":130},
-		{"id":"4ada21c8497315c7","type":"file","file":"01_Architecture/Component/Devlog/BookPage.md","x":-100,"y":-133,"width":386,"height":185},
-		{"id":"ea2f86e5369e1ebb","type":"file","file":"01_Architecture/Component/Page/Home.md","x":820,"y":-845,"width":445,"height":287},
 		{"id":"811490d4030027a6","type":"file","file":"01_Architecture/Component/Page/Devlog/Devlog-Index.md","x":820,"y":-423,"width":445,"height":280},
 		{"id":"f433f10410ca75d3","type":"file","file":"01_Architecture/Component/Page/Devlog/Devlog-Folder.md","x":820,"y":-90,"width":445,"height":280},
 		{"id":"d7c2f5b9fe72755d","type":"file","file":"01_Architecture/Component/Page/Devlog/Devlog-slug.md","x":820,"y":250,"width":445,"height":340},
-		{"id":"38b24a28772cbe3e","type":"file","file":"01_Architecture/Component/Page/About.md","x":1408,"y":-845,"width":452,"height":287},
-		{"id":"507d76b11ec763f9","type":"file","file":"01_Architecture/Layout/DeskLayout.md","x":381,"y":-1541,"width":439,"height":281}
+		{"id":"1db96150e9ca6480","type":"file","file":"01_Architecture/Component/Main/WelcomeOverlay.md","x":-680,"y":-725,"width":412,"height":165},
+		{"id":"ace2ea63c74e5c4a","type":"file","file":"ChildrenOverlay.md","x":-615,"y":-520,"width":282,"height":120},
+		{"id":"237ac2ccd3b1cf58","type":"file","file":"01_Architecture/Component/Footer.md","x":-714,"y":-1260,"width":480,"height":200},
+		{"id":"99d4e5ca8895ef84","type":"file","file":"01_Architecture/Component/Main/DeskItems.md","x":-680,"y":-957,"width":412,"height":167},
+		{"id":"6a648ab9b491555a","type":"file","file":"01_Architecture/Component/Header.md","x":-714,"y":-1640,"width":480,"height":310},
+		{"id":"7f99b18e3cd8d6d8","type":"file","file":"01_Architecture/Component/Icons.md","x":-800,"y":-80,"width":284,"height":140}
 	],
 	"edges":[
 		{"id":"151cfea9c40040cf","fromNode":"1d19fe5de5eb14bd","fromSide":"left","toNode":"507d76b11ec763f9","toSide":"right"},
@@ -51,6 +51,7 @@
 		{"id":"c2bc7d104f46ded0","fromNode":"d7c2f5b9fe72755d","fromSide":"left","toNode":"da922894ed774e3b","toSide":"right"},
 		{"id":"fa3e12e7d32fe408","fromNode":"d7c2f5b9fe72755d","fromSide":"left","toNode":"0511ee716645df94","toSide":"right"},
 		{"id":"555b9278714a0e77","fromNode":"0511ee716645df94","fromSide":"left","toNode":"ace2ea63c74e5c4a","toSide":"right"},
-		{"id":"81fcf79a2ee58262","fromNode":"4ada21c8497315c7","fromSide":"left","toNode":"ace2ea63c74e5c4a","toSide":"bottom"}
+		{"id":"81fcf79a2ee58262","fromNode":"4ada21c8497315c7","fromSide":"left","toNode":"ace2ea63c74e5c4a","toSide":"bottom"},
+		{"id":"ccfd0545695db087","fromNode":"1d19fe5de5eb14bd","fromSide":"left","toNode":"1db96150e9ca6480","toSide":"right"}
 	]
 }

@@ -2,8 +2,8 @@
 // src/pages/devlog/[...slug].astro
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Bookshelf from '../../components/InteractiveHome/Bookshelf.astro';
-import Binder from '../../components/InteractiveHome/Binder.astro';
+import Bookshelf from '../../components/InteractiveHome/Devlog/Bookshelf.astro';
+import Binder from '../../components/InteractiveHome/Devlog/Binder.astro';
 
 export async function getStaticPaths() {
     const allDevlogs = await getCollection('devlog');
