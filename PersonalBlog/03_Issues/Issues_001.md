@@ -19,10 +19,10 @@
 - DevlogBinder界面在手机端太小；DevlogPage界面的字体和界面太过诡异
 - 解决思路：为手机版适配DevlogBinder，让DevlogBinder超出父物体；在电脑端，让DevlogPage右边显示Binder，DevlogPage适当边窄；在手机端，让DevlogPage的标题在下滑后隐藏，在上划后出现。
 #Layout 
-## 问题6： 书架的Page界面时直接写在..slug界面中的
+## 问题6： 书架的Page界面是直接写在..slug界面中的
 - 解决思路：抽离BookPage组件到Component
 #Architecture
-## 问题7：Components结构混乱
+## ==问题7：Components结构混乱==
 - 解决思路：分为Devlog、Main、Blog、About模块
 #Architecture 
 ## 问题8：书架子界面overlay分离问题

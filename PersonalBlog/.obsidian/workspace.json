@@ -4,20 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "24b8e540da24f289",
+        "id": "9f9d9822921dab6e",
         "type": "tabs",
         "children": [
           {
-            "id": "a07bd7d82c3da13f",
+            "id": "60493510e0a8f922",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": -23.84591710587621,
-                  "y": -622.9555074131097,
-                  "zoom": -0.7676170939871345
+                  "x": 504.21284814280216,
+                  "y": -677.6468623923914,
+                  "zoom": -1.3333333333333333
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -27,24 +27,53 @@
         ]
       },
       {
-        "id": "5cecbaddeb4c5aa4",
-        "type": "tabs",
+        "id": "9ed0cc2af47a3428",
+        "type": "split",
         "children": [
           {
-            "id": "d5c4650b6d4ff056",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03_Issues/Issues_001.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Issues_001"
-            }
+            "id": "e72be1247bd5383b",
+            "type": "tabs",
+            "dimension": 63.212795549374135,
+            "children": [
+              {
+                "id": "d5c4650b6d4ff056",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "03_Issues/Issues_001.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Issues_001"
+                }
+              }
+            ]
+          },
+          {
+            "id": "aab9d241d0ee3a7c",
+            "type": "tabs",
+            "dimension": 36.78720445062587,
+            "children": [
+              {
+                "id": "e1591ba38fc64178",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "03_Issues/Issues_002.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Issues_002"
+                }
+              }
+            ]
           }
-        ]
+        ],
+        "direction": "horizontal"
       }
     ],
     "direction": "vertical"
@@ -117,7 +146,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "03_Issues/Issues_001.md",
+                "file": "01_Architecture/Main.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -127,7 +156,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Issues_001 的反向链接列表"
+              "title": "Main 的反向链接列表"
             }
           },
           {
@@ -188,11 +217,12 @@
               "title": "Main 的大纲"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 200,
     "collapsed": true
   },
   "left-ribbon": {
@@ -206,10 +236,16 @@
       "bases:新建数据库": false
     }
   },
-  "active": "d5c4650b6d4ff056",
+  "active": "60493510e0a8f922",
   "lastOpenFiles": [
-    "01_Architecture/Main.canvas",
+    "03_Issues/Issues_002.md",
     "03_Issues/Issues_001.md",
+    "01_Architecture/Main.canvas",
+    "01_Architecture/Component/Blog",
+    "01_Architecture/Component/About",
+    "01_Architecture/Component/Main/Footer.md",
+    "01_Architecture/Component/未命名.md",
+    "01_Architecture/Component/About/AboutContent.md",
     "01_Architecture/Z-index.md",
     "Template/Images/Pasted image 20260605160026.png",
     "Template/Images/Pasted image 20260605155912.png",
@@ -222,14 +258,14 @@
     "01_Architecture/Util/Store.md",
     "01_Architecture/Component/Main/DeskItems.md",
     "01_Architecture/Component/Main/WelcomeOverlay.md",
-    "ChildrenOverlay.md",
-    "01_Architecture/Component/Page/Devlog/Devlog-Folder.md",
-    "01_Architecture/Component/Page/Devlog/Devlog-slug.md",
-    "01_Architecture/Component/Page/Devlog",
-    "01_Architecture/Component/Page/Devlog/Devlog-Index.md",
-    "01_Architecture/Component/Page/About.md",
-    "01_Architecture/Component/Page/Home.md",
-    "01_Architecture/Component/Page",
+    "01_Architecture/Component/Main/ChildrenOverlay.md",
+    "01_Architecture/Page/Devlog/Devlog-Folder.md",
+    "01_Architecture/Page/Devlog/Devlog-slug.md",
+    "01_Architecture/Page/Devlog",
+    "01_Architecture/Page/Devlog/Devlog-Index.md",
+    "01_Architecture/Page/About.md",
+    "01_Architecture/Page/Home.md",
+    "01_Architecture/Page",
     "01_Architecture/Component/Main",
     "01_Architecture/Component/Devlog/BookPage.md",
     "01_Architecture/Component/Devlog",
@@ -237,23 +273,17 @@
     "01_Architecture/Component/Devlog/BookShelf.md",
     "01_Architecture/Util/Navigation.md",
     "01_Architecture/Component/Devlog/Binder.md",
-    "01_Architecture/Component/Header.md",
+    "01_Architecture/Component/Main/Header.md",
     "01_Architecture/Component/Icons.md",
     "01_Architecture/Layout/BaseLayout.md",
     "01_Architecture/Util/Config.md",
-    "01_Architecture/Util/Assets.md",
     "01_Architecture/Util",
     "01_Architecture/Layout",
-    "01_Architecture/Component/Footer.md",
     "01_Architecture/Component",
-    "01_Architecture/Layout/DeskLayout.md",
     "Template/Images/Diagram 2.svg.xml",
     "Template/Images/Diagram 2.svg",
-    "Template/Images/Diagram 1.svg.xml",
     "Template/Images/Diagram 1.svg",
     "Template/Images/Diagram.svg",
-    "01_Architecture.ex",
-    "Main.canvas",
-    "00_README.md"
+    "Main.canvas"
   ]
 }
