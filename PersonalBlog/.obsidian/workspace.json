@@ -13,33 +13,15 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01_Architecture/Utils/Navigation.md",
+                "file": "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Navigation"
-            }
-          },
-          {
-            "id": "4788304e702d0bc0",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "01_Architecture/Main.canvas",
-                "viewState": {
-                  "x": -493.3728201691327,
-                  "y": -1644.5374114534195,
-                  "zoom": -0.12590219760438626
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "Main"
+              "title": "DevLog_001：整理文档，找出潜在逻辑问题"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,22 +180,41 @@
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
-      "bases:新建数据库": false,
-      "excalidraw-cn:Create New Excalidraw File": false
+      "bases:新建数据库": false
     }
   },
-  "active": "4788304e702d0bc0",
+  "active": "a07bd7d82c3da13f",
   "lastOpenFiles": [
-    "01_Architecture/Utils/Assets.md",
-    "01_Architecture/Utils/Navigation.md",
-    "01_Architecture/Utils",
+    "03_Issues/Issues_001.md",
+    "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",
     "01_Architecture/Main.canvas",
+    "01_Architecture/Util/Store.md",
+    "01_Architecture/Component/Main/DeskItems.md",
+    "01_Architecture/Component/Main/WelcomeOverlay.md",
+    "ChildrenOverlay.md",
+    "01_Architecture/Component/Page/Devlog/Devlog-Folder.md",
+    "01_Architecture/Component/Page/Devlog/Devlog-slug.md",
+    "01_Architecture/Component/Page/Devlog",
+    "01_Architecture/Component/Page/Devlog/Devlog-Index.md",
+    "01_Architecture/Component/Page/About.md",
+    "01_Architecture/Component/Page/Home.md",
+    "01_Architecture/Component/Page",
+    "01_Architecture/Component/Main",
+    "01_Architecture/Component/Devlog/BookPage.md",
+    "01_Architecture/Component/Devlog",
+    "01_Architecture/Z-Index.md",
+    "01_Architecture/Component/Devlog/BookShelf.md",
+    "01_Architecture/Util/Navigation.md",
+    "01_Architecture/Component/Devlog/Binder.md",
+    "01_Architecture/Component/Header.md",
+    "01_Architecture/Component/Icons.md",
     "01_Architecture/Layout/BaseLayout.md",
+    "01_Architecture/Util/Config.md",
+    "01_Architecture/Util/Assets.md",
+    "01_Architecture/Util",
     "01_Architecture/Layout",
     "01_Architecture/Component/Footer.md",
-    "01_Architecture/Component/Header.md",
     "01_Architecture/Component",
-    "01_Architecture/Z-Index.md",
     "01_Architecture/Layout/DeskLayout.md",
     "Template/Images/Diagram 2.svg.xml",
     "Template/Images/Diagram 2.svg",
@@ -226,16 +227,10 @@
     "Template/Images/Pasted image 20260605155912.png",
     "01_Architecture/Untitled Diagram.svg",
     "Untitled Diagram.svg",
-    "excalidraw 26-06-05 03.42.17.ex",
     "01_Architecture/Z-index.md",
-    "Template/新建文件夹",
-    "excalidraw 26-06-05 03.04.25.ex",
-    "excalidraw 26-06-05 03.00.58.ex",
     "00_README.md",
-    "Progress.md",
     "Template/Images/Pasted image 20260520213744.png",
     "Template/Images/Pasted image 20260520213703.png",
-    "Template/Images/Pasted image 20260520212657 1.png",
-    "欢迎.md"
+    "Template/Images/Pasted image 20260520212657 1.png"
   ]
 }

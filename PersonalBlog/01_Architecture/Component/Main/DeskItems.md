@@ -1,0 +1,3 @@
+- 分为：电脑、书架、纸张
+- 点击后跳转到Blog、Devlog、About界面
+- 悬浮时有Tooltip说明（Tooltip艺术字体）
