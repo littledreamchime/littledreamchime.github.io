@@ -15,9 +15,9 @@
               "state": {
                 "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": 504.21284814280216,
-                  "y": -677.6468623923914,
-                  "zoom": -1.3333333333333333
+                  "x": 2433.2715329565895,
+                  "y": -1242.7270492892842,
+                  "zoom": 1.1102230246251565e-16
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -238,9 +238,9 @@
   },
   "active": "60493510e0a8f922",
   "lastOpenFiles": [
-    "03_Issues/Issues_002.md",
     "03_Issues/Issues_001.md",
     "01_Architecture/Main.canvas",
+    "03_Issues/Issues_002.md",
     "01_Architecture/Component/Blog",
     "01_Architecture/Component/About",
     "01_Architecture/Component/Main/Footer.md",
