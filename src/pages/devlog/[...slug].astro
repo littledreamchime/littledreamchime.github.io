@@ -1,5 +1,4 @@
 ---
-// src/pages/devlog/[...slug].astro
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Bookshelf from '../../components/InteractiveHome/Devlog/Bookshelf.astro';
@@ -43,7 +42,7 @@ const folderSlug = post.id.split('/')[0];
 
 <BaseLayout title={post.data.title} description="Devlog Folder" transition:animate="none">
 	<Bookshelf/>
-    <Binder slot="overlay" title={folderTitle} entries={entries}/>
+    <Binder slot="overlay" title={folderTitle} entries={entries} folderSlug={folderSlug}/>
     <Page slot="overlay" post={post} folderSlug={folderSlug}></Page>
 </BaseLayout>
 

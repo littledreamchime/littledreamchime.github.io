@@ -15,3 +15,6 @@
 - 现在的DeskLayout里的按钮虽然能用，但还是差点意思
 - 解决思路：改成可以折叠的渐变返回按钮
 #Layout
+## 问题5：WelcomeOverlay站在了Header头上
+解决思路：可能是层级问题
+#Layout 

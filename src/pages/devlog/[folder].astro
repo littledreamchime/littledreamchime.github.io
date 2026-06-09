@@ -1,5 +1,4 @@
 ---
-// src/pages/devlog/[folder].astro
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Binder from '../../components/InteractiveHome/Devlog/Binder.astro';
@@ -21,16 +20,18 @@ export async function getStaticPaths() {
             params: { folder: folderSlug }, // URL
             props: { 
                 folderTitle: config.data.title,
-                entries: entries
+                entries: entries,
+                folderSlug: folderSlug
             }
         };
     });
 }
 
-const { folderTitle, entries } = Astro.props;
+const { folderTitle, entries, folderSlug } = Astro.props;
+
 ---
 
 <BaseLayout title="Devlog" description="This is my Devlog page.">
 	<Bookshelf />
-    <Binder slot="overlay" title={folderTitle} entries={entries}  />
+    <Binder slot="overlay" title={folderTitle} entries={entries} folderSlug={folderSlug}  />
 </BaseLayout>

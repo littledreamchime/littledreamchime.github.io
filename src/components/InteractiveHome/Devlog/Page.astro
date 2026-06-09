@@ -10,9 +10,9 @@ const { Content } = await render(post);
 ---
 
 <div id="paper-ui" class="paper-ui" transition:animate="none">
-	<div class="paper-header">
+	<div id="paper-header" class="paper-header">
 		<button id="paper-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>
-			← Back
+			←
 		</button>
 		<div class="meta">
 			<h1>{post.data.title}</h1>
@@ -20,7 +20,7 @@ const { Content } = await render(post);
 		</div>
 	</div>
 
-	<div class="paper-content">
+	<div id="paper-content" class="paper-content">
 		<Content />
 	</div>
 </div>
@@ -30,20 +30,21 @@ const { Content } = await render(post);
     /*Main*/
     .paper-ui {
         position: absolute;
-        top: 6rem;
+        top: 6.5rem;
         left: 50%;
 		overflow: hidden;
         display: flex;
         z-index: var(--z-view-children-page);
         flex-direction: column;
         
-        width: 80%;
-        height: 80%;
+        width: 90%;
+        max-width: 900px;
+        height: calc(95% - 6.5rem);
         
         opacity: 0;
         background-color: #211525;
-        border-radius: 4px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 0.1cqi rgba(222, 204, 230, 0.2);
+        border-radius: 0.5rem;
+        box-shadow: 0 1.5rem 3rem -0.75rem rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(222, 204, 230, 0.1);
         
         transform: translate(-50%, 20%) scale(0.95);
         transition: all var(--pageShowTime) cubic-bezier(0.22, 1, 0.36, 1);
@@ -59,67 +60,70 @@ const { Content } = await render(post);
         flex: 0 0 auto;
         flex-direction: column;
         align-items: flex-start;
-        container-type: inline-size; 
 
-        padding: 0cqi 0cqi 0cqi 0cqi;
+        padding: 1.5rem clamp(1.5rem, 5vw, 4rem) 0.5rem;
         border-bottom: 3px solid #3c2a45;
         
-        transition: height var(--pageShowTime);
+        max-height: 500px;
+        
+        opacity: 1;
+        transition: all var(--pageShowTime) cubic-bezier(0.4, 0, 0.2, 1);
     }
     .paper-header:hover{
     }
 
     .back-btn {
-        margin-left: 1.5cqi;
-        margin-top: 1cqi;
-        display: inline-block;
-        padding: 0.675cqi 1.25cqi;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+        margin-bottom: 1rem;
 
         border: none;
-        border-radius: 0.75cqi;
+        border-radius: 0.5rem;
 
         background:  #592d6d; 
         color: #c7c7c7; 
         font-weight: bold;
-        margin-bottom: 1cqi;
-        font-size: 0.865cqi;
+        font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
 
         cursor: pointer;
         transition: background 0.2s,transform  0.2s;
     }
     .back-btn:hover { 
         background: #602b6f;
-        transform: scale(115%);
+        transform: scale(1.05);
      }
     .meta {
         display: flex;
         flex-direction: column;
         width: 100%;
+        gap: 0.5rem;
     }
     .meta h1 {
-        margin-left: 4cqi;   
-        margin-top: 0.5cqi;
+        margin:0;
         
-        font-size: 2.5cqi;
+        font-size: clamp(1.5rem, 4vw + 1rem, 2.5rem);
         color: #f3e8ff;
         font-family: serif; 
+        line-height: 1.3;
     }
     .meta time {
-        margin-left:4cqi;   
+        margin: 0;
 
         color: #8b7a9f;
-        font-size: 1.125cqi;
+        font-size: 0.875rem;
     }
 
     /*Content*/
     .paper-content {
-        padding: 2rem 4rem 4rem 4rem;
+        padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
         overflow-y: auto;
         flex: 1;
         color: #c8bccc;
         font-family: sans-serif;
         line-height: 1.8;
-        font-size: 1.1rem;
+        font-size: 1rem;
         
         scrollbar-width: none;
         -ms-overflow-style: none;
@@ -138,6 +142,40 @@ const { Content } = await render(post);
     
     .paper-ui {
         width: 100%;
+        height: calc(100% - 6.5rem);
+        
+    }
+    .paper-content {
+        font-size: 0.75rem; 
+    }
+    
+    .paper-header.header-hidden{
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border-bottom-width: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+}
+
+
+@media (min-width: 769px) {
+    .paper-ui {
+        left: 37.5%;
+        width: 60%;
+        max-width: 100000px;
+        height: calc(95% - 6.5rem);
+        
+        transform: translate(0, 20%) scale(0.95);
+    }
+    .paper-ui.open {
+        transform: translate(0, 0) scale(1);
+    }
+    
+    .paper-ui .back-btn {
+        display: none;
     }
 }
 </style>
@@ -150,6 +188,8 @@ const { Content } = await render(post);
     document.addEventListener('astro:page-load', () => {
         const paper = document.getElementById('paper-ui');
         const backBtn = document.getElementById('paper-back-btn');
+        const content = document.getElementById('paper-content');
+        const header = document.getElementById('paper-header');
         if(!paper) return;
 
         requestAnimationFrame(() => {
@@ -157,6 +197,38 @@ const { Content } = await render(post);
                 if (!paper.classList.contains('open')) paper.classList.add('open');
             });
         });
+
+        if (content && header) {
+            let lastScrollY = content.scrollTop;
+            let ticking = false; 
+
+            content.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const currentScrollY = content.scrollTop;
+                        const maxScroll = content.scrollHeight - content.clientHeight;
+
+                        if (currentScrollY <= 0 || currentScrollY >= maxScroll - 10) {
+                            lastScrollY = currentScrollY;
+                            ticking = false;
+                            return; 
+                        }
+
+                        if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                            header.classList.add('header-hidden');
+                        } 
+                        else if (currentScrollY < lastScrollY) {
+                            header.classList.remove('header-hidden');
+                        }
+                        
+                        lastScrollY = currentScrollY;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        }
+
 
         const goBack = () => {
             const targetUrl = backBtn?.getAttribute('data-target') || '/devlog';

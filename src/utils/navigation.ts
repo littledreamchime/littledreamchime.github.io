@@ -41,10 +41,11 @@ export function getViewMeta(viewName: string): RouteMeta {
 
 /*Control all navigate*/
 export async function navigateWithAnimation(href: string, targetView: string) {
-    if(isAnimating.get())return;
+    const currentPath = window.location.pathname.replace(/\/$/, '');
+    const targetPath = new URL(href, window.location.origin).pathname.replace(/\/$/, '');
+    if (currentPath === targetPath) return;
 
-    const current = currentView.get();
-    if(current === targetView) return;
+    if(isAnimating.get())return;
 
     isAnimating.set(true);
     document.body.style.pointerEvents='none';

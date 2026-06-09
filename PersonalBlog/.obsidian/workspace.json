@@ -16,8 +16,8 @@
               "state": {
                 "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": 358.8874659104944,
-                  "y": -458.2630967313639,
+                  "x": 478.0560017404342,
+                  "y": -525.5648009614307,
                   "zoom": -0.9999999999999998
                 }
               },
@@ -238,11 +238,11 @@
       "bases:新建数据库": false
     }
   },
-  "active": "d5c4650b6d4ff056",
+  "active": "e1591ba38fc64178",
   "lastOpenFiles": [
     "01_Architecture/Main.canvas",
-    "03_Issues/Issues_001.md",
     "03_Issues/Issues_002.md",
+    "03_Issues/Issues_001.md",
     "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",
     "01_Architecture/Component/Blog",
     "01_Architecture/Component/About",

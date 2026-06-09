@@ -4,7 +4,7 @@ import '../../../styles/zIndex.css';
 import { ANIMATION_TIMES } from "../../../config";
 const binderShowTime=`${ANIMATION_TIMES.BINDER_SHOW}ms`;
 // src/components/Binder.astro
-const { title, entries } = Astro.props;
+const { title, entries,folderSlug } = Astro.props;
 ---
 
 <ChildrenOverlay id="binder-overlay"  />
@@ -12,7 +12,7 @@ const { title, entries } = Astro.props;
 <div id="binder-ui" class="binder-ui"  transition:persist="Binder" >
     <!--Header -->
     <div class="binder-header">
-        <button id="binder-back-btn" class="back-btn">← Back</button>
+        <button id="binder-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>←</button>
         <h2>📂 {title}</h2>
     </div>
     
@@ -37,19 +37,19 @@ const { title, entries } = Astro.props;
     /*Binder*/
     .binder-ui {
         position: absolute;
-        top: 6rem;
+        top: 6.5rem;
         left: 10%;
         display: flex;
         flex-direction: column;
         z-index: var(--z-view-children-binder);
 
         width: 80%;
-        height: 80%;
+        height: calc(95% - 6.5rem);
 
-        border-radius: 1cqi;
-        box-shadow: 0 2cqi 5cqi rgba(65, 27, 74, 0.768);
-        border-left: 1.5cqi solid #8c439e;
-        padding: 3cqi;
+        border-radius: clamp(0.5rem, 1cqi, 1rem);
+        box-shadow: 0 1rem 2rem rgba(65, 27, 74, 0.768);
+        border-left: clamp(4px, 1.5cqi, 8px) solid #8c439e;
+        padding: clamp(1rem, 3vw, 2rem);
 
         background-color: #120E1A;
         opacity: 0;
@@ -68,45 +68,50 @@ const { title, entries } = Astro.props;
         flex-direction: column;
 
         min-height: 0; 
-        border-radius: 1cqi;
+        border-radius: 1rem;
 
         background: #241627;
     }
     /*Header*/
     .binder-header {
+        position: relative;
         display: flex;
         justify-content: space-between;
-        border-bottom: 2px dashed #452852;
-        padding-bottom: 1cqi;
-        margin-bottom: 1cqi; 
+        align-items: center;
 
+        border-bottom: 2px dashed #452852;
+        padding-bottom: 0.75rem;
+        margin-bottom: 0.75rem; 
     }
     .binder-header h2 {
         margin: 0;
         color: #8f8f8f;
-        font-size: 3cqi;
+        font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+        
+        transition: all var(--binderShowTime) ease;
     }
     /*Back button*/
     .back-btn { 
-        display: inline-block;
-        margin-bottom: 2cqi;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
         border: none; 
-        border-radius: 0.5cqi; 
-        padding: 0.75cqi 1.5cqi; 
+        border-radius: 0.5rem; 
+        padding: 0.5rem 1rem; 
 
         background:  #592d6d; 
         color: #c7c7c7; 
 
         font-weight: bold; 
-        font-size: 1cqi;
+        font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
 
         cursor: pointer; 
         transition: background 0.2s,transform  0.2s;
     }
     .back-btn:hover {
         background: #602b6f;
-        transform: scale(125%);
+        transform: scale(1.05);
     }
     /*List*/
     .entry-list { 
@@ -116,7 +121,7 @@ const { title, entries } = Astro.props;
         overflow-y: auto; 
         flex: 1; 
 
-        border-radius: 1cqi;
+        border-radius: 0.5rem;
 
         background: #241627;
 
@@ -132,7 +137,7 @@ const { title, entries } = Astro.props;
         justify-content: space-between; 
         align-items: center; 
 
-        padding: 1.5cqi; 
+        padding: 1rem 1.25rem; 
         border-bottom: 1px solid #3a283c; 
         background: #241627;
 
@@ -141,41 +146,95 @@ const { title, entries } = Astro.props;
 
         transition: background 0.2s, padding-left 0.2s;
     }
+    .entry-item.active {
+        padding-left: 1.75rem; 
+        background: #341f38; 
+        color: #d979f9;
+        border-left: 3px solid #d979f9;
+    }
     .entry-item:hover {
-        padding-left: 3cqi; 
+        padding-left: 1.75rem; 
 
         background: #341f38; 
         color: #bf60ea;
     }
     .entry-title {
         font-weight: bold;
-        font-size: 1.5cqi; 
+        font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem); 
     }
     .entry-date { 
-        font-size: 1.2cqi; 
+        font-size: 0.875rem; 
         color:  #8f8f8f; 
 
         transition: font-size 0.3s, color 0.3s;
     }
+    .entry-item.active .entry-date {
+        font-size: 1rem;
+        color: #d979f9;
+    }
     .entry-item:hover .entry-date{
-        font-size:1.5cqi;
+        font-size: 1rem;
         color: rgb(137, 59, 166);
     }
     
     /*Empty*/
     .empty-text{
-        margin: 1px;    
-        padding: 10px 20px;
-
+        text-align: center;
+        padding: 2rem 1rem;
+        
         color:#6e6e6e
+
+        font-size: 1rem;
     }
 
 @media (max-width: 768px) {
+    .binder-ui {
+        width: 95%;
+        left: 2.5%;
+    }
 }
+
+@media (min-width:1080px){
+    .binder-header h2{
+        position: absolute;
+        left: 50%; 
+        transform: translateX(-50%); 
+        color:#ffffff;
+    }
+    .back-btn { 
+        transform: translateY(-50%);
+    }
+}
+/* minimized*/
+.minimized{}
+
+@media(min-width:768px){
+    .binder-ui.minimized {
+        left: 5%;
+        padding: 1rem;
+
+        width: 30%; 
+        height: calc(60% - 6.5rem);
+    }
+    .binder-ui.minimized .binder-header h2 {
+        position: static;
+        transform: none;
+        font-size: 1.2rem;
+        color: #8f8f8f;
+    }
+    .binder-ui.minimized .back-btn { 
+        transform: none; 
+    }
+    .back-btn:hover {
+        background: #602b6f;
+        transform:translateY(-50%) scale(1.05) ;
+    }
+}
+
 </style>
 
 <script>
-    import { addLeaveHook } from '../../../store';
+    import { addLeaveHook, currentView } from '../../../store';
     import { navigateWithAnimation } from '../../../utils/navigation';
     import { ANIMATION_TIMES } from '../../../config';
     
@@ -183,6 +242,8 @@ const { title, entries } = Astro.props;
         const binder = document.getElementById('binder-ui');
         const overlay = document.getElementById('binder-overlay');
         const backBtn = document.getElementById('binder-back-btn');
+        const currentPath = decodeURIComponent(window.location.pathname);
+        const currentPostName = currentPath.replace(/\/$/, '').split('/').pop();
         if(!binder || !overlay) return;
 
         requestAnimationFrame(() => {
@@ -190,9 +251,24 @@ const { title, entries } = Astro.props;
             if (!binder.classList.contains('open')) binder.classList.add('open');
             if (!overlay.classList.contains('show')) overlay.classList.add('show');
             });
-        });
 
-        const goBack = () => navigateWithAnimation('/devlog', 'Devlog');
+            if(currentView.get() === "DevlogPaper"){
+                binder.classList.add('minimized');
+            }
+            else{
+                binder.classList.remove('minimized');
+            }
+        });
+        
+
+        const goBack = () =>{
+            if(currentView.get()!=='DevlogBinder'){
+                const targetUrl = backBtn?.getAttribute('data-target') || '/devlog';
+                navigateWithAnimation(targetUrl, 'DevlogBinder');
+            }else{
+                navigateWithAnimation('/devlog', 'Devlog');
+            }
+        };
         overlay.addEventListener('click', goBack);
         backBtn?.addEventListener('click', goBack);
 
@@ -205,22 +281,51 @@ const { title, entries } = Astro.props;
                     navigateWithAnimation(href, 'DevlogPaper');
                 }
             });
+            
+            const rawHref = link.getAttribute('href');
+            if(rawHref){
+                const href = decodeURIComponent(rawHref);
+                const linkPostName = href.replace(/\/$/, '').split('/').pop();
+                if (currentPostName === linkPostName) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            }
+
         });
 
 
         addLeaveHook((targetView) => {
-            if (targetView === 'DevlogBinder' || targetView === 'DevlogPaper') {
-                return Promise.resolve();
+            if(binder.classList.contains('minimized') && targetView === 'DevlogBinder'){
+                return new Promise((resolve) => {
+                    binder.classList.remove('minimized');      
+                    setTimeout(()=>{
+                        resolve();
+                    }, ANIMATION_TIMES.BINDER_SHOW); 
+                });    
             }
-            return new Promise((resolve) => {
-                binder.classList.remove('open');
-                overlay.classList.remove('show');
+            if(!binder.classList.contains('minimized') && targetView === 'DevlogPaper'){
+                return new Promise((resolve) => {
+                binder.classList.add('minimized');
                 setTimeout(()=>{
-                    overlay.style.display = 'none';
-                    binder.style.display = 'none';
                     resolve();
                 }, ANIMATION_TIMES.BINDER_SHOW); 
             });
+            }
+
+            if (targetView !== 'DevlogBinder' && targetView !== 'DevlogPaper') {
+                return new Promise((resolve) => {
+                    binder.classList.remove('open');
+                    overlay.classList.remove('show');
+                    setTimeout(()=>{
+                        overlay.style.display = 'none';
+                        binder.style.display = 'none';
+                        resolve();
+                    }, ANIMATION_TIMES.BINDER_SHOW); 
+                });
+            }
+            return Promise.resolve();
         });
     });
 </script>
