@@ -9,9 +9,6 @@ const {post,folderSlug}=Astro.props;
 const { Content } = await render(post);
 ---
 
-
-<ChildrenOverlay id="paper-overlay" />
-
 <div id="paper-ui" class="paper-ui" transition:animate="none">
 	<div class="paper-header">
 		<button id="paper-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>
@@ -152,14 +149,12 @@ const { Content } = await render(post);
 
     document.addEventListener('astro:page-load', () => {
         const paper = document.getElementById('paper-ui');
-        const overlay = document.getElementById('paper-overlay');
         const backBtn = document.getElementById('paper-back-btn');
-        if(!paper || !overlay) return;
+        if(!paper) return;
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 if (!paper.classList.contains('open')) paper.classList.add('open');
-                if (!overlay.classList.contains('show')) overlay.classList.add('show');
             });
         });
 
@@ -168,16 +163,13 @@ const { Content } = await render(post);
             navigateWithAnimation(targetUrl, 'DevlogBinder');
         };
 
-        overlay.addEventListener('click', goBack);
         backBtn?.addEventListener('click', goBack);
 
         addLeaveHook(() => {
             return new Promise((resolve) => {
                 paper.classList.remove('open');
-                overlay.classList.remove('show');
                 
                 setTimeout(() => {
-                    overlay.style.display = 'none';
                     paper.style.display = 'none';
                     resolve();
                 }, ANIMATION_TIMES.PAGE_SHOW); 

@@ -7,9 +7,9 @@ const binderShowTime=`${ANIMATION_TIMES.BINDER_SHOW}ms`;
 const { title, entries } = Astro.props;
 ---
 
-<ChildrenOverlay id="binder-overlay" />
+<ChildrenOverlay id="binder-overlay"  />
 
-<div id="binder-ui" class="binder-ui"  transition:persist="Binder" transition:animate="none">
+<div id="binder-ui" class="binder-ui"  transition:persist="Binder" >
     <!--Header -->
     <div class="binder-header">
         <button id="binder-back-btn" class="back-btn">← Back</button>
@@ -188,7 +188,7 @@ const { title, entries } = Astro.props;
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
             if (!binder.classList.contains('open')) binder.classList.add('open');
-            if (!overlay.classList.contains('show'))    overlay.classList.add('show');
+            if (!overlay.classList.contains('show')) overlay.classList.add('show');
             });
         });
 

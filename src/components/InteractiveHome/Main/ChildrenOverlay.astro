@@ -8,7 +8,7 @@ interface Props {
 const { id } = Astro.props;
 ---
 
-<div id={id} class="children-overlay" transition:animate="none"></div>
+<div id={id} class="children-overlay" transition:persist="children-overlay" ></div>
 
 <style define:vars={{switchTime}}>
     .children-overlay {
@@ -21,7 +21,7 @@ const { id } = Astro.props;
         height: 100%;
         
         background: rgba(0, 0, 0, 0.6); 
-        backdrop-filter: blur(4px);
+        backdrop-filter: blur(8px);
         
         opacity: 0;
         pointer-events: none;

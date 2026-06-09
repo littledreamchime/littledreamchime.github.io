@@ -12,7 +12,7 @@ books.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const getFolderSlug = (id: string) => id.split('/')[0];
 ---
 
-<div id="bookshelf-ui" class="bookshelf-ui" transition:name="bookshelf-ui" transition:persist="bookshelf-ui">
+<div id="bookshelf-ui" class="bookshelf-ui" transition:persist="bookshelf-ui">
     <div class="placeholder-content">
         <h2>📚 Devlog Bookshelf</h2>
         <p>Markdown list: {books.length} books, { devlogs.length - books.length} devlogs</p>
