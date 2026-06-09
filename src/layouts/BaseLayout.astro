@@ -30,6 +30,7 @@ const { title = "Default title", description = "Default description" } = Astro.p
 		<WelcomeOverlay/>
 		<DeskLayout>
             <slot />
+    		<slot slot="overlay" name="overlay"></slot>
 		</DeskLayout>
 		<Footer  transition:persist="main-footer" transition:animate="none"/>
 	</body>

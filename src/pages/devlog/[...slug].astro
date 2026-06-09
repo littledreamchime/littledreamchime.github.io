@@ -43,7 +43,7 @@ const folderSlug = post.id.split('/')[0];
 
 <BaseLayout title={post.data.title} description="Devlog Folder" transition:animate="none">
 	<Bookshelf/>
-    <Binder title={folderTitle} entries={entries}/>
+    <Binder slot="overlay" title={folderTitle} entries={entries}/>
+    <Page slot="overlay" post={post} folderSlug={folderSlug}></Page>
 </BaseLayout>
-<Page post={post} folderSlug={folderSlug}></Page>
 

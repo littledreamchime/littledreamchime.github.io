@@ -1,1 +1,1 @@
-- 显示BookShelf传入的md列表，点击后跳转“DevlogPage”页面
+- 显示BookShelf传入的md列表，点击后跳转“DevlogPage”页面，自己变窄放在屏幕左侧

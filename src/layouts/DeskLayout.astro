@@ -11,6 +11,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
     <div id="desk-main" class="desk-main">
         <slot />
     </div>
+    <slot name="overlay"></slot>
     <button id="return-home-btn" class="return-btn" aria-label="Return to home" transition:persist="">
         ←Back
     </button>
