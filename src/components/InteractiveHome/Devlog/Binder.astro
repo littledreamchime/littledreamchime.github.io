@@ -233,7 +233,7 @@ const { title, entries,folderSlug } = Astro.props;
 
 <script>
     import { addLeaveHook, currentView } from '../../../store';
-    import { navigateWithAnimation } from '../../../utils/navigation';
+    import { handleAnimatedLinkClick, navigateWithAnimation } from '../../../utils/navigation';
     import { ANIMATION_TIMES } from '../../../config';
     
     document.addEventListener('astro:page-load', () => {
@@ -273,11 +273,7 @@ const { title, entries,folderSlug } = Astro.props;
         const entryLinks = document.querySelectorAll('.entry-item');
         entryLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                const href = link.getAttribute('href');
-                if (href) {
-                    navigateWithAnimation(href, 'DevlogPaper');
-                }
+                handleAnimatedLinkClick(e);
             });
             
             const rawHref = link.getAttribute('href');
