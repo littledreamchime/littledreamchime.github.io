@@ -16,10 +16,23 @@ export const ANIMATION_TIMES={
     PAGE_SHOW:300,
 };
 
+export type PreloadAssetType = 'image' | 'audio' | 'video' | 'font' | 'fetch' | 'page';
+
+export interface PreloadAsset {
+    type: PreloadAssetType;
+    src: string;
+}
 /*Load resources */
 export const PRELOAD_ASSETS = [
-    /*image,audio,video,font,fetch */
+    /*image,audio,video,font,fetch,page */
     { type: 'image', src: '/Images/desk_bg_Template.png' },
     {type:'font',src:'/fonts/ArtEnglish.otf'},
     {type:'font',src:'/fonts/CursorTooltip.ttf'},
+
+    /*Page*/
+    {type:'page',src:'/'},
+    {type:'page',src:'/devlog'},
+    {type:'page',src:'/blog'},
+    {type:'page',src:'/about'},
+    {type:'page',src:'/devlog/game-001'},
 ];

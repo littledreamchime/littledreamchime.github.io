@@ -15,7 +15,7 @@
 - Header在一些情况下，特别是宽屏，会遮挡书架的子元素；
 - 解决思路：为书架的子界面定制css
 #Layout
-## 问题5：书架子界面布局太奇怪
+## ==问题5：书架子界面布局太奇怪==
 - DevlogBinder界面在手机端太小；DevlogPage界面的字体和界面太过诡异
 - 解决思路：为手机版适配DevlogBinder，让DevlogBinder超出父物体；在电脑端，让DevlogPage右边显示Binder，DevlogPage适当边窄；在手机端，让DevlogPage的标题在下滑后隐藏，在上划后出现。
 #Layout 

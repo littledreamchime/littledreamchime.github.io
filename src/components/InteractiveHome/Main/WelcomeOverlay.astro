@@ -14,7 +14,7 @@ const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
     <!-- Content -->
     <div class="content">
         <h1 id="type-title" data-text="[ WELCOME ]"></h1>
-        <p id="type-subtitle" class="subtitle" data-text="Loading resources...^ Loading Successfully, scroll to access."></p>
+        <p id="type-subtitle" class="subtitle"></p>
     </div>
 
     <!--Scroll arrow -->
@@ -148,10 +148,8 @@ const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
         };
 
         /*Type Writer*/
-        function typeWriter(element: HTMLElement | null, baseSpeed: number, onComplete?: () => void) {
+        function typeWriter(element: HTMLElement | null, text: string, baseSpeed: number, onComplete?: () => void) {
             if (!element) return;
-            
-            const text = element.getAttribute('data-text') || '';
             element.classList.add('typing-cursor'); 
 
             let i = 0;
@@ -166,8 +164,7 @@ const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
                         setTimeout(type, 1000);
                         return;
                     }
-                    if(char==='~')
-                    {
+                    if(char==='~') {
                         element.innerHTML += '<br>'; 
                         setTimeout(type, 10);
                         return;
@@ -183,24 +180,27 @@ const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
             }
             type();
         }
-
-        const typeWriterPromise= new Promise((resolve)=>{
-            setTimeout(() => {
-                typeWriter(titleEl, 3, () => {
-                    typeWriter(subtitleEl, 3, () => {
-                        if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
-                        resolve(true);
+        setTimeout(() => {
+            const titleText = titleEl.getAttribute('data-text') || '[ WELCOME ]';
+            
+            typeWriter(titleEl, titleText, 3, () => {
+                
+                typeWriter(subtitleEl, "Loading resources...", 3, () => {
+                    if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
+                    
+                    preloadAssets().then(() => {
+                        
+                        if(subtitleEl) subtitleEl.classList.remove('typing-cursor'); 
+                        typeWriter(subtitleEl, "^ Loading Successfully, scroll to access.", 3, () => {
+                            
+                            if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
+                            canDismiss = true;
+                            if(arrowBtn) arrowBtn.classList.add('visible');
+                        });
                     });
                 });
-            }, 500);
-        });
-
-        const assetsPromise=preloadAssets();
-
-        Promise.all([typeWriterPromise,assetsPromise]).then(()=>{
-            canDismiss=true;
-            if(arrowBtn) arrowBtn.classList.add('visible');
-        });
+            });
+        }, 500);
 
 
         /*Event Listener*/
