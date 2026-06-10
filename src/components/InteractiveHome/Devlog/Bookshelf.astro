@@ -159,6 +159,18 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     
     let unsubscribe: () => void = () => {};
 
+    /*Reset Scroll*/
+    let savedScrollLeft=0;
+    document.addEventListener('astro:before-swap', () => {
+        const scrollContainer = document.getElementById('bookshelf-scroll');
+        if (scrollContainer) savedScrollLeft = scrollContainer.scrollLeft;
+    });
+    document.addEventListener('astro:after-swap', () => {
+        const scrollContainer = document.getElementById('bookshelf-scroll');
+        if (scrollContainer) scrollContainer.scrollLeft = savedScrollLeft;
+    });
+
+    /*Main*/
     document.addEventListener('astro:page-load', () => {
         const bookshelf = document.getElementById('bookshelf-ui');
         const scrollContainer = document.getElementById('bookshelf-scroll');
@@ -211,7 +223,7 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         });
 
         //Scroll view
-        if (scrollContainer) {
+        if (scrollContainer && !scrollContainer.dataset.wheelAttached) {
             const handleWheel = (e: WheelEvent) => {
                 if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
                     e.preventDefault();
@@ -219,6 +231,7 @@ const getFolderSlug = (id: string) => id.split('/')[0];
                 }
             };
             scrollContainer.addEventListener('wheel', handleWheel, { passive: false });
+            scrollContainer.dataset.wheelAttached = 'true';
         } else {
             console.error("cannot find bookshelf-scroll content");
         }

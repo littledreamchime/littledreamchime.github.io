@@ -18,7 +18,7 @@ const { title, entries,folderSlug } = Astro.props;
     
     <!--Content -->
     <div class="binder-content">
-        <ul class="entry-list">
+        <ul id="entry-list" class="entry-list">
             {entries.map((entry: any) => (
                 <li>
                     <a href={`/devlog/${entry.id}`} class="entry-item">
@@ -235,6 +235,18 @@ const { title, entries,folderSlug } = Astro.props;
     import { addLeaveHook, currentView } from '../../../store';
     import { handleAnimatedLinkClick, navigateWithAnimation } from '../../../utils/navigation';
     import { ANIMATION_TIMES } from '../../../config';
+
+    
+    let savedScrollTop=0;
+    document.addEventListener('astro:before-swap', () => {
+        const scrollContainer = document.getElementById('entry-list');
+        if (scrollContainer) savedScrollTop = scrollContainer.scrollTop;
+    });
+    document.addEventListener('astro:after-swap', () => {
+        const scrollContainer = document.getElementById('entry-list');
+        if (scrollContainer) scrollContainer.scrollTop = savedScrollTop;
+    });
+
     
     document.addEventListener('astro:page-load', () => {
         const binder = document.getElementById('binder-ui');
