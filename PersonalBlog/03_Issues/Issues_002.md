@@ -1,5 +1,5 @@
 # 在解决 Issues_001时发现的问题
-## 问题1：About组件抽离
+## ==问题1：About组件抽离==
 - About的内容是直接写在Page里的。
 - 解决思路：将About的内容抽离到Components/About/AboutContent.astro中
 #Architecture

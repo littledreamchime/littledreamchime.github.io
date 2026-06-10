@@ -154,13 +154,15 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 <script>
     import { ANIMATION_TIMES } from "../../../config";
     import { addLeaveHook } from "../../../store";
+    import { handleAnimatedLinkClick } from "../../../utils/navigation";
+    
     
     let unsubscribe: () => void = () => {};
 
     document.addEventListener('astro:page-load', () => {
         const bookshelf = document.getElementById('bookshelf-ui');
         const scrollContainer = document.getElementById('bookshelf-scroll');
-        if(!bookshelf)return;
+        if(!bookshelf || !scrollContainer)return;
 
         //Enter
          if (!bookshelf.classList.contains('slide-in')){
@@ -170,7 +172,13 @@ const getFolderSlug = (id: string) => id.split('/')[0];
                 });
             });
         }
-
+        
+        const entryLinks = scrollContainer.querySelectorAll('.entry-item');
+        entryLinks.forEach(link=>{
+            link.addEventListener('click', (e) => {
+                handleAnimatedLinkClick(e);
+            });
+        });
         //Leave
         addLeaveHook((targetView) => {
             if (targetView.startsWith('Devlog')) {
