@@ -3,11 +3,25 @@ import ScrollArrowIcon from "../../icons/ScrollArrowIcon.astro";
 import { ANIMATION_TIMES } from "../../../config";
 import '../../../styles/zIndex.css';
 const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
+import { getCollection } from 'astro:content';
+
+
+const allDevlogs = await getCollection('devlog');
+const allBlogs = await getCollection('blog');
+const autoPreloadDevlogUrls = allDevlogs
+    .filter(post => !post.id.endsWith('/config'))
+    .map(post => encodeURI(`/devlog/${post.id}`)); 
+const autoPreloadBlogUrls = allBlogs
+    .map(post => encodeURI(`/blog/${post.id}`)); 
+const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
 ---
 <script is:inline>
     if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('introSeen') === 'true') {
         document.documentElement.classList.add('hide-welcome');
     }
+</script>
+<script is:inline define:vars={{ allPreloadUrls }}>
+    window.__AUTO_PRELOAD_URLS__ = allPreloadUrls;
 </script>
 
 <div id="welcome-overlay" class="welcome-overlay">
@@ -110,7 +124,7 @@ const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
     }
 </style>
 
-<script>
+<script >
     import { isWelcomeDismissed } from "../../../store";
     import { preloadAssets } from "../../../utils/assets";
     document.addEventListener('astro:page-load', () => {

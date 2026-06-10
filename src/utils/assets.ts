@@ -4,6 +4,12 @@ import { prefetch } from 'astro:prefetch';
 
 export const isAssetsLoaded = atom(false);
 
+declare global {
+    interface Window {
+        __AUTO_PRELOAD_URLS__?: string[];
+    }
+}
+
 export function preloadAssets() {
     if (typeof window === 'undefined') return Promise.resolve();
     if (isAssetsLoaded.get()) return Promise.resolve();
@@ -14,7 +20,6 @@ export function preloadAssets() {
                 .then(res => res.text())
                 .then(html => {
                     prefetch(url);
-
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
                     const subAssets: string[] = [];
@@ -30,11 +35,10 @@ export function preloadAssets() {
                     });
 
                     const subPromises = subAssets.map(src => fetch(src).catch(() => null));
-                    
                     return Promise.all(subPromises);
                 })
                 .then(() => resolve(true))
-                .catch(() => resolve(true));
+                .catch(() => resolve(true)); 
         });
     };
 
@@ -83,12 +87,13 @@ export function preloadAssets() {
     const internalLinks = Array.from(document.querySelectorAll('a'))
         .map(a => a.getAttribute('href'))
         .filter((href): href is string => typeof href === 'string' && href.startsWith('/') && !href.startsWith('//'));
-        
     const uniqueLinks = [...new Set(internalLinks)];
-    
     const pagePromises = uniqueLinks.map(url => deepPreloadPage(url));
 
-    return Promise.all([...assetPromises, ...pagePromises]).then(() => {
+    const autoUrls = window.__AUTO_PRELOAD_URLS__ || [];
+    const autoPagePromises = autoUrls.map(url => deepPreloadPage(url));
+
+    return Promise.all([...assetPromises, ...pagePromises, ...autoPagePromises]).then(() => {
         isAssetsLoaded.set(true);
     });
 }

@@ -204,10 +204,12 @@ const { title, entries,folderSlug } = Astro.props;
     .back-btn { 
         transform: translateY(-50%);
     }
+    .back-btn:hover {
+        background: #602b6f;
+        transform:translateY(-50%) scale(1.05) ;
+    }
 }
 /* minimized*/
-.minimized{}
-
 @media(min-width:768px){
     .binder-ui.minimized {
         left: 5%;
@@ -224,10 +226,6 @@ const { title, entries,folderSlug } = Astro.props;
     }
     .binder-ui.minimized .back-btn { 
         transform: none; 
-    }
-    .back-btn:hover {
-        background: #602b6f;
-        transform:translateY(-50%) scale(1.05) ;
     }
 }
 
