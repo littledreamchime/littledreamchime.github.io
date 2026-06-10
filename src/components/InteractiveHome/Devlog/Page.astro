@@ -117,9 +117,12 @@ const { Content } = await render(post);
 
     /*Content*/
     .paper-content {
-        padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
         overflow-y: auto;
         flex: 1;
+        scroll-behavior: smooth;
+
+        padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
+
         color: #c8bccc;
         font-family: sans-serif;
         line-height: 1.8;
@@ -225,6 +228,27 @@ const { Content } = await render(post);
                         ticking = false;
                     });
                     ticking = true;
+                }
+            });
+
+            /*prevent md auto scroll*/
+            content.addEventListener('click', (e) => {
+                if(!e.target) return;
+                const link =(e.target as HTMLElement).closest('a[href^="#"]');
+                if (!link) return;
+                const targethref=link.getAttribute('href');
+                if(!targethref) return;
+                const targetId = targethref.substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    e.preventDefault(); // 核心：阻止浏览器默认的强制滚动外层容器
+
+                    const containerRect = content.getBoundingClientRect();
+                    const targetRect = targetElement.getBoundingClientRect();
+                    const scrollPos = content.scrollTop + (targetRect.top - containerRect.top) - 20;
+
+                    content.scrollTo({ top: scrollPos, behavior: 'smooth' });
                 }
             });
         }
