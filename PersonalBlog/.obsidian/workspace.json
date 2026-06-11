@@ -16,9 +16,9 @@
               "state": {
                 "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": 848.2264468645468,
-                  "y": -708.4176620078558,
-                  "zoom": -1.333333333333333
+                  "x": -492.9339815452855,
+                  "y": -1323.7110366373827,
+                  "zoom": -0.2712658836690826
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -209,8 +209,9 @@
       "bases:新建数据库": false
     }
   },
-  "active": "e1591ba38fc64178",
+  "active": "60493510e0a8f922",
   "lastOpenFiles": [
+    "01_Architecture/Component/Main/ReturnHomeButton.md",
     "01_Architecture/Main.canvas",
     "03_Issues/Issues_002.md",
     "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
@@ -249,7 +250,6 @@
     "01_Architecture/Util/Navigation.md",
     "01_Architecture/Component/Devlog/Binder.md",
     "01_Architecture/Component/Main/Header.md",
-    "01_Architecture/Component/Icons.md",
     "01_Architecture/Util",
     "01_Architecture/Layout",
     "01_Architecture/Component",
