@@ -232,9 +232,6 @@ const getFolderSlug = (id: string) => id.split('/')[0];
             };
             scrollContainer.addEventListener('wheel', handleWheel, { passive: false });
             scrollContainer.dataset.wheelAttached = 'true';
-        } else {
-            console.error("cannot find bookshelf-scroll content");
         }
-
     });
 </script>

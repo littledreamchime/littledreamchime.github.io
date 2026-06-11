@@ -16,6 +16,10 @@ export function preloadAssets() {
     
     const deepPreloadPage = (url: string) => {
         return new Promise((resolve) => {
+            if (import.meta.env.DEV) {
+                prefetch(url);
+                return resolve(true);
+            }
             fetch(url)
                 .then(res => res.text())
                 .then(html => {

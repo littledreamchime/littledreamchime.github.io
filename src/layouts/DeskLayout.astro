@@ -28,6 +28,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
 
         /*Main desk*/
         --ease-silky: cubic-bezier(0.25, 0.8, 0.25, 1);
+        --ease-apple: cubic-bezier(0.19, 1, 0.22, 1);
         /*Paper*/
         --paper-zoom-scale:3.5;
         --paper-origin-x:85%;
@@ -76,19 +77,19 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         background-position: center;
         background-repeat: no-repeat;
 
-        transition: transform var(--timeZoomOut) var(--ease-silky),transform-origin var(--timeZoomOut) ease;
+        transition: transform var(--timeZoomOut) var(--ease-silky),transform-origin var(--timeZoomOut) var(--ease-apple);
     }
 
     /*Zoom in*/
     .desk-main.zoom-to-paper{
         transform-origin: var(--paper-origin-x) var(--paper-origin-y);
         transform: scale(var(--paper-zoom-scale));
-        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomOut) var(--ease-silky);
+        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomIn) var(--ease-apple);
     }
     .desk-main.zoom-to-computer{
         transform-origin: var(--computer-origin-x) calc(var(--computer-origin-y));
         transform: scale(var(--computer-zoom-scale));
-        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomOut) ease;
+        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomIn) var(--ease-apple);
     }
     .desk-main.zoom-to-others{
     }

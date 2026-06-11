@@ -22,7 +22,9 @@ const { title, entries,folderSlug } = Astro.props;
             {entries.map((entry: any) => (
                 <li>
                     <a href={`/devlog/${entry.id}`} class="entry-item">
-                        <span class="entry-title">📄 {entry.data.title}</span>
+                        <span class="entry-title-wrapper">
+                            <span class="entry-title" data-title={entry.data.title}> {entry.data.title}</span>
+                        </span>
                         <span class="entry-date">{entry.data.pubDate.toLocaleDateString()}</span>
                     </a>
                 </li>
@@ -158,13 +160,53 @@ const { title, entries,folderSlug } = Astro.props;
         background: #341f38; 
         color: #bf60ea;
     }
+
+    /*items-title*/
+    .entry-title-wrapper {
+        flex: 1; 
+        min-width: 0; 
+        overflow: hidden; 
+        white-space: nowrap; 
+        margin-right: 1rem; 
+        container-type: inline-size; 
+    }
+    
+    .entry-title.is-overflowing {
+        padding-right: 1rem;
+    }
+
+    .entry-title.is-overflowing::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 100%;
+        top: 0;
+        white-space: nowrap;
+    }
+
+    .entry-item:hover .entry-title.is-overflowing,
+    .entry-item.active .entry-title.is-overflowing {
+        animation: seamless-marquee 4s linear infinite;
+    }
+
+    @keyframes seamless-marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+
     .entry-title {
+        display: inline-block;
+        position: relative;
+
+        padding-right: 1.75rem;
+        width: max-content;
+
         font-weight: bold;
         font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem); 
     }
     .entry-date { 
         font-size: 0.875rem; 
         color:  #8f8f8f; 
+        white-space: nowrap;
 
         transition: font-size 0.3s, color 0.3s;
     }
@@ -255,9 +297,26 @@ const { title, entries,folderSlug } = Astro.props;
         const currentPath = decodeURIComponent(window.location.pathname);
         const currentPostName = currentPath.replace(/\/$/, '').split('/').pop();
         if(!binder || !overlay) return;
+        /*Overflow*/
+        const checkOverflow = () => {
+            const wrappers = document.querySelectorAll('.entry-title-wrapper');
+            wrappers.forEach(wrapper => {
+                const title = wrapper.querySelector('.entry-title');
+                if (!title) return;
+                
+                title.classList.remove('is-overflowing');
+                
+                if (title.scrollWidth > wrapper.clientWidth - 20) {
+                    title.classList.add('is-overflowing');
+                }
+            });
+        };
+        window.addEventListener('resize', checkOverflow);
 
+        /*Start*/
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
+            checkOverflow();
             if (!binder.classList.contains('open')) binder.classList.add('open');
             if (!overlay.classList.contains('show')) overlay.classList.add('show');
             });
@@ -270,7 +329,7 @@ const { title, entries,folderSlug } = Astro.props;
             }
         });
         
-
+        /*Back button*/
         const goBack = () =>{
             if(currentView.get()!=='DevlogBinder'){
                 const targetUrl = backBtn?.getAttribute('data-target') || '/devlog';
@@ -282,6 +341,7 @@ const { title, entries,folderSlug } = Astro.props;
         overlay.addEventListener('click', goBack);
         backBtn?.addEventListener('click', goBack);
 
+        /*Deal with links*/
         const entryLinks = document.querySelectorAll('.entry-item');
         entryLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -298,10 +358,9 @@ const { title, entries,folderSlug } = Astro.props;
                     link.classList.remove('active');
                 }
             }
-
         });
 
-
+        /*Leave*/
         addLeaveHook((targetView) => {
             if(binder.classList.contains('minimized') && targetView === 'DevlogBinder'){
                 return new Promise((resolve) => {
