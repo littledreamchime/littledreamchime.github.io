@@ -10,28 +10,41 @@
     /*Return btn*/
     .return-btn {
         position: absolute;
-        top: 10rem;
-        left: 2rem;
+        top: clamp(7.5rem, 10vh, 10rem);
+        left: clamp(1rem, 4vw, 4rem);
         z-index: var(--z-return-btn); 
         
-        padding: 0.8rem 1.5rem;
+        padding: clamp(0.3rem, 1.5vh, 1.5rem) clamp(0.6rem, 3vw, 1.5rem);
         
-        background: var(--header-dark-purple, rgba(48,10,60,0.9));
-        color: white;
-        border: 1px solid #d8b4fe;
-        border-radius: 0.5rem;
+        background: rgba(48, 10, 60, 0.35);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(216, 180, 254, 0.25);
+        border-radius: 2rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         
         font-family: var(--font-nav, sans-serif);
-        font-size: 1.1rem;
+        font-size: clamp(0.6rem, 2vw, 1.5rem);
+        color: #f3e8ff;
         cursor: pointer;
         
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.5s ease;
+        transform: translateY(-10px);
+        transition: opacity 0.5s ease, transform 0.5s ease, background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     }
+    
     .return-btn.is-visible {
         opacity: 1;
         pointer-events: auto;
+        transform: translateY(0);
+    }
+    @media (hover: hover) {
+        .return-btn:hover {
+            background: rgba(48, 10, 60, 0.55);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            border-color: rgba(216, 180, 254, 0.5);
+        }
     }
     .no-transition {
         transition: none !important;

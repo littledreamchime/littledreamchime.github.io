@@ -14,11 +14,11 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "01_Architecture/Main.canvas",
+                "file": "04_Design/Main.canvas",
                 "viewState": {
-                  "x": -492.9339815452855,
-                  "y": -1323.7110366373827,
-                  "zoom": -0.2712658836690826
+                  "x": 215.3548846586905,
+                  "y": -166.98872689705647,
+                  "zoom": 1.1102230246251565e-16
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -209,10 +209,12 @@
       "bases:新建数据库": false
     }
   },
-  "active": "60493510e0a8f922",
+  "active": "e1591ba38fc64178",
   "lastOpenFiles": [
-    "01_Architecture/Component/Main/ReturnHomeButton.md",
+    "04_Design/Main.canvas",
     "01_Architecture/Main.canvas",
+    "04_Design",
+    "01_Architecture/Component/Main/ReturnHomeButton.md",
     "03_Issues/Issues_002.md",
     "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
     "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
@@ -253,7 +255,6 @@
     "01_Architecture/Util",
     "01_Architecture/Layout",
     "01_Architecture/Component",
-    "Template/Images/Diagram 2.svg.xml",
     "Template/Images/Diagram 2.svg",
     "Template/Images/Diagram 1.svg",
     "Template/Images/Diagram.svg",
