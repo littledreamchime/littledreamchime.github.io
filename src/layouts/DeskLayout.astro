@@ -1,4 +1,5 @@
 ---
+import ReturnHomeButton from "../components/InteractiveHome/Main/ReturnHomeButton.astro";
 import { ANIMATION_TIMES } from "../config";
 import '../styles/zIndex.css';
 
@@ -12,9 +13,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         <slot />
     </div>
     <slot name="overlay"></slot>
-    <button id="return-home-btn" class="return-btn" aria-label="Return to home" transition:persist="">
-        ←Back
-    </button>
+    <ReturnHomeButton/>
 </div>
 
 
@@ -79,32 +78,6 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
 
         transition: transform var(--timeZoomOut) var(--ease-silky),transform-origin var(--timeZoomOut) ease;
     }
-    /*Return btn*/
-    .return-btn {
-        position: absolute;
-        top: 10rem;
-        left: 2rem;
-        z-index: var(--z-return-btn); 
-        
-        padding: 0.8rem 1.5rem;
-        
-        background: var(--header-dark-purple, rgba(48,10,60,0.9));
-        color: white;
-        border: 1px solid #d8b4fe;
-        border-radius: 0.5rem;
-        
-        font-family: var(--font-nav, sans-serif);
-        font-size: 1.1rem;
-        cursor: pointer;
-        
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.5s ease;
-    }
-    .return-btn.is-visible {
-        opacity: 1;
-        pointer-events: auto;
-    }
 
     /*Zoom in*/
     .desk-main.zoom-to-paper{
@@ -129,42 +102,33 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
     import {navigateWithAnimation,getViewMeta} from "../utils/navigation";
     import { addLayoutLeaveHook } from "../store";
     import { ANIMATION_TIMES } from "../config";
-import { string } from "astro:schema";
 
     let unsubscribe:()=> void=()=>{}; 
 
     document.addEventListener('astro:page-load', () => {
         const deskMain = document.getElementById('desk-main');
-        const returnBtn = document.getElementById('return-home-btn');
-        if (!deskMain || !returnBtn) return;
+        if (!deskMain) return;
 
         /*Transition Animation*/
         const expectedView=currentView.get();
         const isNotHome=(expectedView!=='Home');
         if(isNotHome){
             deskMain.classList.add('no-transition');
-            returnBtn.classList.add('no-transition');
         }
         if(unsubscribe) unsubscribe();
 
         unsubscribe = currentView.subscribe((view: string) => {
             deskMain.classList.remove('zoom-to-paper', 'zoom-to-computer');
-            returnBtn.classList.remove('is-visible');
             const meta=getViewMeta(view);
 
             if(meta.zoom !== 'none'){
                 deskMain.classList.add('zoom-to-'+meta.zoom);
             }
-            if (meta.showReturnBtn) {
-                returnBtn.classList.add('is-visible');
-            } 
         });
 
         if(isNotHome){
             deskMain.offsetHeight;
-            returnBtn.offsetHeight;
             deskMain.classList.remove('no-transition');
-            returnBtn.classList.remove('no-transition');
         }
 
         /*Leave time controll*/
@@ -209,9 +173,5 @@ import { string } from "astro:schema";
             });
         });
 
-        /* Return button */
-        returnBtn.onclick = () => {
-            navigateWithAnimation('/','Home');
-        };
     });
 </script>

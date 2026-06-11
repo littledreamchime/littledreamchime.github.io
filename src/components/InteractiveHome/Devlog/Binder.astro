@@ -18,7 +18,7 @@ const { title, entries,folderSlug } = Astro.props;
     
     <!--Content -->
     <div class="binder-content">
-        <ul class="entry-list">
+        <ul id="entry-list" class="entry-list">
             {entries.map((entry: any) => (
                 <li>
                     <a href={`/devlog/${entry.id}`} class="entry-item">
@@ -233,8 +233,20 @@ const { title, entries,folderSlug } = Astro.props;
 
 <script>
     import { addLeaveHook, currentView } from '../../../store';
-    import { navigateWithAnimation } from '../../../utils/navigation';
+    import { handleAnimatedLinkClick, navigateWithAnimation } from '../../../utils/navigation';
     import { ANIMATION_TIMES } from '../../../config';
+
+    
+    let savedScrollTop=0;
+    document.addEventListener('astro:before-swap', () => {
+        const scrollContainer = document.getElementById('entry-list');
+        if (scrollContainer) savedScrollTop = scrollContainer.scrollTop;
+    });
+    document.addEventListener('astro:after-swap', () => {
+        const scrollContainer = document.getElementById('entry-list');
+        if (scrollContainer) scrollContainer.scrollTop = savedScrollTop;
+    });
+
     
     document.addEventListener('astro:page-load', () => {
         const binder = document.getElementById('binder-ui');
@@ -273,11 +285,7 @@ const { title, entries,folderSlug } = Astro.props;
         const entryLinks = document.querySelectorAll('.entry-item');
         entryLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                const href = link.getAttribute('href');
-                if (href) {
-                    navigateWithAnimation(href, 'DevlogPaper');
-                }
+                handleAnimatedLinkClick(e);
             });
             
             const rawHref = link.getAttribute('href');

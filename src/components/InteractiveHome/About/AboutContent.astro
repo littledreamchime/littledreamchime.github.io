@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import '../../../styles/zIndex.css';
+---
+
+<div class="about-content">
+    <h1>About</h1>
+    <p>This is about page...</p>
+</div>
+
+
+<style>
+    .about-content {
+        z-index: var(--z-view-main); 
+        position: absolute;
+        bottom: 10%;
+        right: 15%;
+
+        width: 15%;
+        height: 25%;
+		
+        color: rgb(191, 182, 110);
+
+        transform: rotate(15deg); 
+    }
+</style>
