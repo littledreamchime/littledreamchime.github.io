@@ -28,25 +28,66 @@
         ]
       },
       {
-        "id": "be2cce417d3a52e7",
-        "type": "tabs",
+        "id": "cd5ba68ce444fc8d",
+        "type": "split",
         "dimension": 44.81046931407942,
         "children": [
           {
-            "id": "e1591ba38fc64178",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03_Issues/Issues_002.md",
-                "mode": "source",
-                "source": false
+            "id": "be2cce417d3a52e7",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "e1591ba38fc64178",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "DevLog_003：解决Issues_002，设计Blog界面"
+                }
               },
-              "icon": "lucide-file",
-              "title": "Issues_002"
-            }
+              {
+                "id": "8bb4e08286bc935f",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "DevLog_002：解决梳理过程中找到的Issues"
+                }
+              }
+            ]
+          },
+          {
+            "id": "3afbbf5513ab8ab9",
+            "type": "tabs",
+            "children": [
+              {
+                "id": "493aa179c55584b6",
+                "type": "leaf",
+                "state": {
+                  "type": "markdown",
+                  "state": {
+                    "file": "03_Issues/Issues_002.md",
+                    "mode": "source",
+                    "source": false
+                  },
+                  "icon": "lucide-file",
+                  "title": "Issues_002"
+                }
+              }
+            ]
           }
-        ]
+        ],
+        "direction": "horizontal"
       }
     ],
     "direction": "vertical"
@@ -211,13 +252,13 @@
   },
   "active": "e1591ba38fc64178",
   "lastOpenFiles": [
-    "01_Architecture/Main.canvas",
+    "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
+    "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
     "03_Issues/Issues_002.md",
+    "01_Architecture/Main.canvas",
     "04_Design/Main.canvas",
     "04_Design",
     "01_Architecture/Component/Main/ReturnHomeButton.md",
-    "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
-    "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
     "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",
     "03_Issues/Issues_001.md",
     "01_Architecture/Component/Blog",
