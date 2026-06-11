@@ -6,7 +6,6 @@
       {
         "id": "9f9d9822921dab6e",
         "type": "tabs",
-        "dimension": 55.18953068592057,
         "children": [
           {
             "id": "60493510e0a8f922",
@@ -16,78 +15,51 @@
               "state": {
                 "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": 2409.162074462371,
-                  "y": -1338.0165284244677,
-                  "zoom": -1.2712658836690824
+                  "x": 705.954532917146,
+                  "y": 11.241632555499649,
+                  "zoom": -1.222206399153109
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "Main"
             }
-          }
-        ]
-      },
-      {
-        "id": "cd5ba68ce444fc8d",
-        "type": "split",
-        "dimension": 44.81046931407942,
-        "children": [
-          {
-            "id": "be2cce417d3a52e7",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "e1591ba38fc64178",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
-                    "mode": "source",
-                    "source": false
-                  },
-                  "icon": "lucide-file",
-                  "title": "DevLog_003：解决Issues_002，设计Blog界面"
-                }
-              },
-              {
-                "id": "8bb4e08286bc935f",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
-                    "mode": "source",
-                    "source": false
-                  },
-                  "icon": "lucide-file",
-                  "title": "DevLog_002：解决梳理过程中找到的Issues"
-                }
-              }
-            ]
           },
           {
-            "id": "3afbbf5513ab8ab9",
-            "type": "tabs",
-            "children": [
-              {
-                "id": "493aa179c55584b6",
-                "type": "leaf",
-                "state": {
-                  "type": "markdown",
-                  "state": {
-                    "file": "03_Issues/Issues_002.md",
-                    "mode": "source",
-                    "source": false
-                  },
-                  "icon": "lucide-file",
-                  "title": "Issues_002"
-                }
-              }
-            ]
+            "id": "ed336186a194026a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03_Issues/Issues_003.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Issues_003"
+            }
           }
         ],
-        "direction": "horizontal"
+        "currentTab": 1
+      },
+      {
+        "id": "e98f576501a900ac",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e1591ba38fc64178",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "02_Devlogs/Devlog_004：实现Blog界面.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Devlog_004：实现Blog界面"
+            }
+          }
+        ]
       }
     ],
     "direction": "vertical"
@@ -252,15 +224,32 @@
   },
   "active": "e1591ba38fc64178",
   "lastOpenFiles": [
+    "03_Issues/Issues_003.md",
     "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
-    "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
-    "03_Issues/Issues_002.md",
+    "02_Devlogs/Devlog_004：实现Blog界面.md",
     "01_Architecture/Main.canvas",
+    "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
     "04_Design/Main.canvas",
+    "01_Architecture/Page/Blog/Blog_slug.md",
+    "01_Architecture/Page/Blog/Blog-Folder.md",
+    "Main.canvas",
+    "01_Architecture/Component/Blog/exeFileDescription.md",
+    "01_Architecture/Component/Blog/Page.md",
+    "01_Architecture/Page/Blog",
+    "01_Architecture/Component/Blog",
+    "01_Architecture/Component/Blog/Binder.md",
+    "01_Architecture/Component/Blog/ComputerScreen.md",
+    "01_Architecture/Page/Blog/Blog-Index.md",
+    "Template/Images/Pasted image 20260611151210.png",
+    "Template/Images/Pasted image 20260611142742.png",
+    "04_Design/MainScene",
+    "04_Design/Config/分辨率.md",
+    "04_Design/Config",
+    "03_Issues/Issues_002.md",
+    "03_Issues/Issues_001.md",
     "04_Design",
     "01_Architecture/Component/Main/ReturnHomeButton.md",
     "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",
-    "03_Issues/Issues_001.md",
     "01_Architecture/Component/Blog",
     "01_Architecture/Component/About",
     "01_Architecture/Component/Main/Footer.md",
@@ -281,24 +270,8 @@
     "01_Architecture/Page/Devlog/Devlog-Folder.md",
     "01_Architecture/Page/Devlog/Devlog-slug.md",
     "01_Architecture/Page/Devlog",
-    "01_Architecture/Page/Devlog/Devlog-Index.md",
-    "01_Architecture/Page/About.md",
-    "01_Architecture/Page/Home.md",
     "01_Architecture/Page",
     "01_Architecture/Component/Main",
-    "01_Architecture/Component/Devlog/BookPage.md",
-    "01_Architecture/Component/Devlog",
-    "01_Architecture/Z-Index.md",
-    "01_Architecture/Component/Devlog/BookShelf.md",
-    "01_Architecture/Util/Navigation.md",
-    "01_Architecture/Component/Devlog/Binder.md",
-    "01_Architecture/Component/Main/Header.md",
-    "01_Architecture/Util",
-    "01_Architecture/Layout",
-    "01_Architecture/Component",
-    "Template/Images/Diagram 2.svg",
-    "Template/Images/Diagram 1.svg",
-    "Template/Images/Diagram.svg",
-    "Main.canvas"
+    "Template/Images/Diagram 2.svg"
   ]
 }

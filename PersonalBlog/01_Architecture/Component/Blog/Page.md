@@ -1,0 +1,4 @@
+- 顶部栏：Window标题、x
+- Header：
+	- 标题、时间
+- Content

@@ -1,4 +1,4 @@
-### Duration:2026.06.08-2026.10
+### Duration:2026.06.08-2026.06.10
 ### Tags: #Code
 
 ### Context & Goals

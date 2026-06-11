@@ -1,6 +1,18 @@
 {
 	"nodes":[
-		{"id":"14962fa45ac030ba","x":-184,"y":-100,"width":364,"height":160,"type":"text","text":"# 分辨率：\n宽度小于300px 或 高度小于430px的屏幕不在适配考虑范围内"}
+		{"id":"889ae9d37abeff5f","type":"group","x":-640,"y":-1720,"width":4000,"height":2800,"label":"BLog"},
+		{"id":"68adcf3e2fd23bb3","type":"group","x":-1360,"y":-840,"width":542,"height":280,"label":"Config"},
+		{"id":"ca4a98c6c4cb9b46","type":"file","file":"Template/Images/Pasted image 20260611142742.png","x":680,"y":-869,"width":1260,"height":760},
+		{"id":"0788cf2d6cfbe241","type":"file","file":"04_Design/Config/分辨率.md","x":-1338,"y":-789,"width":364,"height":160},
+		{"id":"5c26b93e52a9b32b","type":"file","file":"Template/Images/Pasted image 20260611151210.png","x":1940,"y":-869,"width":922,"height":760},
+		{"id":"761b168d9a0d0c97","type":"text","text":"# BlogPage\nWindow标题、x\nHeader：\n\t标题、时间\nContent\n","x":2240,"y":87,"width":226,"height":202},
+		{"id":"c4d8f1e28d0d6bd8","type":"text","text":"# BlogDescription:\n悬浮在exe上出现，在左下角\n### 静态信息：\n- Double Click To Run\n- FILE_PROPERTIES\n### 动态信息（从md读取）：\n- 名称\n- 描述\n- 大小\n- *图片","x":1420,"y":-80,"width":320,"height":460},
+		{"id":"c98c8dfb3b7cf745","type":"text","text":"# exeFILE\n显示图标、名称、日期","x":1420,"y":415,"width":320,"height":135},
+		{"id":"7df6b9052c7703e5","type":"text","text":"# BlogBinder\n颜色、名称、图标\n- 默认状态：平时是竖状，宽度平均分布在整个屏幕上。轮播部分图片；\n- 收缩状态：竖着显示颜色、名称、图标、简要描述；名称为\"C:\\Shader\" 这种格式；\n- 展开状态：可以上下滑动，一根直线分布着exeFILE，用线相连\n","x":800,"y":50,"width":445,"height":365},
+		{"id":"d25bef53a81f9336","type":"text","text":"关闭按钮、返回按钮","x":898,"y":490,"width":250,"height":60}
 	],
-	"edges":[]
+	"edges":[
+		{"id":"1b2457792a4f8617","fromNode":"7df6b9052c7703e5","fromSide":"right","toNode":"c98c8dfb3b7cf745","toSide":"left"},
+		{"id":"e342972428185920","fromNode":"7df6b9052c7703e5","fromSide":"right","toNode":"c4d8f1e28d0d6bd8","toSide":"left"}
+	]
 }
