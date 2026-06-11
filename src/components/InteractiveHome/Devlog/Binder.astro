@@ -333,9 +333,9 @@ const { title, entries,folderSlug } = Astro.props;
         const goBack = () =>{
             if(currentView.get()!=='DevlogBinder'){
                 const targetUrl = backBtn?.getAttribute('data-target') || '/devlog';
-                navigateWithAnimation(targetUrl, 'DevlogBinder');
+                navigateWithAnimation(targetUrl);
             }else{
-                navigateWithAnimation('/devlog', 'Devlog');
+                navigateWithAnimation('/devlog');
             }
         };
         overlay.addEventListener('click', goBack);

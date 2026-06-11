@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { ANIMATION_TIMES } from "../../../config";
+import '../../../styles/zIndex.css';
 
 const devlogSlideIn=`${ANIMATION_TIMES.DEVLOG_SLIDEIN}ms`
 
@@ -46,6 +47,7 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         right: 0;
         display: flex;
         flex-direction: column;
+        z-index: var(--z-view-main);
 
         width: 100%;
         height: 100%;

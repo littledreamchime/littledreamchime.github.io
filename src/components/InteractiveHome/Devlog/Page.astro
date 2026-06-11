@@ -256,7 +256,7 @@ const { Content } = await render(post);
 
         const goBack = () => {
             const targetUrl = backBtn?.getAttribute('data-target') || '/devlog';
-            navigateWithAnimation(targetUrl, 'DevlogBinder');
+            navigateWithAnimation(targetUrl);
         };
 
         backBtn?.addEventListener('click', goBack);

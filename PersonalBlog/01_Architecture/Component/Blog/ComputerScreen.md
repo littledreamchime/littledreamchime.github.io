@@ -1,3 +1,2 @@
-- 返回总览按钮：点击后回到Index界面
-- 关机按钮：点击后回到Home
-- Binder容器
+
+- Binder容器，包含多个Binder
