@@ -14,11 +14,11 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "04_Design/Main.canvas",
+                "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": 215.3548846586905,
-                  "y": -166.98872689705647,
-                  "zoom": 1.1102230246251565e-16
+                  "x": 1862.3763532916118,
+                  "y": -567.0534948053978,
+                  "zoom": -1.6045992170024157
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -212,9 +212,9 @@
   "active": "e1591ba38fc64178",
   "lastOpenFiles": [
     "04_Design/Main.canvas",
-    "01_Architecture/Main.canvas",
     "04_Design",
     "01_Architecture/Component/Main/ReturnHomeButton.md",
+    "01_Architecture/Main.canvas",
     "03_Issues/Issues_002.md",
     "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
     "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
