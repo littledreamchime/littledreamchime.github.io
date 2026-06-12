@@ -1,16 +1,120 @@
 ---
+import { getCollection } from "astro:content";
+import { ANIMATION_TIMES } from "../../../config";
+import Binder from "./Binder.astro";
 import '../../../styles/zIndex.css';
-import PowerIcon from '../../icons/PowerIcon.astro';
-import ReturnIcon from '../../icons/ReturnIcon.astro';
-import ComputerBackGround from '../Main/ComputerBackGround.astro';
+import ExeFileDescription from "./ExeFileDescription.astro";
+
+const blogs = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const binders = blogs.filter(post => post.id.endsWith('/config'));
+binders.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const getFolderSlug = (id: string) => id.split('/')[0];
 ---
-<div>
+<div id="binder-container" class="binder-container" transition:persist="binder-container">
   
+  <div class="binders-wrapper">
+    {binders.map((binder, index) => {
+      const folder = getFolderSlug(binder.id);
+      const files = blogs.filter(post => getFolderSlug(post.id) === folder && post.id !== binder.id);
+      return (
+        <Binder 
+          config={binder} 
+          files={files} 
+          index={index} 
+          slug={folder}
+        />
+      );
+    })}
+  </div>
+  <div class="binder-container-info">System Online</div>
 </div>
 
 
 <style>
+  .binder-container {
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    overflow: hidden;
+    top:49%;
+    left: 50%;
+    padding: 0.45cqi;
+    z-index: var(--z-view-main);
+
+    width: 43.9%;
+    height: 40.2%;
+    border-radius: 0.6cqi;
+
+    transform: translate(-50%, -50%);
+    transition: all 0.2s ease-out; 
+  }
+  
+  .binder-container.is-hiding {
+    opacity: 0 !important;
+    transform: translate(-50%, -45%) scale(0.95) !important;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  }
+  .binder-container.is-on::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index:999;
+
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.155) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 0.2cqi;
+    opacity: 0.25;
+
+    pointer-events: none;
+  }
+  .binders-wrapper {
+    display: flex;
+
+    gap: 0.3cqi;
+    width: 90%;
+    height: 90%;
+  }
+  .binder-container-info {
+    position: absolute;
+    top: 0.2cqi;
+    left: 1cqi;
+    
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    
+    color: #686868;
+    
+    font-size: 0.6cqi;
+    font-weight: 500;
+
+    user-select: none; 
+    pointer-events: none;
+  }
 </style>
 
 <script>
+  import { addLeaveHook } from "../../../store";
+
+  document.addEventListener('astro:page-load',()=>{
+    /* on off*/
+    const binderContainer=document.getElementById('binder-container');
+    if(!binderContainer) return;
+      if (!binderContainer.classList.contains('is-on')){
+          requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                  binderContainer.classList.add('is-on');
+              });
+          });
+      }
+    addLeaveHook((targetView)=>{
+      if(!targetView.startsWith('Blog')){
+        binderContainer.classList.remove('is-on');
+        binderContainer.classList.add('is-hiding');
+      }
+      return Promise.resolve();
+    });
+
+  });
 </script>

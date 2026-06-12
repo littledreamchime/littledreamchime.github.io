@@ -9,7 +9,7 @@ const {post,folderSlug}=Astro.props;
 const { Content } = await render(post);
 ---
 
-<div id="paper-ui" class="paper-ui" transition:animate="none">
+<div id="paper-ui" class="paper-ui">
 	<div id="paper-header" class="paper-header">
 		<button id="paper-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>
 			←
@@ -242,7 +242,7 @@ const { Content } = await render(post);
                 const targetElement = document.getElementById(targetId);
 
                 if (targetElement) {
-                    e.preventDefault(); // 核心：阻止浏览器默认的强制滚动外层容器
+                    e.preventDefault();
 
                     const containerRect = content.getBoundingClientRect();
                     const targetRect = targetElement.getBoundingClientRect();

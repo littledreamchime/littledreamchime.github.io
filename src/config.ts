@@ -14,6 +14,10 @@ export const ANIMATION_TIMES={
     DEVLOG_LEAVE:500,
     BINDER_SHOW:400,
     PAGE_SHOW:300,
+
+    /*Blog*/
+    COMPUTER_OPEN:500,
+    COMPUTER_CLOSE:400,
 };
 
 export type PreloadAssetType = 'image' | 'audio' | 'video' | 'font' | 'fetch' | 'page';

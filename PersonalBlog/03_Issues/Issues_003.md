@@ -12,7 +12,10 @@
 - 第一次悬浮到Items上时，会发生tooltip从左上角飞入的问题
 - 解决transition动画
 #Layout 
-
+## 问题四：文字重复问题
+- Devlog从Page到Binder文字因为需要滚动会出现两个；
+- 解决思路：在返回时立刻删除多余文字
+#Layout 
 
 
 

@@ -1,0 +1,129 @@
+---
+// ExeFile.astro
+const { file, align, color } = Astro.props;
+const { title, description, pubDate, heroImage } = file.data;
+
+const dateStr = pubDate ? new Date(pubDate).toISOString().split('T')[0] : 'UNKNOWN_DATE';
+const mockSize = Math.floor(Math.random() * 800 + 100);
+
+const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
+---
+
+<div class={`exe-wrapper align-${align}`} style={`--exe-color: ${color}`}>
+  <div 
+    class="exe-file-box"
+    data-title={title}
+    data-desc={description}
+    data-size={mockSize}
+    data-color={color}
+    data-image={heroImage ? (typeof heroImage === 'string' ? heroImage : heroImage.src) : ''}
+    data-url={`/blog/${fileRoute}`}
+  >
+    <div class="exe-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        <path d="M14 2v6h6" />
+      </svg>
+    </div>
+    <div class="exe-info">
+      <div class="exe-title">{title}</div>
+      <div class="exe-date">{dateStr}</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .exe-wrapper {
+    display: flex;
+    position: relative;
+
+    width: 100%;
+    margin-bottom: 0.9cqi;
+  }
+
+  .exe-wrapper.align-left {
+    justify-content: flex-end;
+    
+    padding-right: 60%;
+  }
+  .exe-wrapper.align-right {
+    justify-content: flex-start;
+    padding-left: 60%;
+  }
+
+  /* line */
+  .exe-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+
+    width: 10%;
+    height: 0.05cqi;
+    
+    background: var(--exe-color);
+    opacity: 0.5;
+  }
+  .exe-wrapper.align-left::before { right: calc(50%); }
+  .exe-wrapper.align-right::before { left: calc(50%); }
+
+  .exe-file-box {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+
+    width: 80%;
+
+    gap: 0.6cqi;
+    padding: 0.2cqi 0.5cqi;
+    border: 0.05cqi solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.3cqi;
+
+    background: rgba(0, 0, 0, 0.4);
+    transition: all 0.2s;
+  }
+
+  .exe-file-box:hover {
+    border-color: var(--exe-color);
+    background: rgba(255, 255, 255, 0.05);
+    transform: scale(1.02);
+  }
+
+  .exe-icon {
+    flex-shrink: 0; 
+    width: 1cqi;
+    height: 1cqi;
+    color: var(--exe-color);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .exe-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .exe-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .exe-title {
+    font-family: monospace;
+    font-size: 0.8cqi;
+    color: var(--exe-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .exe-date {
+    font-family: monospace;
+    font-size: 0.5cqi;
+    color: #666;
+  }
+</style>

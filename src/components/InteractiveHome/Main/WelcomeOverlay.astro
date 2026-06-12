@@ -12,6 +12,7 @@ const autoPreloadDevlogUrls = allDevlogs
     .filter(post => !post.id.endsWith('/config'))
     .map(post => encodeURI(`/devlog/${post.id}`)); 
 const autoPreloadBlogUrls = allBlogs
+    .filter(post => !post.id.endsWith('/config'))
     .map(post => encodeURI(`/blog/${post.id}`)); 
 const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
 ---

@@ -2,6 +2,9 @@
 import '../../../styles/zIndex.css';
 import PowerIcon from '../../icons/PowerIcon.astro';
 import ReturnIcon from '../../icons/ReturnIcon.astro';
+import { ANIMATION_TIMES } from '../../../config';
+const open=`${ANIMATION_TIMES.COMPUTER_OPEN}ms`;
+const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
 ---
 
 <div id="computer-screen" class="computer-screen" transition:persist="computer-screen">
@@ -40,7 +43,7 @@ import ReturnIcon from '../../icons/ReturnIcon.astro';
 </div>
 
 
-<style>
+<style define:vars={{open,close}}>
     /*screen*/
     .computer-screen {
         position: absolute;
@@ -105,16 +108,17 @@ import ReturnIcon from '../../icons/ReturnIcon.astro';
     }
     /*Animation*/
     .computer-wrapper.power-on {
-        animation: tv-on 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        animation: tv-on var(--open) cubic-bezier(0.23, 1, 0.32, 1) forwards;
     }
     .computer-wrapper.power-off {
-        animation: tv-off 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        animation: tv-off var(--close) cubic-bezier(0.23, 1, 0.32, 1) forwards;
     }
     .computer-wrapper.power-on::after,
-    .computer-wrapper.is-on::after {
+    .computer-wrapper.power-off::after {
         content: "";
         position: absolute;
         inset: 0;
+        z-index:var(--z-view-overlay);
 
         background: linear-gradient(to bottom, rgba(255, 255, 255, 0.155) 50%, rgba(0, 0, 0, 0.1) 50%);
         background-size: 100% 0.2cqi;
@@ -252,7 +256,8 @@ import ReturnIcon from '../../icons/ReturnIcon.astro';
 </style>
 
 <script>
-    import { addLeaveHook, currentView } from "../../../store";
+    import { ANIMATION_TIMES } from "../../../config";
+import { addLeaveHook, currentView } from "../../../store";
     import { navigateWithAnimation } from "../../../utils/navigation";
 
     document.addEventListener('astro:page-load',()=>{
@@ -284,15 +289,11 @@ import ReturnIcon from '../../icons/ReturnIcon.astro';
             navigateWithAnimation('/blog');
         };
         if(currentView.get()!=='Blog' && currentView.get().startsWith('Blog')){
-            if(!returnBtn.dataset.initialized){
-                returnBtn?.addEventListener('click',ReturnBtnEvent);
-                returnBtn.dataset.initialized = 'true';
-            }
+            returnBtn?.addEventListener('click',ReturnBtnEvent);
             returnBtn?.classList.add('is-white');
         }else{
             returnBtn.classList.remove('is-white');
             returnBtn.removeEventListener('click',ReturnBtnEvent);
-            returnBtn.dataset.initialized = 'false';
         }
 
         /* Power on/off */
@@ -310,17 +311,26 @@ import ReturnIcon from '../../icons/ReturnIcon.astro';
         }
 
         addLeaveHook((targetView)=>{
-            /* on */
-            if(!currentView.get().startsWith('Blog') && targetView.startsWith('Blog')){
-                computerWrapper.classList.remove('power-off','is-off','is-on'); 
-                computerWrapper.classList.add('power-on');     
-            }
-            /* off */
-            if(currentView.get().startsWith('Blog') && !targetView.startsWith('Blog')){
-                computerWrapper.classList.remove('power-on','is-off','is-on');  
-                computerWrapper.classList.add('power-off');    
-            }
-            return Promise.resolve();
+            if(currentView.get().startsWith('Blog') === targetView.startsWith('Blog'))
+                return Promise.resolve();
+
+            return new Promise((resolve)=>{
+                
+                /* on */
+                if(!currentView.get().startsWith('Blog') && targetView.startsWith('Blog')){
+                    computerWrapper.classList.remove('power-off','is-off','is-on'); 
+                    computerWrapper.classList.add('power-on');
+                    //setTimeout(resolve,ANIMATION_TIMES.COMPUTER_OPEN);
+                }
+                /* off */
+                if(currentView.get().startsWith('Blog') && !targetView.startsWith('Blog')){
+                    computerWrapper.classList.remove('power-on','is-off','is-on');  
+                    computerWrapper.classList.add('power-off');    
+                    //setTimeout(resolve,ANIMATION_TIMES.COMPUTER_CLOSE);
+                }
+                resolve();
+            });
+            
         });
         
     });

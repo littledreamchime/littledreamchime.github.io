@@ -32,9 +32,9 @@
               "state": {
                 "file": "01_Architecture/Main.canvas",
                 "viewState": {
-                  "x": 47.79448391638675,
-                  "y": -720.6706583051807,
-                  "zoom": -0.9999999999999998
+                  "x": -538.7081329987568,
+                  "y": 561.7451761769901,
+                  "zoom": -0.3333333333333332
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -52,14 +52,17 @@
             "id": "a13d22da564eec9a",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "03_Issues/Issues_003.md",
-                "mode": "source",
-                "source": false
+                "file": "04_Design/Main.canvas",
+                "viewState": {
+                  "x": 2458.961103167477,
+                  "y": -432.7205496309121,
+                  "zoom": 1.1102230246251565e-16
+                }
               },
-              "icon": "lucide-file",
-              "title": "Issues_003"
+              "icon": "lucide-layout-dashboard",
+              "title": "Main"
             }
           },
           {
@@ -76,8 +79,7 @@
               "title": "Devlog_004：实现Blog界面"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -240,12 +242,12 @@
       "bases:新建数据库": false
     }
   },
-  "active": "cf6027e92dfa25f0",
+  "active": "a13d22da564eec9a",
   "lastOpenFiles": [
-    "03_Issues/Issues_003.md",
     "01_Architecture/Main.canvas",
-    "02_Devlogs/Devlog_004：实现Blog界面.md",
     "04_Design/Main.canvas",
+    "03_Issues/Issues_003.md",
+    "02_Devlogs/Devlog_004：实现Blog界面.md",
     "2026-06-12.md",
     "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
     "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",

@@ -1,0 +1,108 @@
+---
+// ExeFileDescription.astro
+---
+<div id="exe-desc-panel" class="exe-desc-panel">
+  <div class="panel-header">
+    <span class="header-title">FILE_PROPERTIES</span>
+    <div class="header-line"></div>
+  </div>
+  
+  <div class="panel-content">
+    <h3 id="desc-title" class="desc-title">FileName.exe</h3>
+    <p id="desc-text" class="desc-text">Description goes here...</p>
+    
+    <div class="panel-footer">
+      <span id="desc-size" class="desc-size">SIZE: 0 KB</span>
+      <span class="desc-hint">[CLICK TO OPEN]</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .exe-desc-panel {
+    position: absolute;
+    top: 50%;
+    padding: 0.25cqi;
+    z-index: 1000;
+
+    border: 0.05cqi solid var(--panel-color, #fff);
+    border-radius: 0.2cqi;
+    width: 45%;
+
+    color: #fff;
+    background: rgba(10, 10, 15, 0.95);
+    font-family: monospace;
+    opacity: 0;
+    
+    pointer-events: none;
+    transform: translateY(calc(-50% + 10px));
+    transition: all 0.2s ease-out;
+  }
+
+  .exe-desc-panel.is-visible {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 0.15cqi;
+    gap: 0.15cqi;
+    font-size: 0.35cqi;
+    color: #888;
+  }
+
+  .header-line {
+    flex: 1;
+    height: 0.05cqi;
+    background: #444;
+  }
+
+  .desc-title {
+    margin: 0 0 0.25cqi 0;
+    padding-left: 0.5cqi;
+    font-size: 0.7cqi;
+    white-space: nowrap;
+    color: var(--panel-color, #fff);
+    word-break: break-all;
+  }
+
+  .desc-text {
+    display: -webkit-box;
+    margin: 0 0.45cqi 0.45cqi 0;
+    padding-left: 0.65cqi;
+    overflow: hidden;
+    white-space: nowrap;
+
+    font-size: 0.5cqi;
+    line-height: 1.4;
+
+    color: #ccc;
+
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .panel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.5cqi;
+  }
+
+  .desc-size {
+    color: #888;
+  }
+
+  .desc-hint {
+    color: var(--panel-color, #10b981);
+    animation: blink 1.5s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+</style>

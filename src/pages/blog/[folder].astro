@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ComputerScreen from '../../components/InteractiveHome/Blog/ComputerScreen.astro';
+
+export async function getStaticPaths() {
+    const allBlogs = await getCollection('blog');
+    
+    const configs = allBlogs.filter(post => post.id.endsWith('/config'));
+
+    return configs.map(config => {
+        const folderSlug = config.id.split('/')[0];
+        
+        const entries = allBlogs.filter(post => 
+            post.id.startsWith(folderSlug + '/') && !post.id.endsWith('/config')
+        ).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()); 
+
+        return {
+            params: { folder: folderSlug }, // URL
+            props: { 
+                folderTitle: config.data.title,
+                entries: entries,
+                folderSlug: folderSlug
+            }
+        };
+    });
+}
+
+const { folderTitle, entries, folderSlug } = Astro.props;
+
+---
+
+<BaseLayout title="Blog" description="This is my blog page.">
+	<ComputerScreen/>
+</BaseLayout>
