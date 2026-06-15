@@ -1,20 +1,48 @@
 ---
-import { type CollectionEntry, getCollection, render } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ComputerScreen from '../../components/InteractiveHome/Blog/ComputerScreen.astro';
+import Page from '../../components/InteractiveHome/Blog/Page.astro';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
-}
-type Props = CollectionEntry<'blog'>;
+    const allBlogs = await getCollection('blog');
+    
+    const actualPosts = allBlogs.filter(post => !post.id.endsWith('/config'));
 
-const post = Astro.props;
+    return actualPosts.map(post => {
+        const folderSlug = post.id.split('/')[0];
+        
+        const config = allBlogs.find(p => p.id === `${folderSlug}/config`);
+        const folderTitle = config ? config.data.title : folderSlug;
+
+        const entries = allBlogs.filter(p => 
+            p.id.startsWith(folderSlug + '/') && !p.id.endsWith('/config')
+        ).sort((a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()); 
+
+        return {
+            params: { slug: post.id },
+            props: { 
+                post: post,
+                folderTitle: folderTitle,
+                entries: entries
+            }
+        };
+    });
+}
+
+const { post, folderTitle, entries } = Astro.props;
+
+
 const { Content } = await render(post);
+
+const folderSlug = post.id.split('/')[0];
+
 ---
 
-<BlogPost {...post.data}>
-	<Content />
-</BlogPost>
+
+<BaseLayout title="Blog" description="This is my blog page.">
+	<ComputerScreen/>
+    <Page  slot="overlay" post={post} folderSlug={folderSlug}/>
+</BaseLayout>
+
+

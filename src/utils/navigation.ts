@@ -17,9 +17,10 @@ interface RouteDef extends RouteMeta {
 }
 export const ROUTES: RouteDef[] = [
     { pattern: /^\/$/, view: 'Home', zoom: 'none', showReturnBtn: false, parent: 'Home'},
-    { pattern: /^\/about(\/.*)?$/, view: 'About', zoom: 'paper', showReturnBtn: true, parent: 'About'},
-    { pattern: /^\/blog(\/.*)?$/, view: 'Blog', zoom: 'computer', showReturnBtn: true, parent: 'Blog'},
-    { pattern: /^\/blog\/[^\/]+\/?$/, view: 'BlogPaper', zoom: 'computer', showReturnBtn: true, parent: 'Blog' },
+    { pattern: /^\/about\/?$/, view: 'About', zoom: 'paper', showReturnBtn: true, parent: 'About'},
+    { pattern: /^\/blog\/?$/, view: 'Blog', zoom: 'computer', showReturnBtn: true, parent: 'Blog'},
+    { pattern: /^\/blog\/[^\/]+\/?$/, view: 'BlogBinder', zoom: 'computer', showReturnBtn: true, parent: 'Blog' },
+    { pattern: /^\/blog\/[^\/]+\/.+$/, view: 'BlogPaper', zoom: 'computer', showReturnBtn: true, parent: 'Blog' },
     { pattern: /^\/devlog\/?$/, view: 'Devlog', zoom: 'none', showReturnBtn: true,parent: 'Devlog' },
     { pattern: /^\/devlog\/[^\/]+\/?$/, view: 'DevlogBinder', zoom: 'none', showReturnBtn: true, parent: 'Devlog' },
     { pattern: /^\/devlog\/[^\/]+\/.+$/, view: 'DevlogPaper', zoom: 'none', showReturnBtn: true, parent: 'Devlog' },
@@ -40,10 +41,12 @@ export function getViewMeta(viewName: string): RouteMeta {
 }
 
 /*Control all navigate*/
-export async function navigateWithAnimation(href: string, targetView: string) {
+export async function navigateWithAnimation(href: string) {
     const currentPath = window.location.pathname.replace(/\/$/, '');
     const targetPath = new URL(href, window.location.origin).pathname.replace(/\/$/, '');
     if (currentPath === targetPath) return;
+
+    const targetView=getViewFromPath(targetPath) || 'Home';
 
     if(isAnimating.get())return;
 
@@ -76,7 +79,7 @@ export function handleAnimatedLinkClick(e: Event) {
     if (!targetView) return;
 
     e.preventDefault();
-    navigateWithAnimation(href, targetView);
+    navigateWithAnimation(href);
 }
 
 export function syncViewWithUrl(){

@@ -9,22 +9,31 @@ const {post,folderSlug}=Astro.props;
 const { Content } = await render(post);
 ---
 
+<ChildrenOverlay id="page-overlay"/>
 <div id="paper-ui" class="paper-ui">
-	<div id="paper-header" class="paper-header">
-		<button id="paper-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>
-			←
-		</button>
-		<div class="meta">
-			<h1>{post.data.title}</h1>
-			<time>{post.data.pubDate.toLocaleDateString()}</time>
-		</div>
-	</div>
+    
+    <div class="window-titlebar">
+        <div class="titlebar-left">
+            <span>Blog Reader.exe</span>
+        </div>
+        <div class="titlebar-right">
+            <button id="paper-back-btn" class="win-btn" data-target={`/blog/${folderSlug}`}>
+                ✕
+            </button>
+        </div>
+    </div>
 
-	<div id="paper-content" class="paper-content">
-		<Content />
-	</div>
+    <div id="paper-header" class="paper-header">
+        <div class="meta">
+            <h1>{post.data.title}</h1>
+            <time>{post.data.pubDate.toLocaleDateString()}</time>
+        </div>
+    </div>
+
+    <div id="paper-content" class="paper-content">
+        <Content />
+    </div>
 </div>
-
 
 <style define:vars={{pageShowTime}}>
     /*Main*/
@@ -42,9 +51,10 @@ const { Content } = await render(post);
         height: calc(95% - 6.5rem);
         
         opacity: 0;
-        background-color: #211525;
+        background-color: #0d1117; 
         border-radius: 0.5rem;
-        box-shadow: 0 1.5rem 3rem -0.75rem rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(222, 204, 230, 0.1);
+        border: 1px solid #30363d;
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.9);
         
         transform: translate(-50%, 20%) scale(0.95);
         transition: all var(--pageShowTime) cubic-bezier(0.22, 1, 0.36, 1);
@@ -52,6 +62,26 @@ const { Content } = await render(post);
     .paper-ui.open {
         transform: translate(-50%, 0) scale(1);
         opacity: 1;
+    }
+    /* Windows-titlebar */
+    
+    .window-titlebar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0;
+
+        padding: 0.5rem 1rem;
+        font-family: monospace;
+        font-size: 0.85rem;
+        
+        background-color: #010409;
+        border-bottom: 1px solid #30363d;
+        color: #8b949e;
+    }
+    .titlebar-right {
+        display: flex;
+        gap: 1rem;
     }
 
     /*Header*/
@@ -61,8 +91,8 @@ const { Content } = await render(post);
         flex-direction: column;
         align-items: flex-start;
 
-        padding: 1.5rem clamp(1.5rem, 5vw, 4rem) 0.5rem;
-        border-bottom: 3px solid #3c2a45;
+        padding: 2rem clamp(1.5rem, 5vw, 4rem) 1rem;
+        border-bottom: 1px solid #21262d;
         
         max-height: 500px;
         
@@ -72,28 +102,30 @@ const { Content } = await render(post);
     .paper-header:hover{
     }
 
-    .back-btn {
+    .win-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 0.5rem 1rem;
-        margin-bottom: 1rem;
+        
+        width: 2.5rem; 
+        height: 2.5rem;
+        font-size: 1.25rem; 
 
         border: none;
-        border-radius: 0.5rem;
+        border-radius: 0.25rem;
 
-        background:  #592d6d; 
-        color: #c7c7c7; 
-        font-weight: bold;
-        font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
+        background: transparent;
+        color: #8b949e; 
+        font-size: 1rem;
 
         cursor: pointer;
-        transition: background 0.2s,transform  0.2s;
+        transition: background 0.2s, color 0.2s;
     }
-    .back-btn:hover { 
-        background: #602b6f;
-        transform: scale(1.05);
-     }
+     
+    .win-btn:hover{
+        background: #e81123;
+        color: #ffffff;
+    }
     .meta {
         display: flex;
         flex-direction: column;
@@ -104,14 +136,14 @@ const { Content } = await render(post);
         margin:0;
         
         font-size: clamp(1.5rem, 4vw + 1rem, 2.5rem);
-        color: #f3e8ff;
-        font-family: serif; 
+        color: #e6edf3;
+        font-family: monospace;
         line-height: 1.3;
     }
     .meta time {
         margin: 0;
 
-        color: #8b7a9f;
+        color: #7d8590;
         font-size: 0.875rem;
     }
 
@@ -133,12 +165,38 @@ const { Content } = await render(post);
     }
     .paper-content::-webkit-scrollbar { display: none; }
 
-    .paper-content :global(h2) { margin-top: 2rem; color: #d979f9; border-bottom: 1px solid #352a45; padding-bottom: 0.5rem; }
+    .paper-content :global(h2) { 
+        margin-top: 2rem; 
+        color: #e6edf3;
+        border-bottom: 1px solid #30363d;
+        padding-bottom: 0.5rem; 
+    }
     .paper-content :global(p) { margin-bottom: 1.5rem; }
-    .paper-content :global(a) { color: #9f72f4; text-decoration: none; border-bottom: 1px dashed #9972f4; transition: color 0.2s; }
-    .paper-content :global(a:hover) { color: #b946ef; border-color: #d946ef; }
-    .paper-content :global(code) { background: #2a2136; color: #a472f4; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
-    .paper-content :global(pre) { background: #110d17; color: #e2d8ee; padding: 1rem; border-radius: 8px; overflow-x: auto; border: 1px solid #2a2136; }
+    .paper-content :global(a) { 
+        color: #58a6ff;
+        text-decoration: none; 
+        border-bottom: 1px dashed #58a6ff; 
+        transition: color 0.2s, border-color 0.2s; 
+    }
+    .paper-content :global(a:hover) { 
+        color: #79c0ff; 
+        border-color: #79c0ff; 
+    }
+    .paper-content :global(code) { 
+        background: #161b22;
+        color: #4AF626;
+        padding: 0.2rem 0.4rem; 
+        border-radius: 4px; 
+        font-size: 0.9em; 
+    }
+    .paper-content :global(pre) { 
+        background: #000000;
+        color: #4AF626;
+        padding: 1rem; 
+        border-radius: 4px;
+        overflow-x: auto; 
+        border: 1px solid #30363d;
+    }
 
     
 @media (max-width: 768px) {
@@ -152,6 +210,10 @@ const { Content } = await render(post);
         font-size: 0.75rem; 
     }
     
+    .window-titlebar {
+        padding: 0.25rem 0.5rem;
+    }
+    
     .paper-header.header-hidden{
         max-height: 0;
         padding-top: 0;
@@ -161,26 +223,14 @@ const { Content } = await render(post);
         opacity: 0;
         overflow: hidden;
     }
-}
-
-
-@media (min-width: 769px) {
-    .paper-ui {
-        left: 37.5%;
-        width: 60%;
-        max-width: 100000px;
-        height: calc(95% - 6.5rem);
-        
-        transform: translate(0, 20%) scale(0.95);
-    }
-    .paper-ui.open {
-        transform: translate(0, 0) scale(1);
-    }
     
-    .paper-ui .back-btn {
-        display: none;
+    .win-btn {
+        width: 3rem;      
+        height: 3rem;
+        font-size: 1.5rem;
     }
 }
+
 </style>
 
 <script>
@@ -191,13 +241,15 @@ const { Content } = await render(post);
     document.addEventListener('astro:page-load', () => {
         const paper = document.getElementById('paper-ui');
         const backBtn = document.getElementById('paper-back-btn');
+        const overlay = document.getElementById('page-overlay');
         const content = document.getElementById('paper-content');
         const header = document.getElementById('paper-header');
-        if(!paper) return;
+        if(!paper || !overlay) return;
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 if (!paper.classList.contains('open')) paper.classList.add('open');
+                if (!overlay.classList.contains('show')) overlay.classList.add('show');
             });
         });
 
@@ -255,18 +307,24 @@ const { Content } = await render(post);
 
 
         const goBack = () => {
-            const targetUrl = backBtn?.getAttribute('data-target') || '/devlog';
+            const targetUrl = backBtn?.getAttribute('data-target');
+            if(!targetUrl) return;
             navigateWithAnimation(targetUrl);
         };
+        overlay.addEventListener('click', goBack);
 
         backBtn?.addEventListener('click', goBack);
 
-        addLeaveHook(() => {
+        addLeaveHook((targetView) => {
             return new Promise((resolve) => {
                 paper.classList.remove('open');
+                if(targetView!=='BlogPage')
+                    overlay.classList.remove('show');
                 
                 setTimeout(() => {
                     paper.style.display = 'none';
+                    if(targetView!=='BlogPage')
+                        overlay.style.display = 'none';
                     resolve();
                 }, ANIMATION_TIMES.PAGE_SHOW); 
             });

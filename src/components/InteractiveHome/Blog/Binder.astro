@@ -1,0 +1,347 @@
+---
+// Binder.astro
+import ExeFile from './ExeFile.astro';
+import ExeFileDescription from './ExeFileDescription.astro';
+
+const { config, files, index,slug} = Astro.props;
+const { title, description, color, heroImage } = config.data;
+
+const driveLetter = String.fromCharCode(67 + index);
+const themeColor = color || '#10b981';
+---
+
+<div class="binder-item" data-color={themeColor} data-slug={slug} style={`--theme-color: ${themeColor}`}>
+  
+  <div class="binder-vertical-view">
+    {heroImage && <img src={typeof heroImage === 'string' ? heroImage : heroImage.src} class="vertical-bg" alt="" />}
+    <div class="vertical-overlay"></div>
+    <div class="vertical-content">
+      <span class="vertical-title">{driveLetter}:\ {title}</span>
+      <span class="vertical-desc">{description}</span>
+    </div>
+  </div>
+
+  <!-- expanded -->
+  <div class="binder-expanded-view">
+    <div class="expanded-header">
+      <span class="header-icon">&lt; &gt;</span>
+      <span class="header-path">{driveLetter}:\ {title}</span>
+    </div>
+    
+    <div class="expanded-body">
+      
+      {files.length === 0 ? (
+        <div class="empty-message">THIS PARTITION IS EMPTY.</div>
+      ) : (
+        <div class="exe-list">
+          <div class="center-axis"></div>
+          {files.map((file:any, i:any) => (
+            <ExeFile 
+              file={file} 
+              align={i % 2 === 0 ? 'left' : 'right'} 
+              color={themeColor} 
+            />
+          ))}
+        </div>
+      )}
+      
+    </div>
+    <ExeFileDescription />
+  </div>
+</div>
+
+<style>
+    /* Normal */
+    .binder-item {
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        flex: 1;
+
+        height: 100%;
+
+        border: 0.05cqi solid var(--theme-color);
+        border-radius: 0.2cqi;
+        background: #0a0a0f;
+
+        cursor: pointer;
+        transform: translateY(150%);
+        transition: flex 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.3s, 
+                transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    
+    .binder-item.is-loaded {
+        transform: translateY(0);
+    }
+    /* clooapsed*/
+    .binder-item.is-collapsed {
+        flex: 0 0 1.5cqi;
+        opacity: 0.6;
+    }
+    .binder-item.is-collapsed:hover {
+        opacity: 1;
+    }
+
+    /* expanded */
+    .binder-item.is-expanded {
+        flex: 10;
+        cursor: default;
+    }
+
+    /* vertical view */
+    .binder-vertical-view {
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        
+        transition: opacity 0.3s;
+    }
+    .binder-item.is-expanded .binder-vertical-view {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .vertical-bg {
+        position: absolute;
+        inset: 0;
+        object-fit: cover;
+
+        width: 100%;
+        height: 100%;
+        
+        opacity: 0.2;
+    }
+    .vertical-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent, rgba(30, 3, 43, 0.386));
+    }
+
+    /* content */
+    .vertical-content {
+        position: relative;
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        z-index: 2;
+
+        height: 100%;
+        padding: 0.5cqi 0;
+    }
+
+    .vertical-title {
+
+        writing-mode: vertical-rl;
+        font-family: monospace;
+        font-size: 0.85cqw;
+        font-weight: bold;
+        white-space: nowrap;
+
+        color: var(--theme-color);
+
+        transform: rotate(180deg);
+    }
+
+    .vertical-desc {
+        margin-top: auto;
+        overflow: hidden;
+
+        writing-mode: vertical-rl;
+        font-family: monospace;
+        font-size: 0.5cqw;
+        text-overflow: ellipsis;
+        line-height: 1;
+
+        color: #aaa;
+        transform: rotate(180deg);
+    }
+
+    /* expanded */
+    .binder-expanded-view {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        z-index: 5;
+
+        opacity: 0;
+
+        pointer-events: none;
+        transition: opacity 0.3s 0.2s;
+    }
+    .binder-item.is-expanded .binder-expanded-view {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .expanded-header {
+        display: flex;
+        align-items: center;
+
+        gap: 1cqi;
+        padding: 0.2cqi 0.5cqi;
+        border-bottom: 0.05cqi solid rgba(255, 255, 255, 0.1);
+
+        font-family: monospace;
+        font-size: 0.85cqi;
+        
+        color: var(--theme-color);
+        background: rgba(0,0,0,0.3);
+    }
+
+    .expanded-body {
+        flex: 1;
+        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+        
+        padding: 1cqi 0;
+    }
+
+    .center-axis {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+
+        width: 0.1cqi;
+        background: var(--theme-color);
+        opacity: 0.3;
+
+        transform: translateX(-50%);
+    }
+    .center-axis::before,
+    .center-axis::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        
+        width: 0.6cqi;
+        height: 0.6cqi;
+        background: var(--theme-color);
+        border-radius: 50%;
+        
+        transform: translateX(-50%);
+    }
+    .center-axis::before {
+        top: 0;
+    }
+
+    .center-axis::after {
+        bottom: 0;
+    }
+
+
+    .exe-list {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .empty-message {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        font-family: monospace;
+        font-size: 0.85cqi;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.1em;
+        white-space: nowrap;
+    }
+</style>
+
+<script>
+import { currentView } from "../../../store";
+import { navigateWithAnimation } from "../../../utils/navigation";
+
+  document.addEventListener('astro:page-load', () => {
+    const binders = document.querySelectorAll('.binder-item');
+    const currentPath = decodeURIComponent(window.location.pathname);
+    
+    binders.forEach((binder,index) => {
+        const slug = (binder as HTMLElement).dataset.slug;
+        const targetUrl = `/blog/${slug}`;
+
+        if(currentView.get()==='Blog'){
+            binder.classList.remove('is-expanded','is-collapsed');
+        }else{
+            const isMatch = currentPath === targetUrl || currentPath.startsWith(targetUrl + '/');
+            if (isMatch) {
+                binder.classList.add('is-expanded');
+                binder.classList.remove('is-collapsed');
+            } else {
+                binder.classList.add('is-collapsed');
+                binder.classList.remove('is-expanded');
+            }
+        }
+
+        if (!binder.classList.contains('is-loaded')) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        binder.classList.add('is-loaded');
+                    }, index * 100); 
+                });
+            });
+        }
+
+        binder.addEventListener('click', (e) => {
+            if (binder.classList.contains('is-expanded')) return;
+
+            navigateWithAnimation(targetUrl);
+        });
+
+        const exeFiles = binder.querySelectorAll<HTMLElement>('.exe-file-box');
+        const descPanel = binder.querySelector<HTMLElement>('.exe-desc-panel');
+        const descTitle = binder.querySelector<HTMLElement>('.desc-title');
+        const descText = binder.querySelector<HTMLElement>('.desc-text');
+        const descSize = binder.querySelector<HTMLElement>('.desc-size');
+        exeFiles.forEach(file => {
+            file.addEventListener('mouseenter', () => {
+                if (!descPanel) return;
+                descPanel.classList.remove('is-visible');
+
+                const wrapper = file.closest('.exe-wrapper');
+                const isLeft = wrapper?.classList.contains('align-left');
+                
+                if (wrapper) {
+                    wrapper.appendChild(descPanel);
+                }
+                if (isLeft) {
+                    descPanel.style.left = '52%';
+                } else {
+                    descPanel.style.left = '3%';
+                }
+
+                if(descTitle) descTitle.textContent = `${file.dataset.title}`;
+                if(descText) descText.textContent = file.dataset.desc || '';
+                if(descSize) descSize.textContent = `SIZE: ${file.dataset.size} KB`;
+                
+                void descPanel.offsetHeight; 
+                descPanel.style.setProperty('--panel-color', file.dataset.color || '#fff');
+                descPanel.classList.add('is-visible');
+                
+            });
+            
+            file.addEventListener('mouseleave', () => {
+                if (descPanel) descPanel.classList.remove('is-visible');
+            });
+
+            file.addEventListener('click', () => {
+                const targetUrl=file.dataset.url;
+                if(targetUrl){
+                    navigateWithAnimation(targetUrl);
+                }
+            });
+        });
+    });
+});
+</script>

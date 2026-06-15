@@ -334,7 +334,7 @@ const littleTime=`${ANIMATION_TIMES.NO_ZOOM_LITTLE_WAIT}ms`;
 
 <script>
     import { isWelcomeDismissed ,currentView} from "../../../store";
-    import {handleAnimatedLinkClick} from "../../../utils/navigation";
+    import {getViewMeta, handleAnimatedLinkClick} from "../../../utils/navigation";
 
     document.addEventListener('astro:page-load',()=>
     {
@@ -402,9 +402,12 @@ const littleTime=`${ANIMATION_TIMES.NO_ZOOM_LITTLE_WAIT}ms`;
         /*Change the nav menu*/
         const navLinks = document.querySelectorAll('#header-nav a');
         if (!navLinks.length) return;
+
         const viewToPath = {
             'Home': '/',
             'Blog': '/blog',
+            'BlogBinder': '/blog',
+            'BlogPaper': '/blog',
             'Devlog': '/devlog',
             'DevlogBinder': '/devlog',
             'DevlogPaper': '/devlog',
