@@ -17,5 +17,9 @@
 - 解决思路：在返回时立刻删除多余文字
 #Layout 
 
-
-
+## 问题五：Blog滚动重置问题
+- Blog界面的滚动在看完Page之后会被重置；
+- 解决思路：复刻之前的代码
+#Transition 
+## 问题六：Blog的Page界面在宽屏下太窄了
+#Layout #Transition 
