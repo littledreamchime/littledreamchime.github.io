@@ -38,5 +38,4 @@ export const PRELOAD_ASSETS = [
     {type:'page',src:'/devlog'},
     {type:'page',src:'/blog'},
     {type:'page',src:'/about'},
-    {type:'page',src:'/devlog/game-001'},
 ];
