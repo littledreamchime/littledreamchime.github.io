@@ -269,6 +269,8 @@ import { navigateWithAnimation } from "../../../utils/navigation";
     binders.forEach((binder,index) => {
         const slug = (binder as HTMLElement).dataset.slug;
         const targetUrl = `/blog/${slug}`;
+        const expandedBody = binder.querySelector<HTMLElement>('.expanded-body');
+        const scrollKey = `binder-scroll-${slug}`;
 
         if(currentView.get()==='Blog'){
             binder.classList.remove('is-expanded','is-collapsed');
@@ -277,12 +279,32 @@ import { navigateWithAnimation } from "../../../utils/navigation";
             if (isMatch) {
                 binder.classList.add('is-expanded');
                 binder.classList.remove('is-collapsed');
+                
+                if (expandedBody) {
+                    const savedScroll = sessionStorage.getItem(scrollKey);
+                    if (savedScroll) {
+                        requestAnimationFrame(() => {
+                            expandedBody.scrollTop = parseInt(savedScroll, 10);
+                        });
+                    }
+                }
             } else {
                 binder.classList.add('is-collapsed');
                 binder.classList.remove('is-expanded');
             }
         }
 
+        if (expandedBody) {
+            let scrollTimeout: any;
+            expandedBody.addEventListener('scroll', () => {
+                if (binder.classList.contains('is-expanded')) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        sessionStorage.setItem(scrollKey, expandedBody.scrollTop.toString());
+                    }, 100);
+                }
+            }, { passive: true });
+        }
         if (!binder.classList.contains('is-loaded')) {
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
@@ -338,6 +360,9 @@ import { navigateWithAnimation } from "../../../utils/navigation";
             file.addEventListener('click', () => {
                 const targetUrl=file.dataset.url;
                 if(targetUrl){
+                    if (expandedBody) {
+                        sessionStorage.setItem(scrollKey, expandedBody.scrollTop.toString());
+                    }
                     navigateWithAnimation(targetUrl);
                 }
             });
