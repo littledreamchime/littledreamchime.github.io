@@ -2,8 +2,8 @@
 	"nodes":[
 		{"id":"889ae9d37abeff5f","type":"group","x":-640,"y":-1720,"width":4000,"height":2800,"label":"BLog"},
 		{"id":"68adcf3e2fd23bb3","type":"group","x":-1360,"y":-840,"width":542,"height":280,"label":"Config"},
-		{"id":"ca4a98c6c4cb9b46","type":"file","file":"Template/Images/Pasted image 20260611142742.png","x":680,"y":-869,"width":1260,"height":760},
 		{"id":"0788cf2d6cfbe241","type":"file","file":"04_Design/Config/分辨率.md","x":-1338,"y":-789,"width":364,"height":160},
+		{"id":"ca4a98c6c4cb9b46","type":"file","file":"Template/Images/Pasted image 20260611142742.png","x":680,"y":-869,"width":1260,"height":760},
 		{"id":"5c26b93e52a9b32b","type":"file","file":"Template/Images/Pasted image 20260611151210.png","x":1940,"y":-869,"width":922,"height":760},
 		{"id":"761b168d9a0d0c97","type":"text","text":"# BlogPage\nWindow标题、x\nHeader：\n\t标题、时间\nContent\n","x":2240,"y":87,"width":226,"height":202},
 		{"id":"c4d8f1e28d0d6bd8","type":"text","text":"# BlogDescription:\n悬浮在exe上出现，在左下角\n### 静态信息：\n- Double Click To Run\n- FILE_PROPERTIES\n### 动态信息（从md读取）：\n- 名称\n- 描述\n- 大小\n- *图片","x":1420,"y":-80,"width":320,"height":460},
