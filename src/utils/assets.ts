@@ -14,36 +14,61 @@ export function preloadAssets() {
     if (typeof window === 'undefined') return Promise.resolve();
     if (isAssetsLoaded.get()) return Promise.resolve();
     
-    const deepPreloadPage = (url: string) => {
-        return new Promise((resolve) => {
-            if (import.meta.env.DEV) {
-                prefetch(url);
-                return resolve(true);
+        const deepPreloadPage = async (url: string) => {
+        if (import.meta.env.DEV) {
+            prefetch(url);
+            return true;
+        }
+
+        try {
+            const cache = 'caches' in window ? await caches.open('site-assets-v1') : null;
+            
+            let response = cache ? await cache.match(url) : null;
+            
+            if (!response) {
+                response = await fetch(url);
+                if (response.ok && cache) {
+                    await cache.put(url, response.clone());
+                }
             }
-            fetch(url)
-                .then(res => res.text())
-                .then(html => {
-                    prefetch(url);
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const subAssets: string[] = [];
 
-                    doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-                        const href = link.getAttribute('href');
-                        if (href) subAssets.push(href);
-                    });
+            const html = await response.text();
+            prefetch(url);
 
-                    doc.querySelectorAll('script[src]').forEach(script => {
-                        const src = script.getAttribute('src');
-                        if (src) subAssets.push(src);
-                    });
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const subAssets: string[] = [];
 
-                    const subPromises = subAssets.map(src => fetch(src).catch(() => null));
-                    return Promise.all(subPromises);
-                })
-                .then(() => resolve(true))
-                .catch(() => resolve(true)); 
-        });
+            doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href) subAssets.push(href);
+            });
+
+            doc.querySelectorAll('script[src]').forEach(script => {
+                const src = script.getAttribute('src');
+                if (src) subAssets.push(src);
+            });
+
+            const subPromises = subAssets.map(async (src) => {
+                try {
+                    let subRes = cache ? await cache.match(src) : null;
+                    if (!subRes) {
+                        subRes = await fetch(src);
+                        if (subRes.ok && cache) {
+                            await cache.put(src, subRes.clone());
+                        }
+                    }
+                } catch (e) {
+                }
+            });
+
+            await Promise.all(subPromises);
+            return true;
+
+        } catch (error) {
+            console.warn(`Failed to deep preload ${url}:`, error);
+            return true;
+        }
     };
 
     const assetPromises = PRELOAD_ASSETS.map(asset => {
