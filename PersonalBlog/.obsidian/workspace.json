@@ -255,8 +255,9 @@
   },
   "active": "a13d22da564eec9a",
   "lastOpenFiles": [
-    "03_Issues/Issues_003.md",
+    "03_Issues/Issues_004.md",
     "02_Devlogs/Devlog_005 修复Issues003，布局About界面.md",
+    "03_Issues/Issues_003.md",
     "02_Devlogs/Devlog_004：实现Blog界面.md",
     "01_Architecture/Main.canvas",
     "04_Design/Main.canvas",
@@ -291,7 +292,6 @@
     "04_Design",
     "01_Architecture/Component/Main/ReturnHomeButton.md",
     "01_Architecture/Component/About",
-    "01_Architecture/Component/Main/Footer.md",
     "Template/Images/Pasted image 20260605160026.png",
     "Template/Images/Pasted image 20260605155912.png",
     "Template/Images/Pasted image 20260520213744.png",
