@@ -308,7 +308,7 @@ import { navigateWithAnimation } from "../../../utils/navigation";
             }, { passive: true });
 
             expandedBody.addEventListener('touchmove', (e) => {
-                const isRotated = window.matchMedia('(max-aspect-ratio: 414/896)').matches || window.matchMedia('(max-width: 768px)').matches;
+                const isRotated = window.matchMedia('(max-aspect-ratio: 0.5)').matches || window.matchMedia('(max-width: 768px)').matches;
                 
                 if (isRotated && binder.classList.contains('is-expanded')) {
                     e.preventDefault(); 

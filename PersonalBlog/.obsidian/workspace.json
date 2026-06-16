@@ -253,11 +253,11 @@
       "bases:新建数据库": false
     }
   },
-  "active": "65d44ec1e58816f8",
+  "active": "a13d22da564eec9a",
   "lastOpenFiles": [
+    "03_Issues/Issues_003.md",
     "02_Devlogs/Devlog_005 修复Issues003，布局About界面.md",
     "02_Devlogs/Devlog_004：实现Blog界面.md",
-    "03_Issues/Issues_003.md",
     "01_Architecture/Main.canvas",
     "04_Design/Main.canvas",
     "2026-06-12.md",
