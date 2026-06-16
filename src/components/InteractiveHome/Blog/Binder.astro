@@ -267,6 +267,7 @@ import { navigateWithAnimation } from "../../../utils/navigation";
     const currentPath = decodeURIComponent(window.location.pathname);
     
     binders.forEach((binder,index) => {
+        
         const slug = (binder as HTMLElement).dataset.slug;
         const targetUrl = `/blog/${slug}`;
         const expandedBody = binder.querySelector<HTMLElement>('.expanded-body');
@@ -295,6 +296,39 @@ import { navigateWithAnimation } from "../../../utils/navigation";
         }
 
         if (expandedBody) {
+            
+            let startX = 0;
+            let startY = 0;
+            let startScrollTop = 0;
+
+            expandedBody.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                startScrollTop = expandedBody.scrollTop;
+            }, { passive: true });
+
+            expandedBody.addEventListener('touchmove', (e) => {
+                const isRotated = window.matchMedia('(max-aspect-ratio: 414/896)').matches || window.matchMedia('(max-width: 768px)').matches;
+                
+                if (isRotated && binder.classList.contains('is-expanded')) {
+                    e.preventDefault(); 
+                    
+                    const currentX = e.touches[0].clientX;
+                    const currentY = e.touches[0].clientY;
+                    
+                    const deltaX = currentX - startX;
+                    const deltaY = currentY - startY;
+                    
+                    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                        expandedBody.scrollTop = startScrollTop + deltaX;
+                    } else {
+                        expandedBody.scrollTop = startScrollTop - deltaY;
+                    }
+                }
+            }, { passive: false });
+
+
+
             let scrollTimeout: any;
             expandedBody.addEventListener('scroll', () => {
                 if (binder.classList.contains('is-expanded')) {

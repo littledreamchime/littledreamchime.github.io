@@ -37,8 +37,11 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         --paper-origin-y:90%;
         /*Computer*/
         --computer-zoom-scale: 2.2;
+        --computer-zoom-scale-phone: 4.4;
         --computer-origin-x: 50%;
         --computer-origin-y: 50%;
+        --computer-origin-x-phone: 48%;
+        --computer-origin-y-phone: 51%;
 
         position:relative;
         display: flex;
@@ -79,25 +82,32 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         background-position: center;
         background-repeat: no-repeat;
 
-        transition: transform var(--timeZoomOut) var(--ease-silky),transform-origin var(--timeZoomOut) var(--ease-apple);
+        transition: transform var(--timeZoomOut) var(--ease-silky),transform-origin var(--timeZoomOut) var(--ease-silky);
     }
 
     /*Zoom in*/
     .desk-main.zoom-to-paper{
         transform-origin: var(--paper-origin-x) var(--paper-origin-y);
         transform: scale(var(--paper-zoom-scale));
-        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomIn) var(--ease-apple);
+        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomIn) var(--ease-silky);
     }
     .desk-main.zoom-to-computer{
         transform-origin: var(--computer-origin-x) calc(var(--computer-origin-y));
         transform: scale(var(--computer-zoom-scale));
-        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomIn) var(--ease-apple);
+        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomIn) var(--ease-silky);
     }
     .desk-main.zoom-to-others{
     }
     .no-transition {
         transition: none !important;
     }
+@media (max-aspect-ratio: 414/896) {
+    .desk-main.zoom-to-computer{
+        transform-origin: var(--computer-origin-x-phone) calc(var(--computer-origin-y-phone));
+        transform: scale(var(--computer-zoom-scale-phone)) rotate(90deg);
+        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomIn) var(--ease-silky);
+    }
+}
 </style>
 
 <script>
