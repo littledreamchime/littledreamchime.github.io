@@ -364,8 +364,12 @@ const { title, entries,folderSlug } = Astro.props;
         addLeaveHook((targetView) => {
             if(binder.classList.contains('minimized') && targetView === 'DevlogBinder'){
                 return new Promise((resolve) => {
+                    const overflowingTitles = binder.querySelectorAll('.entry-title.is-overflowing');
+                    overflowingTitles.forEach(title => title.classList.remove('is-overflowing'));
+
                     binder.classList.remove('minimized');      
                     setTimeout(()=>{
+                        checkOverflow();
                         resolve();
                     }, ANIMATION_TIMES.BINDER_SHOW); 
                 });    
@@ -374,6 +378,7 @@ const { title, entries,folderSlug } = Astro.props;
                 return new Promise((resolve) => {
                 binder.classList.add('minimized');
                 setTimeout(()=>{
+                    checkOverflow();
                     resolve();
                 }, ANIMATION_TIMES.BINDER_SHOW); 
             });
