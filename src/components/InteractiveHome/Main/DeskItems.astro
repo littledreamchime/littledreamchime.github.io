@@ -138,6 +138,13 @@ import ComputerBackGround from './ComputerBackGround.astro';
 
             if(text){
                 tooltip.textContent=text;
+                tooltip.style.transition = 'none';
+                tooltip.style.setProperty('--x', `${e.clientX}px`);
+                tooltip.style.setProperty('--y', `${e.clientY}px`);
+                
+                void tooltip.offsetWidth; 
+                
+                tooltip.style.transition = ''; 
                 tooltip.classList.add('is-visible');
             }
         };
