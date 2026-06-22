@@ -262,6 +262,7 @@ const themeColor = color || '#10b981';
 import { currentView } from "../../../store";
 import { navigateWithAnimation } from "../../../utils/navigation";
 
+const eventControllers = new WeakMap<HTMLElement, AbortController>();
   document.addEventListener('astro:page-load', () => {
     const binders = document.querySelectorAll('.binder-item');
     const currentPath = decodeURIComponent(window.location.pathname);
@@ -294,12 +295,12 @@ import { navigateWithAnimation } from "../../../utils/navigation";
                 binder.classList.remove('is-expanded');
             }
         }
-
+        /* scroll view */
         if (expandedBody) {
-            
             let startX = 0;
             let startY = 0;
             let startScrollTop = 0;
+            let scrollTimeout: any;
 
             expandedBody.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
@@ -329,13 +330,12 @@ import { navigateWithAnimation } from "../../../utils/navigation";
 
 
 
-            let scrollTimeout: any;
             expandedBody.addEventListener('scroll', () => {
                 if (binder.classList.contains('is-expanded')) {
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(() => {
                         sessionStorage.setItem(scrollKey, expandedBody.scrollTop.toString());
-                    }, 100);
+                    }, 600);
                 }
             }, { passive: true });
         }
