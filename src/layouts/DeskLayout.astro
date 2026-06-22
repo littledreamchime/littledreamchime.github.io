@@ -1,4 +1,6 @@
 ---
+import {getOptimizedImageUrl} from "../utils/assets.ts";
+import desk_bg from "../assets/Images/desk_bg.png";
 import DeskItems from "../components/InteractiveHome/Main/DeskItems.astro";
 import ReturnHomeButton from "../components/InteractiveHome/Main/ReturnHomeButton.astro";
 import { ANIMATION_TIMES } from "../config";
@@ -6,6 +8,7 @@ import '../styles/zIndex.css';
 
 const timeZoomIn=`${ANIMATION_TIMES.ZOOM_IN/1000}s`;
 const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
+const bg_image_url = await getOptimizedImageUrl(desk_bg);
 ---
 
 
@@ -19,7 +22,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
 </div>
 
 
-<style define:vars={{timeZoomIn,timeZoomOut}}>
+<style define:vars={{timeZoomIn,timeZoomOut,bg_image_url}}>
     /*Desk container*/
     .desk-container{
         /*Background*/
@@ -61,7 +64,7 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         inset: -5%; 
         z-index: var(--z-negative);
 
-        background-image: url('/Images/desk_bg_Template.png');
+        background-image: var(--bg_image_url);
         background-size: cover; 
         background-position: center;
         filter: blur(20px); 
@@ -78,7 +81,8 @@ const timeZoomOut=`${ANIMATION_TIMES.ZOOM_OUT/1000}s`;
         aspect-ratio:var(--ratio-w) / var(--ratio-h);
         box-shadow: 0 0 60px rgba(41, 5, 50, 0.927);
 
-        background-image: url('/Images/desk_bg_Template.png');background-size: 100% 100%; 
+        background-image: var(--bg_image_url);
+        background-size: 100% 100%; 
         background-position: center;
         background-repeat: no-repeat;
 

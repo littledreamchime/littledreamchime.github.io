@@ -1,6 +1,8 @@
 import { atom } from "nanostores";
 import { PRELOAD_ASSETS } from "../config";
 import { prefetch } from 'astro:prefetch'; 
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
 
 export const isAssetsLoaded = atom(false);
 
@@ -125,4 +127,12 @@ export function preloadAssets() {
     return Promise.all([...assetPromises, ...pagePromises, ...autoPagePromises]).then(() => {
         isAssetsLoaded.set(true);
     });
+}
+
+export async function getOptimizedImageUrl(
+  src: ImageMetadata, 
+  format: 'webp' | 'avif' | 'png' | 'jpeg' = 'webp'
+) {
+  const optimized = await getImage({ src, format });
+  return `url(${optimized.src})`;
 }

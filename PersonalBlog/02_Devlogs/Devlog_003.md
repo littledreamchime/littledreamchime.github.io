@@ -19,7 +19,8 @@ With the core components in place, this phase was all about refinement and visua
 	 - Tooltip Positioning.
 	 - Marquee Bug in Devlog-Binder section.
 	 - Mobile Responsiveness: ensured the Blog section scales and displays perfectly on narrow viewports.
-
+- Designed and implemented the About page.
+![[Pasted image 20260622115506.png|534]]
 ## Nest Steps：
 - Tackle the minor UI quirks and bugs accumulated in Issues_004.
 - Launch and put the blog into use.

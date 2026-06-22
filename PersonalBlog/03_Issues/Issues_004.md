@@ -27,3 +27,7 @@
 - [ ] 问题8：进入About的时候的trasition有点奇怪
 	- 解决思路：精调中心位置变化曲线
 	 #Transition 
+- [ ] 问题9：内容加载代码的位置
+	- 寻找页面并进行加载的代码放在welcomeoverlay中
+	- 解决思路：统一放在assets.ts中
+	 #Assets 
