@@ -306,7 +306,7 @@ const { title, entries,folderSlug } = Astro.props;
                 
                 title.classList.remove('is-overflowing');
                 
-                if (title.scrollWidth > wrapper.clientWidth - 20) {
+                if (title.scrollWidth > wrapper.clientWidth+10) {
                     title.classList.add('is-overflowing');
                 }
             });

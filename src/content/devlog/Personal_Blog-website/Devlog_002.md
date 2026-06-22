@@ -21,9 +21,9 @@ Coming off the documentation and component-mapping phase, I had a significant ba
 2. Building the Blog Section
 ## The Result
 - A Beautiful Git History:
-![[Pasted image 20260618152655.png]]
+![ABuautifulGitHistory](../_images/Personal_Blog-website/ABuautifulGitHistory.png)
 - Blog UI Completed:
-![[Pasted image 20260618153250.png]]
+![BlogUI](../_images/Personal_Blog-website/BlogUI.png)
 
 ## Next Steps
 - Squash the newly logged bugs in Issues_003.

@@ -20,7 +20,7 @@ With the core components in place, this phase was all about refinement and visua
 	 - Marquee Bug in Devlog-Binder section.
 	 - Mobile Responsiveness: ensured the Blog section scales and displays perfectly on narrow viewports.
 - Designed and implemented the About page.
-![[Pasted image 20260622115506.png|534]]
+	![AboutPage](../_images/Personal_Blog-website/AboutPage.png)
 - Added a utility function to fetch optimized image URLs, prepping the system for image loading.
 ``` js
 export async function getOptimizedImageUrl(

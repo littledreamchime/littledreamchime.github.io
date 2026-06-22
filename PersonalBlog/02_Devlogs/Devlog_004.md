@@ -4,9 +4,8 @@ description: Resolving Issues_004, Image Placeholders & Launching the Blog
 pubDate: Jun 21 2026
 heroImage: ../../../assets/blog-placeholder-3.jpg
 ---
-# Resolving Issues_004, Image Placeholders & Launching the Blog
-## Duration: Jun 21 2026 - 
-## Tags: #Assets #Fix #Code 
+##### Duration: Jun 21 2026 - 
+##### Tags: #Assets #Fix #Code 
 ## Context & Goals:
 With the core logic and layouts completed, it is time to bring everything together. The main objectives for this phase were:
 -  Squash the remaining bugs logged in Issues_004.
