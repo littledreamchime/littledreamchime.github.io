@@ -15,7 +15,7 @@ With the core components in place, this phase was all about refinement and visua
 - Detail-Oriented Fixes: I focused heavily on polishing the micro-interactions and visual bugs.
 - Continuous Tracking: any newly discovered UI quirks or edge cases were immediately aggregated into a new tracker ( Issues_004 ).
 ## The Result：
-- resolved bugs:
+- Resolved bugs:
 	 - Tooltip Positioning.
 	 - Marquee Bug in Devlog-Binder section.
 	 - Mobile Responsiveness: ensured the Blog section scales and displays perfectly on narrow viewports.
@@ -23,4 +23,4 @@ With the core components in place, this phase was all about refinement and visua
 ## Nest Steps：
 - Tackle the minor UI quirks and bugs accumulated in Issues_004.
 - Launch and put the blog into use.
-- Shift focus to art direction: illustrate custom image assets and polish the overall visual aesthetics of the site。
+- Shift focus to art direction: illustrate custom image assets and polish the overall visual aesthetics of the site.

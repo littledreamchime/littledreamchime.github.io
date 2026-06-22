@@ -19,5 +19,11 @@
 	 #Assets #Layout 
 - [ ] 问题6：整理描述显示：
 	 - 一些Page会有Description，也就是二级标题，也应该显示一下
-	 - 解决思路：显示在
+	 - 解决思路：显示在Title的下方，作为小字出现
 	 #Layout
+- [ ] 问题7：WelcomeOverlay的透明度调整
+	 - 解决思路：下部透明度略微调高
+	 #Layout 
+- [ ] 问题8：进入About的时候的trasition有点奇怪
+	- 解决思路：精调中心位置变化曲线
+	 #Transition 

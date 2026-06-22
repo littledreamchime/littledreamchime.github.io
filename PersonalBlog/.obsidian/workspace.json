@@ -11,17 +11,28 @@
             "id": "246d875df1d16271",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "04_Design/Main.canvas",
-                "viewState": {
-                  "x": 1000,
-                  "y": -973.6859205776174,
-                  "zoom": -1.2283325019499503
-                }
+                "file": "02_Devlogs/DevLog_001.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "Main"
+              "icon": "lucide-file",
+              "title": "DevLog_001"
+            }
+          },
+          {
+            "id": "28cfb0a058c9d444",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "02_Devlogs/DevLog_002.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "DevLog_002"
             }
           },
           {
@@ -53,7 +64,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       },
       {
         "id": "61088e4204018da3",
@@ -86,9 +97,23 @@
               "icon": "lucide-file",
               "title": "Issues_003"
             }
+          },
+          {
+            "id": "821a3e808d1db534",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "02_Devlogs/Devlog_003.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Devlog_003"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -251,26 +276,23 @@
       "bases:新建数据库": false
     }
   },
-  "active": "e2f87527b7d9ac27",
+  "active": "821a3e808d1db534",
   "lastOpenFiles": [
+    "03_Issues/Issues_004.md",
     "02_Devlogs/Devlog_003.md",
-    "Template/Images/Pasted image 20260618153250.png",
-    "Template/Images/Pasted image 20260618152655.png",
-    "Template/Images/Pasted image 20260618151502.png",
-    "Template/Images/Pasted image 20260618123829.png",
+    "03_Issues/Issues_003.md",
     "02_Devlogs/DevLog_002.md",
     "02_Devlogs/DevLog_001.md",
-    "02_Devlogs/Devlog_005 修复Issues003，布局About界面.md",
-    "02_Devlogs/Devlog_004：实现Blog界面.md",
-    "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
-    "02_Devlogs/DevLog_002：解决梳理过程中找到的Issues.md",
-    "02_Devlogs/DevLog_001：整理文档，找出潜在逻辑问题.md",
-    "03_Issues/Issues_004.md",
-    "03_Issues/Issues_003.md",
     "04_Design/Main.canvas",
     "03_Issues/Issues_002.md",
+    "Template/Images/Pasted image 20260618152655.png",
+    "Template/Images/Pasted image 20260618153250.png",
     "03_Issues/Issues_001.md",
     "01_Architecture/Main.canvas",
+    "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
+    "Template/Images/Pasted image 20260618151502.png",
+    "02_Devlogs/Devlog_004：实现Blog界面.md",
+    "Template/Images/Pasted image 20260618123829.png",
     "2026-06-12.md",
     "01_Architecture/Component/Main/ComputerBackGround.md",
     "01_Architecture/Component/Devlog/BookShelf.md",
@@ -287,6 +309,9 @@
     "Template/Images/Pasted image 20260611142742.png",
     "04_Design/Config/分辨率.md",
     "04_Design/Config",
+    "01_Architecture/Page/Blog/Blog_slug.md",
+    "01_Architecture/Page/Blog/Blog-Index.md",
+    "01_Architecture/Page/Blog/Blog-Folder.md",
     "01_Architecture/Page/Blog",
     "01_Architecture/Component/Blog",
     "Main.canvas",

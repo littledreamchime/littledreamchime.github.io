@@ -13,6 +13,7 @@ export const ANIMATION_TIMES={
     DEVLOG_SLIDEIN:800,
     DEVLOG_LEAVE:500,
     BINDER_SHOW:400,
+    
     PAGE_SHOW:300,
 
     /*Blog*/
