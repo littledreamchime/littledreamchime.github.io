@@ -1,5 +1,5 @@
- - [ ] 问题1：Blog窄屏布局错乱
-	 - 在窄屏的Binder界面： SystemOnline飞在天上、Icon图标有时被裁切、binder出现圆角
+ - [ ] 问题1：Blog界面的手机端适配
+	 - 在窄屏的Binder界面： SystemOnline飞在天上、Icon图标有时被裁切、binder出现圆角，字也是横过去的
 	 - 解决思路：窄屏删除SystemOnline、删除Icon、取消圆角
 	  #Layout 
 - [x] 问题2：Blog、About、Devlog的Page界面的md图片问题
@@ -34,4 +34,4 @@
 - [ ] 问题10：页面位置
 	- 离开Blog或Devlog界面后，再次进入，会发现Binder和书架的页面滚动没有复原
 	- 解决思路：在退出页面后就将位置进行刷新
-9 -> 4 -> 2 -> 5 -> 6 -> 1 ->3 -> 7 -> 8
+9 -> 4 -> 2 -> 5 -> 6 -> 1 ->3 -> 7 -> 8 -> 10
