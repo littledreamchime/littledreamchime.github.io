@@ -1,5 +1,5 @@
 ---
-title: Personal_Blog-website
+title: Devlog_002
 description: Squashing Bugs, Clean Git Trees, and Building the Blog UI
 pubDate: Jun 08 2026
 heroImage: ../../../assets/blog-placeholder-3.jpg

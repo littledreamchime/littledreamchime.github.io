@@ -1,10 +1,11 @@
 ---
-title: Personal_Blog-website
+title: Devlog_003
 description: Resolving Issues_003, About Page Layout & UI Asset Prep
 pubDate: Jun 16 2026
 heroImage: ../../../assets/blog-placeholder-3.jpg
 ---
 # Resolving Issues_003, About Page Layout & UI Asset Prep
+## Duration: Jun 15 2026 - Jun 21 2026
 ## Tags： #Fix #Layout #Design #Code
 ## Context & Goals:
 With the core components in place, this phase was all about refinement and visual preparation. Main objectives here:
@@ -21,6 +22,16 @@ With the core components in place, this phase was all about refinement and visua
 	 - Mobile Responsiveness: ensured the Blog section scales and displays perfectly on narrow viewports.
 - Designed and implemented the About page.
 ![[Pasted image 20260622115506.png|534]]
+- Added a utility function to fetch optimized image URLs, prepping the system for image loading.
+``` js
+export async function getOptimizedImageUrl(
+  src: ImageMetadata,
+  format: 'webp' | 'avif' | 'png' | 'jpeg' = 'webp'
+) {
+  const optimized = await getImage({ src, format });
+  return `url(${optimized.src})`;
+}
+```
 ## Nest Steps：
 - Tackle the minor UI quirks and bugs accumulated in Issues_004.
 - Launch and put the blog into use.
