@@ -20,11 +20,11 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
             <div class="left-controls">
                 <!-- ClosePower -->
                 <button id="power-btn" class="ctrl-btn">
-                    <PowerIcon size="1cqi" />
+                    <PowerIcon size="calc(1 * var(--u))" />
                 </button>
                 <!-- Return -->
                 <button id="return-btn" class="ctrl-btn">
-                    <ReturnIcon size="1cqi" />
+                    <ReturnIcon size="calc(1 * var(--u))" />
                 </button>
             </div>
 
@@ -42,34 +42,35 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
     </div>
 </div>
 
-
 <style define:vars={{open,close}}>
     /*screen*/
     .computer-screen {
+        --u:1cqi;
+
         position: absolute;
         top:50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        padding: 0.45cqi;
+        padding: calc(0.45 * var(--u));
         z-index: var(--z-desk-items-mid);
         will-change: transform;
 
         width: 45%;
         height: 45%;
-        border-radius: 0.6cqi;
+        border-radius: calc(0.6 * var(--u));
         background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
-        border: 0.05cqi solid #2a2a2a;
+        border: calc(0.05 * var(--u)) solid #2a2a2a;
         box-shadow: 
-        0 0.8cqi 2cqi rgba(0, 0, 0, 0.8),
-        inset 0 0.05cqi 0.1cqi rgba(255, 255, 255, 0.08),
-        inset 0 -0.05cqi 0.1cqi rgba(0, 0, 0, 0.5);
+        0 calc(0.8 * var(--u)) calc(2 * var(--u)) rgba(0, 0, 0, 0.8),
+        inset 0 calc(0.05 * var(--u)) calc(0.1 * var(--u)) rgba(255, 255, 255, 0.08),
+        inset 0 calc(-0.05 * var(--u)) calc(0.1 * var(--u)) rgba(0, 0, 0, 0.5);
         
         box-sizing: border-box;
     }
     .screen-inner {
         display: flex;
         flex-direction: column;
-        gap: 0.5cqi;
+        gap: calc(0.5 * var(--u));
 
         width: 100%;
         height: 100%;
@@ -82,9 +83,9 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         width: 100%;
         position: relative;
 
-        box-shadow: inset 0 0 100cqi rgba(0, 0, 0, 0.9);
-        border: 0.05cqi solid #1f2937;
-        border-radius: 0.5cqi;
+        box-shadow: inset 0 0 calc(100 * var(--u)) rgba(0, 0, 0, 0.9);
+        border: calc(0.05 * var(--u)) solid #1f2937;
+        border-radius: calc(0.5 * var(--u));
 
         background-color: #161616; /* #1f0826 */
     }
@@ -97,9 +98,8 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         
         width: 100%;
         height: 100%;
-        box-shadow: inset 0 0 100cqi rgba(0, 0, 0, 0.9);
-        border: 0.05cqi solid #1f2937;
-        border-radius: 0.5cqi;
+        box-shadow: inset 0 0 calc(100 * var(--u)) rgba(0, 0, 0, 0.9);
+        border-radius: calc(0.5 * var(--u));
 
         background-color: #1f0826; /* #1f0826 */
         opacity: 0;
@@ -121,7 +121,7 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         z-index:var(--z-view-overlay);
 
         background: linear-gradient(to bottom, rgba(255, 255, 255, 0.155) 50%, rgba(0, 0, 0, 0.1) 50%);
-        background-size: 100% 0.2cqi;
+        background-size: 100% calc(0.2 * var(--u));
         opacity: 0.25;
 
         pointer-events: none;
@@ -187,14 +187,14 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        height: 0.6cqi;
-        padding: 0 0.4cqi;
+        height: calc(0.6 * var(--u));
+        padding: 0 calc(0.4 * var(--u));
     }
 
     /*buttons*/
     .left-controls {
         display: flex;
-        gap: 1.5cqi;
+        gap: calc(1.5 * var(--u));
         align-items: center;
         flex: 1; 
     }
@@ -205,7 +205,7 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         justify-content: center;
 
         border: none;
-        padding: 0.3cqi;
+        padding: calc(0.3 * var(--u));
 
         color: #4b5563;
         background: none;
@@ -216,20 +216,20 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
 
     .ctrl-btn.is-white:hover {
         color: #c460fa;
-        filter: drop-shadow(0 0 1cqi rgba(201, 96, 250, 0.6)); 
+        filter: drop-shadow(0 0 calc(1 * var(--u)) rgba(201, 96, 250, 0.6)); 
     }
 
     .ctrl-btn.is-white {
         color: #d1d5db; 
-        filter: drop-shadow(0 0 0.5cqi rgba(255,255,255,0.5)); 
+        filter: drop-shadow(0 0 calc(0.5 * var(--u)) rgba(255,255,255,0.5)); 
     }
 
     /* text */
     .center-text, .right-signature {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
-        font-size: 0.7cqi;
+        font-size: calc(0.7 * var(--u));
         color: #666;
-        letter-spacing: 0.05cqi;
+        letter-spacing: calc(0.05 * var(--u));
     }
 
     .center-text {
@@ -240,7 +240,7 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         font-weight: 600;
         color: #796b80;
         font-weight: bold;
-        text-shadow: 0 0 0.4cqi rgb(153, 112, 192);
+        text-shadow: 0 0 calc(0.4 * var(--u)) rgb(153, 112, 192);
     }
 
     .right-signature {
@@ -253,6 +253,17 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         animation: none !important;
         transition: none !important;
     }
+
+@media (max-aspect-ratio: 0.5){
+    .computer-screen {
+        --u:1cqw;
+    }
+}
+@media (max-aspect-ratio: 0.5) and (max-width: 450px) {
+    .screen-body{
+        border: 0 solid #1f2937;
+    }
+}
 </style>
 
 <script>

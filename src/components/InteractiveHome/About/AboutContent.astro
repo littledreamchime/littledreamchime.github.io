@@ -145,11 +145,18 @@ const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
 <script>
   import { addLeaveHook } from "../../../store";
   import { ANIMATION_TIMES } from "../../../config";
-import { navigateWithAnimation } from "../../../utils/navigation";
+  import { navigateWithAnimation } from "../../../utils/navigation";
   document.addEventListener('astro:page-load', () => {
     const paper=document.getElementById('paper-wrapper');
     const overlay=document.getElementById('about-overlay');
-    if(!paper || !overlay) return;
+    if(!paper){
+      console.log("Cannot find paper!!!!");
+      return;
+    }
+    if(!overlay){
+      console.log("Cannot find overlay!!!!");
+      return;
+    }
 
     requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -162,16 +169,19 @@ import { navigateWithAnimation } from "../../../utils/navigation";
       navigateWithAnimation('/');
     });
     addLeaveHook((targetView)=>{
-      return new Promise((resolve)=>{
-        paper.classList.remove('open');
-        overlay.classList.remove('show');
-        
-        setTimeout(() => {
-            paper.style.display = 'none';
-            overlay.style.display = 'none';
-            resolve();
-        }, ANIMATION_TIMES.PAGE_SHOW); 
-      });
+      if(targetView!=='About')
+        return new Promise((resolve)=>{
+          paper.classList.remove('open');
+          overlay.classList.remove('show');
+          
+          setTimeout(() => {
+              paper.style.display = 'none';
+              overlay.style.display = 'none';
+              resolve();
+          }, ANIMATION_TIMES.PAGE_SHOW); 
+        });
+      else
+        return Promise.resolve();
     });
   });
 </script>
