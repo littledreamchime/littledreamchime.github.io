@@ -213,9 +213,15 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 
     /*Reset Scroll*/
     let savedScrollLeft=0;
+    let needReset = false;
     document.addEventListener('astro:before-swap', () => {
         const scrollContainer = document.getElementById('bookshelf-scroll');
-        if (scrollContainer) savedScrollLeft = scrollContainer.scrollLeft;
+        if (needReset) {
+            savedScrollLeft = 0;
+            needReset = false;
+        } else if (scrollContainer) {
+            savedScrollLeft = scrollContainer.scrollLeft;
+        }
     });
     document.addEventListener('astro:after-swap', () => {
         const scrollContainer = document.getElementById('bookshelf-scroll');
@@ -248,7 +254,7 @@ const getFolderSlug = (id: string) => id.split('/')[0];
             if (targetView.startsWith('Devlog')) {
                 return Promise.resolve();
             }
-            
+            needReset = true; 
             return new Promise((resolve) => {
                 let isResolved=false;
                 

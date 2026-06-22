@@ -353,7 +353,7 @@ const themeColor = color || '#10b981';
 </style>
 
 <script>
-import { currentView } from "../../../store";
+import { addLeaveHook, currentView } from "../../../store";
 import { navigateWithAnimation } from "../../../utils/navigation";
 
 const eventControllers = new WeakMap<HTMLElement, AbortController>();
@@ -361,8 +361,14 @@ const eventControllers = new WeakMap<HTMLElement, AbortController>();
     const binders = document.querySelectorAll('.binder-item');
     const currentPath = decodeURIComponent(window.location.pathname);
     
+    function resetAllBinderScrolls() {
+        Object.keys(sessionStorage).forEach(key => {
+            if (key.startsWith('binder-scroll-')) {
+                sessionStorage.removeItem(key);
+            }
+        });
+    }
     binders.forEach((binder,index) => {
-        
         const slug = (binder as HTMLElement).dataset.slug;
         const targetUrl = `/blog/${slug}`;
         const expandedBody = binder.querySelector<HTMLElement>('.expanded-body');
@@ -494,6 +500,14 @@ const eventControllers = new WeakMap<HTMLElement, AbortController>();
                     navigateWithAnimation(targetUrl);
                 }
             });
+        });
+    });
+    addLeaveHook((targetView)=>{
+        return new Promise((resolve)=>{
+            if(targetView !== 'BlogBinder' && targetView !== 'BlogPaper'){
+                resetAllBinderScrolls();
+            }
+            resolve();
         });
     });
 });
