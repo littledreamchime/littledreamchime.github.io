@@ -93,7 +93,7 @@ const bg_image_url = await getOptimizedImageUrl(desk_bg);
     .desk-main.zoom-to-paper{
         transform-origin: var(--paper-origin-x) var(--paper-origin-y);
         transform: scale(var(--paper-zoom-scale));
-        transition: transform var(--timeZoomIn) var(--ease-silky),transform-origin var(--timeZoomIn) var(--ease-silky);
+        transition: transform var(--timeZoomIn) ease,transform-origin var(--timeZoomIn) ease;
     }
     .desk-main.zoom-to-computer{
         transform-origin: var(--computer-origin-x) calc(var(--computer-origin-y));
