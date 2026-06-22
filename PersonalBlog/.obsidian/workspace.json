@@ -57,7 +57,7 @@
               "type": "markdown",
               "state": {
                 "file": "03_Issues/Issues_004.md",
-                "mode": "preview",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
@@ -65,7 +65,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       },
       {
         "id": "61088e4204018da3",
@@ -249,13 +249,13 @@
       "bases:新建数据库": false
     }
   },
-  "active": "ac85e758fc3b0d33",
+  "active": "e4361ca2a87a6fa7",
   "lastOpenFiles": [
-    "02_Devlogs/Devlog_002.md",
+    "02_Devlogs/Devlog_004.md",
     "02_Devlogs/Devlog_003.md",
+    "02_Devlogs/Devlog_002.md",
     "02_Devlogs/Devlog_001.md",
     "03_Issues/Issues_004.md",
-    "02_Devlogs/Devlog_004.md",
     "Template/Images/Pasted image 20260622115506.png",
     "03_Issues/Issues_003.md",
     "04_Design/Main.canvas",

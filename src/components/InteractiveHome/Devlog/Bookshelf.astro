@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { ANIMATION_TIMES } from "../../../config";
+import { Image } from "astro:assets";
 import '../../../styles/zIndex.css';
 
 const devlogSlideIn=`${ANIMATION_TIMES.DEVLOG_SLIDEIN}ms`
@@ -14,19 +15,33 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 ---
 
 <div id="bookshelf-ui" class="bookshelf-ui" transition:persist="bookshelf-ui">
+    <!--Tmp Title -->
     <div class="placeholder-content">
         <h2>📚 Devlog Bookshelf</h2>
         <p>Markdown list: {books.length} books, { devlogs.length - books.length} devlogs</p>
     </div>
     
+    <!--Scroll Container -->
     <div class="bookshelf-scroll-container" id="bookshelf-scroll">
         <div class="bookshelf-track">
             {
                 books.map((book) => {
                     const folderSlug = getFolderSlug(book.id);
                     return (
+                        /* Items */
                         <a href={`/devlog/${folderSlug}`} class="book-card">
                             <div class="book-content">
+                                <div class="book-cover">
+                                    {book.data.heroImage ? (
+                                        <Image 
+                                            src={book.data.heroImage} 
+                                            alt={book.data.title} 
+                                            class="cover-image" 
+                                        />
+                                    ) : (
+                                        <div class="cover-image placeholder"></div>
+                                    )}
+                                </div>
                                 <h3>{book.data.title}</h3>
                                 <time>{book.data.pubDate.toLocaleDateString()}</time>
                             </div>
@@ -40,7 +55,9 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 
 
 <style define:vars={{devlogSlideIn}}>
-    /*main */
+    /* =========================================
+    Root
+    ========================================= */
     .bookshelf-ui {
         position: absolute;
         top: 0;
@@ -63,8 +80,9 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         transform: translateX(0);
     }
 
-
-    /*temp content */
+    /* =========================================
+    Tmp title
+    ========================================= */
     .placeholder-content {
         padding: 3cqi;
 
@@ -81,12 +99,13 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     .placeholder-content p {
         font-size: 2cqi;
     }
-
-    /*scroll view*/
+    /* =========================================
+    Scroll View
+    ========================================= */
     .bookshelf-scroll-container {
         flex: 1;
         overflow-x: auto;
-        overflow-y: hidden;
+        overflow-y: auto;
         
         width: 100%;
         min-height: 0; 
@@ -97,10 +116,10 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     .bookshelf-scroll-container::-webkit-scrollbar {
         display: none; /* Chrome/Safari */
     }
-
+    /* Scroll view track*/
     .bookshelf-track {
         display: flex;
-        align-items: center;
+        align-items: flex-end; 
         
 
         min-height: 100%;
@@ -109,7 +128,9 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         gap: 3cqi;
     }
 
-    /* Book card */
+    /* =========================================
+    Book card Root 
+    ========================================= */
     .book-card {
         flex-shrink: 0;
         display: flex;
@@ -117,11 +138,13 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         align-items: center;
 
         width: 20cqi;
-        height: 20cqi;
+        height: auto;
+        min-height: 24cqi;
+        padding: 2cqi;
         border: 1px solid #555;
         border-radius: 12px;
         
-        margin: 3cqi 0; 
+        margin: 0; 
 
         color: #aaa;
         background-color: #2d2d2d;
@@ -133,20 +156,47 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         transition: transform 0.3s ease, background-color 0.3s ease;
         cursor: pointer;
     }
-
     .book-card:hover {
         background-color: #3d3d3d;
         color: white;
 
         transform: translateY(-2cqi);
     }
-    
+    /*book card parent*/
+    .book-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        width: 100%;
+
+        text-align: center;
+    }
+    /* Image */
+    .book-cover {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5cqi;
+        
+        width: 12cqi;
+        aspect-ratio: 1 / 1;
+    }
+    .cover-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .cover-image.placeholder {
+        opacity: 0;
+    }
+    /* Title */
     .book-content h3 {
         font-size: 2.5cqi;
         margin: 0 0 1cqi 0;
         color: inherit;
     }
-
+    /* Time */
     .book-content time {
         font-size: 1.5cqi;
         opacity: 0.7;

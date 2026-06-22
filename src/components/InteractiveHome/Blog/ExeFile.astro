@@ -8,7 +8,7 @@ const mockSize = Math.floor(Math.random() * 800 + 100);
 
 const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
 ---
-
+<!--Root -->
 <div class={`exe-wrapper align-${align}`} style={`--exe-color: ${color}`}>
   <div 
     class="exe-file-box"
@@ -20,10 +20,14 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     data-url={`/blog/${fileRoute}`}
   >
     <div class="exe-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        <path d="M14 2v6h6" />
-      </svg>
+      {heroImage ? (
+        <div class="icon-img colorized-mask" style={`--icon-url: url(${typeof heroImage === 'string' ? heroImage : heroImage.src})`}></div>
+      ) : (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          <path d="M14 2v6h6" />
+        </svg>
+      )}
     </div>
     <div class="exe-info">
       <div class="exe-title">{title}</div>
@@ -33,6 +37,9 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
 </div>
 
 <style>
+  /* =========================================
+  Root
+  ========================================= */
   .exe-wrapper {
     display: flex;
     position: relative;
@@ -40,7 +47,6 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     width: 100%;
     margin-bottom: 0.9cqi;
   }
-
   .exe-wrapper.align-left {
     justify-content: flex-end;
     
@@ -50,8 +56,9 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     justify-content: flex-start;
     padding-left: 60%;
   }
-
-  /* line */
+  /* =========================================
+  Line
+  ========================================= */
   .exe-wrapper::before {
     content: '';
     position: absolute;
@@ -65,7 +72,10 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
   }
   .exe-wrapper.align-left::before { right: calc(50%); }
   .exe-wrapper.align-right::before { left: calc(50%); }
-
+  
+  /* =========================================
+  Box
+  ========================================= */
   .exe-file-box {
     display: flex;
     align-items: center;
@@ -83,13 +93,12 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     background: rgba(0, 0, 0, 0.4);
     transition: all 0.2s;
   }
-
   .exe-file-box:hover {
     border-color: var(--exe-color);
     background: rgba(255, 255, 255, 0.05);
     transform: scale(1.02);
   }
-
+  /* Icon */
   .exe-icon {
     flex-shrink: 0; 
     width: 1cqi;
@@ -100,18 +109,16 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     align-items: center;
     justify-content: center;
   }
-  
   .exe-icon svg {
     width: 100%;
     height: 100%;
   }
-
+  /* Text */
   .exe-info {
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
-
   .exe-title {
     font-family: monospace;
     font-size: 0.8cqi;
@@ -120,10 +127,28 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   .exe-date {
     font-family: monospace;
     font-size: 0.5cqi;
     color: #666;
+  }
+  /* Image */
+  .icon-img {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .colorized-mask {
+    background-color: var(--exe-color);
+    
+    -webkit-mask-image: var(--icon-url);
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    
+    mask-image: var(--icon-url);
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
   }
 </style>
