@@ -96,7 +96,7 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
   .exe-file-box:hover {
     border-color: var(--exe-color);
     background: rgba(255, 255, 255, 0.05);
-    transform: scale(1.02);
+    transform:translateY(-2%);
   }
   /* Icon */
   .exe-icon {
@@ -118,6 +118,9 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    
+    flex: 1; 
+    min-width: 0; 
   }
   .exe-title {
     font-family: monospace;
@@ -151,4 +154,36 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     mask-repeat: no-repeat;
     mask-position: center;
   }
+
+@media (max-aspect-ratio: 0.5){
+  
+  .exe-wrapper {
+    justify-content: center !important;
+    padding: 0 !important;
+    margin-bottom: 1cqw;
+  }
+  
+  .exe-wrapper::before {
+    opacity: 0;
+  }
+  .exe-file-box {
+    justify-content: flex-start; 
+
+    width: 80%;
+    padding:0 2.5cqw;
+    gap:2.5cqw;
+  }
+  
+  .exe-title {
+    font-size: 2cqw;
+  }
+  .exe-date {
+    font-size: 1.5cqw;
+  }
+  .exe-icon {
+    width: 2cqw;
+    height: 2cqw;
+    transform: rotate(-90deg);
+  }
+}
 </style>
