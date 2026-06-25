@@ -1,6 +1,7 @@
 ---
 import ChildrenOverlay from "../Main/ChildrenOverlay.astro";
 import '../../../styles/zIndex.css';
+import { Image } from "astro:assets";
 import { ANIMATION_TIMES } from "../../../config";
 const binderShowTime=`${ANIMATION_TIMES.BINDER_SHOW}ms`;
 // src/components/Binder.astro
@@ -20,12 +21,22 @@ const { title, entries,folderSlug } = Astro.props;
     <div class="binder-content">
         <ul id="entry-list" class="entry-list">
             {entries.map((entry: any) => (
+                /* Items */
                 <li>
                     <a href={`/devlog/${entry.id}`} class="entry-item">
-                        <span class="entry-title-wrapper">
-                            <span class="entry-title" data-title={entry.data.title}> {entry.data.title}</span>
-                        </span>
-                        <span class="entry-date">{entry.data.pubDate.toLocaleDateString()}</span>
+                        <div class="entry-main">
+                            <div class="entry-thumbnail-wrapper">
+                                {entry.data.heroImage ? (
+                                    <Image src={entry.data.heroImage} alt={entry.data.title} class="entry-thumbnail" />
+                                ) : (
+                                    <div class="entry-thumbnail placeholder"></div>
+                                )}
+                            </div>
+                            
+                            <span class="entry-title-wrapper">
+                                <span class="entry-title" data-title={entry.data.title}> {entry.data.title}</span>
+                            </span>
+                        </div>
                     </a>
                 </li>
             ))}
@@ -35,8 +46,9 @@ const { title, entries,folderSlug } = Astro.props;
 </div>
 
 <style define:vars={{binderShowTime}}>
-
-    /*Binder*/
+    /* =========================================
+    Root
+    ========================================= */
     .binder-ui {
         position: absolute;
         top: 6.5rem;
@@ -63,7 +75,9 @@ const { title, entries,folderSlug } = Astro.props;
         transform: translateY(0) scale(1);
         opacity: 1;
     }
-    /*Content*/
+     /* =========================================
+    Content
+    ========================================= */
     .binder-content {
         flex: 1;
         display: flex;
@@ -74,7 +88,9 @@ const { title, entries,folderSlug } = Astro.props;
 
         background: #241627;
     }
-    /*Header*/
+     /* =========================================
+    Header
+    ========================================= */
     .binder-header {
         position: relative;
         display: flex;
@@ -92,7 +108,7 @@ const { title, entries,folderSlug } = Astro.props;
         
         transition: all var(--binderShowTime) ease;
     }
-    /*Back button*/
+    /* Back Button */
     .back-btn { 
         display: inline-flex;
         align-items: center;
@@ -115,7 +131,9 @@ const { title, entries,folderSlug } = Astro.props;
         background: #602b6f;
         transform: scale(1.05);
     }
-    /*List*/
+     /* =========================================
+    List
+    ========================================= */
     .entry-list { 
         list-style: none; 
         padding: 0; 
@@ -133,7 +151,10 @@ const { title, entries,folderSlug } = Astro.props;
     .entry-list::-webkit-scrollbar {
         display: none; /* Chrome/Safari */
     }
-    /*List items*/
+
+     /* =========================================
+    List Item
+    ========================================= */
     .entry-item { 
         display: flex; 
         justify-content: space-between; 
@@ -160,39 +181,24 @@ const { title, entries,folderSlug } = Astro.props;
         background: #341f38; 
         color: #bf60ea;
     }
-
-    /*items-title*/
-    .entry-title-wrapper {
-        flex: 1; 
-        min-width: 0; 
-        overflow: hidden; 
-        white-space: nowrap; 
-        margin-right: 1rem; 
-        container-type: inline-size; 
-    }
-    
-    .entry-title.is-overflowing {
-        padding-right: 1rem;
-    }
-
-    .entry-title.is-overflowing::after {
-        content: attr(data-title);
-        position: absolute;
-        left: 100%;
-        top: 0;
-        white-space: nowrap;
-    }
-
     .entry-item:hover .entry-title.is-overflowing,
     .entry-item.active .entry-title.is-overflowing {
         animation: seamless-marquee 4s linear infinite;
     }
-
     @keyframes seamless-marquee {
         0% { transform: translateX(0); }
         100% { transform: translateX(-100%); }
     }
+    .entry-main {
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
+        flex: 1;
 
+        min-width: 0; 
+        gap: 0.75rem; 
+    }
+    /*items-title*/
     .entry-title {
         display: inline-block;
         position: relative;
@@ -203,6 +209,42 @@ const { title, entries,folderSlug } = Astro.props;
         font-weight: bold;
         font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem); 
     }
+    .entry-title.is-overflowing {
+        padding-right: 1rem;
+    }
+    .entry-title.is-overflowing::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 100%;
+        top: 0;
+        white-space: nowrap;
+    }
+    /* Image */
+    .entry-title-wrapper {
+        flex: 1; 
+        min-width: 0; 
+        overflow: hidden; 
+        white-space: nowrap; 
+        container-type: inline-size; 
+    }
+    .entry-thumbnail-wrapper {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        width: 2rem;
+        height: 2rem;
+    }
+    .entry-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .entry-thumbnail.placeholder {
+        opacity: 0;
+    }
+    /* Date */
     .entry-date { 
         font-size: 0.875rem; 
         color:  #8f8f8f; 
@@ -306,7 +348,7 @@ const { title, entries,folderSlug } = Astro.props;
                 
                 title.classList.remove('is-overflowing');
                 
-                if (title.scrollWidth > wrapper.clientWidth - 20) {
+                if (title.scrollWidth > wrapper.clientWidth+10) {
                     title.classList.add('is-overflowing');
                 }
             });

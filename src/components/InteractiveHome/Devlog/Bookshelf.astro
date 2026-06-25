@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { ANIMATION_TIMES } from "../../../config";
+import { Image } from "astro:assets";
 import '../../../styles/zIndex.css';
 
 const devlogSlideIn=`${ANIMATION_TIMES.DEVLOG_SLIDEIN}ms`
@@ -11,24 +12,43 @@ const devlogs = (await getCollection('devlog')).sort(
 const books = devlogs.filter(post => post.id.endsWith('/config'));
 books.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const getFolderSlug = (id: string) => id.split('/')[0];
+
+// 接收 mode 属性，默认为 desktop
+const { mode = 'desktop' } = Astro.props;
 ---
 
-<div id="bookshelf-ui" class="bookshelf-ui" transition:persist="bookshelf-ui">
+<div id={`bookshelf-ui-${mode}`} class={`bookshelf-ui ${mode}`} transition:persist={`bookshelf-ui-${mode}`}>
+    <!--Tmp Title -->
     <div class="placeholder-content">
         <h2>📚 Devlog Bookshelf</h2>
         <p>Markdown list: {books.length} books, { devlogs.length - books.length} devlogs</p>
     </div>
     
-    <div class="bookshelf-scroll-container" id="bookshelf-scroll">
+    <!--Scroll Container -->
+    <div class="bookshelf-scroll-container" id={`bookshelf-scroll-${mode}`}>
         <div class="bookshelf-track">
             {
                 books.map((book) => {
                     const folderSlug = getFolderSlug(book.id);
                     return (
-                        <a href={`/devlog/${folderSlug}`} class="book-card">
+                        /* Items */
+                        <a href={`/devlog/${folderSlug}`} class="book-card entry-item">
                             <div class="book-content">
-                                <h3>{book.data.title}</h3>
-                                <time>{book.data.pubDate.toLocaleDateString()}</time>
+                                <div class="book-cover">
+                                    {book.data.heroImage ? (
+                                        <Image 
+                                            src={book.data.heroImage} 
+                                            alt={book.data.title} 
+                                            class="cover-image" 
+                                        />
+                                    ) : (
+                                        <div class="cover-image placeholder"></div>
+                                    )}
+                                </div>
+                                <div class="book-text-info">
+                                    <h3>{book.data.title}</h3>
+                                    <time>{book.data.pubDate.toLocaleDateString()}</time>
+                                </div>
                             </div>
                         </a>
                     )
@@ -40,7 +60,9 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 
 
 <style define:vars={{devlogSlideIn}}>
-    /*main */
+    /* =========================================
+    Root
+    ========================================= */
     .bookshelf-ui {
         position: absolute;
         top: 0;
@@ -63,8 +85,9 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         transform: translateX(0);
     }
 
-
-    /*temp content */
+    /* =========================================
+    Tmp title
+    ========================================= */
     .placeholder-content {
         padding: 3cqi;
 
@@ -81,12 +104,13 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     .placeholder-content p {
         font-size: 2cqi;
     }
-
-    /*scroll view*/
+    /* =========================================
+    Scroll View
+    ========================================= */
     .bookshelf-scroll-container {
         flex: 1;
         overflow-x: auto;
-        overflow-y: hidden;
+        overflow-y: auto;
         
         width: 100%;
         min-height: 0; 
@@ -97,10 +121,10 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     .bookshelf-scroll-container::-webkit-scrollbar {
         display: none; /* Chrome/Safari */
     }
-
+    /* Scroll view track*/
     .bookshelf-track {
         display: flex;
-        align-items: center;
+        align-items: flex-end; 
         
 
         min-height: 100%;
@@ -109,7 +133,9 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         gap: 3cqi;
     }
 
-    /* Book card */
+    /* =========================================
+    Book card Root 
+    ========================================= */
     .book-card {
         flex-shrink: 0;
         display: flex;
@@ -117,11 +143,13 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         align-items: center;
 
         width: 20cqi;
-        height: 20cqi;
+        height: auto;
+        min-height: 24cqi;
+        padding: 2cqi;
         border: 1px solid #555;
         border-radius: 12px;
         
-        margin: 3cqi 0; 
+        margin: 0; 
 
         color: #aaa;
         background-color: #2d2d2d;
@@ -133,23 +161,113 @@ const getFolderSlug = (id: string) => id.split('/')[0];
         transition: transform 0.3s ease, background-color 0.3s ease;
         cursor: pointer;
     }
-
     .book-card:hover {
         background-color: #3d3d3d;
         color: white;
 
         transform: translateY(-2cqi);
     }
-    
+    /*book card parent*/
+    .book-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        width: 100%;
+
+        text-align: center;
+    }
+    .book-text-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    /* Image */
+    .book-cover {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5cqi;
+        
+        width: 12cqi;
+        aspect-ratio: 1 / 1;
+    }
+    .cover-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .cover-image.placeholder {
+        opacity: 0;
+    }
+    /* Title */
     .book-content h3 {
         font-size: 2.5cqi;
         margin: 0 0 1cqi 0;
         color: inherit;
     }
-
+    /* Time */
     .book-content time {
         font-size: 1.5cqi;
         opacity: 0.7;
+    }
+
+    /* =========================================
+    Mobile Mode (Max-width: 768px)
+    ========================================= */
+    .bookshelf-ui.mobile { display: none; }
+
+    @media (max-width: 768px) {
+        .bookshelf-ui.desktop { display: none; }
+        
+        .bookshelf-ui.mobile { 
+            display: flex; 
+            top:6.5rem;
+
+            height: calc(100% - 6.5rem);
+        }
+        .bookshelf-scroll-container {
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .bookshelf-track {
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            padding: 5vw;
+            gap: 1rem;
+        }
+
+        .book-card {
+            width: 100%;
+            min-height: auto;
+            padding: 1rem;
+        }
+
+        .book-content {
+            flex-direction: row;
+            text-align: left;
+            gap: 2.5rem;
+        }
+        .book-cover {
+            width: 4rem;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+
+        .book-text-info {
+            align-items: flex-start;
+            justify-content: center;
+        }
+        
+        .book-content h3 { 
+            font-size: clamp(1rem, 4vw, 2.5rem); 
+            margin-bottom: 0.2rem; 
+        }
+        .book-content time { 
+            font-size: clamp(0.75rem, 3vw, 1.5rem); 
+        }
     }
 </style>
 
@@ -158,82 +276,113 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     import { addLeaveHook } from "../../../store";
     import { handleAnimatedLinkClick } from "../../../utils/navigation";
     
-    
     let unsubscribe: () => void = () => {};
 
     /*Reset Scroll*/
-    let savedScrollLeft=0;
+    let savedScrollLeft = 0;
+    let savedScrollTop = 0;
+    let needReset = false;
     document.addEventListener('astro:before-swap', () => {
-        const scrollContainer = document.getElementById('bookshelf-scroll');
-        if (scrollContainer) savedScrollLeft = scrollContainer.scrollLeft;
+        const scrollDesktop = document.getElementById('bookshelf-scroll-desktop');
+        const scrollMobile = document.getElementById('bookshelf-scroll-mobile');
+        if (needReset) {
+            savedScrollLeft = 0;
+            savedScrollTop = 0;
+            needReset = false;
+        } else {
+            if (scrollDesktop && scrollDesktop.offsetParent !== null) {
+                savedScrollLeft = scrollDesktop.scrollLeft;
+            }
+            if (scrollMobile && scrollMobile.offsetParent !== null) {
+                savedScrollTop = scrollMobile.scrollTop;
+            }
+        }
     });
     document.addEventListener('astro:after-swap', () => {
-        const scrollContainer = document.getElementById('bookshelf-scroll');
-        if (scrollContainer) scrollContainer.scrollLeft = savedScrollLeft;
+        const scrollDesktop = document.getElementById('bookshelf-scroll-desktop');
+        const scrollMobile = document.getElementById('bookshelf-scroll-mobile');
+        if (scrollDesktop) scrollDesktop.scrollLeft = savedScrollLeft;
+        if (scrollMobile) scrollMobile.scrollTop = savedScrollTop;
     });
 
     /*Main*/
     document.addEventListener('astro:page-load', () => {
-        const bookshelf = document.getElementById('bookshelf-ui');
-        const scrollContainer = document.getElementById('bookshelf-scroll');
-        if(!bookshelf || !scrollContainer)return;
+        const bookshelves = document.querySelectorAll('.bookshelf-ui');
+        if(bookshelves.length === 0) return;
 
-        //Enter
-         if (!bookshelf.classList.contains('slide-in')){
-            requestAnimationFrame(() => {
+        bookshelves.forEach((bookshelf) => {
+            const scrollContainer = bookshelf.querySelector('.bookshelf-scroll-container') as HTMLElement;
+            if(!scrollContainer) return;
+
+            //Enter
+            if (!bookshelf.classList.contains('slide-in')){
                 requestAnimationFrame(() => {
-                    bookshelf.classList.add('slide-in');
+                    requestAnimationFrame(() => {
+                        bookshelf.classList.add('slide-in');
+                    });
+                });
+            }
+            
+            const entryLinks = scrollContainer.querySelectorAll('.entry-item');
+            entryLinks.forEach(link=>{
+                link.addEventListener('click', (e) => {
+                    handleAnimatedLinkClick(e);
                 });
             });
-        }
-        
-        const entryLinks = scrollContainer.querySelectorAll('.entry-item');
-        entryLinks.forEach(link=>{
-            link.addEventListener('click', (e) => {
-                handleAnimatedLinkClick(e);
-            });
+
+            //Scroll view
+            if (scrollContainer && !scrollContainer.dataset.wheelAttached) {
+                const handleWheel = (e: WheelEvent) => {
+                    if (window.innerWidth <= 768) return; 
+                    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                        e.preventDefault();
+                        scrollContainer.scrollLeft += e.deltaY;
+                    }
+                };
+                scrollContainer.addEventListener('wheel', handleWheel as EventListener, { passive: false });
+                scrollContainer.dataset.wheelAttached = 'true';
+            }
         });
+
         //Leave
-        addLeaveHook((targetView) => {
+        addLeaveHook((targetView: string) => {
             if (targetView.startsWith('Devlog')) {
                 return Promise.resolve();
             }
-            
-            return new Promise((resolve) => {
+            needReset = true; 
+            return new Promise<void>((resolve) => {
                 let isResolved=false;
                 
-                const handleTransitionEnd = (e :any) => {
-                    if (e.propertyName === 'transform' && e.target === bookshelf) {
-                        bookshelf.removeEventListener('transitionend', handleTransitionEnd);
+                const activeBookshelf = window.innerWidth <= 768 
+                    ? document.getElementById('bookshelf-ui-mobile') 
+                    : document.getElementById('bookshelf-ui-desktop');
+
+                if (!activeBookshelf) {
+                    resolve();
+                    return;
+                }
+                
+                const handleTransitionEnd = (e: any) => {
+                    if (e.propertyName === 'transform' && e.target === activeBookshelf) {
+                        activeBookshelf.removeEventListener('transitionend', handleTransitionEnd);
                         if (!isResolved) {
                             isResolved = true;
                             resolve();
                         }
                     }
                 };
-                bookshelf.addEventListener('transitionend', handleTransitionEnd);
-                bookshelf.classList.remove('slide-in');
+                activeBookshelf.addEventListener('transitionend', handleTransitionEnd);
+                
+                bookshelves.forEach(b => b.classList.remove('slide-in'));
 
                 setTimeout(()=>{
                     if(!isResolved){
-                        bookshelf.removeEventListener('transitionend', handleTransitionEnd);
+                        activeBookshelf.removeEventListener('transitionend', handleTransitionEnd);
                         isResolved = true;
                         resolve();
                     }
                 }, ANIMATION_TIMES.DEVLOG_LEAVE +50);
             });
         });
-
-        //Scroll view
-        if (scrollContainer && !scrollContainer.dataset.wheelAttached) {
-            const handleWheel = (e: WheelEvent) => {
-                if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-                    e.preventDefault();
-                    scrollContainer.scrollLeft += e.deltaY;
-                }
-            };
-            scrollContainer.addEventListener('wheel', handleWheel, { passive: false });
-            scrollContainer.dataset.wheelAttached = 'true';
-        }
     });
 </script>

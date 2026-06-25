@@ -11,39 +11,58 @@ const themeColor = color || '#10b981';
 ---
 
 <div class="binder-item" data-color={themeColor} data-slug={slug} style={`--theme-color: ${themeColor}`}>
-  
+  <!-- vertical -->
   <div class="binder-vertical-view">
-    {heroImage && <img src={typeof heroImage === 'string' ? heroImage : heroImage.src} class="vertical-bg" alt="" />}
     <div class="vertical-overlay"></div>
     <div class="vertical-content">
-      <span class="vertical-title">{driveLetter}:\ {title}</span>
-      <span class="vertical-desc">{description}</span>
+        <div class="vertical-icon-wrapper">
+        {heroImage ? (
+            <div class="vertical-icon colorized-mask" style={`--icon-url: url(${typeof heroImage === 'string' ? heroImage : heroImage.src})`}></div>
+        ) : (
+            <div class="vertical-icon placeholder"></div>
+        )}
+        </div>
+        <span class="vertical-title">{driveLetter}:\ {title}</span>
+        <span class="vertical-desc">{description}</span>
     </div>
   </div>
 
   <!-- expanded -->
   <div class="binder-expanded-view">
+    <!-- Header -->
     <div class="expanded-header">
-      <span class="header-icon">&lt; &gt;</span>
+        <div class="header-icon-wrapper">
+        {heroImage ? (
+            <div class="header-icon-img colorized-mask" style={`--icon-url: url(${typeof heroImage === 'string' ? heroImage : heroImage.src})`}></div>
+        ) : (
+            <div class="header-icon-img placeholder"></div>
+        )}
+        </div>
       <span class="header-path">{driveLetter}:\ {title}</span>
     </div>
     
+    <!--water mark -->
+    {heroImage && (
+    <div class="body-watermark">
+        <div class="watermark-img colorized-mask" style={`--icon-url: url(${typeof heroImage === 'string' ? heroImage : heroImage.src})`}></div>
+    </div>
+    )}
+    <!-- Body -->
     <div class="expanded-body">
-      
-      {files.length === 0 ? (
-        <div class="empty-message">THIS PARTITION IS EMPTY.</div>
-      ) : (
-        <div class="exe-list">
-          <div class="center-axis"></div>
-          {files.map((file:any, i:any) => (
-            <ExeFile 
-              file={file} 
-              align={i % 2 === 0 ? 'left' : 'right'} 
-              color={themeColor} 
-            />
-          ))}
-        </div>
-      )}
+        {files.length === 0 ? (
+            <div class="empty-message">THIS PARTITION IS EMPTY.</div>
+        ) : (
+            <div class="exe-list">
+            <div class="center-axis"></div>
+            {files.map((file:any, i:any) => (
+                <ExeFile 
+                file={file} 
+                align={i % 2 === 0 ? 'left' : 'right'} 
+                color={themeColor} 
+                />
+            ))}
+            </div>
+        )}
       
     </div>
     <ExeFileDescription />
@@ -51,8 +70,12 @@ const themeColor = color || '#10b981';
 </div>
 
 <style>
-    /* Normal */
+    /* =========================================
+    Root
+    ========================================= */
     .binder-item {
+        --u:1cqi;
+
         position: relative;
         display: flex;
         overflow: hidden;
@@ -60,36 +83,37 @@ const themeColor = color || '#10b981';
 
         height: 100%;
 
-        border: 0.05cqi solid var(--theme-color);
-        border-radius: 0.2cqi;
+        border: calc(0.05 * var(--u)) solid var(--theme-color);
+        border-radius: calc(0.2 * var(--u));
         background: #0a0a0f;
 
         cursor: pointer;
         transform: translateY(150%);
         transition: flex 0.5s cubic-bezier(0.25, 1, 0.5, 1),
                 opacity 0.3s, 
-                transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+                transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                border 0.3s ease,
+                background 0.3s ease;
     }
-    
     .binder-item.is-loaded {
         transform: translateY(0);
     }
     /* clooapsed*/
     .binder-item.is-collapsed {
-        flex: 0 0 1.5cqi;
+        flex: 0 0 calc(1.5 * var(--u));
         opacity: 0.6;
     }
     .binder-item.is-collapsed:hover {
         opacity: 1;
     }
-
     /* expanded */
     .binder-item.is-expanded {
         flex: 10;
         cursor: default;
     }
-
-    /* vertical view */
+    /* =========================================
+    vertical view
+    ========================================= */
     .binder-vertical-view {
         display: flex;
         position: absolute;
@@ -103,8 +127,9 @@ const themeColor = color || '#10b981';
     .binder-item.is-expanded .binder-vertical-view {
         opacity: 0;
         pointer-events: none;
+        transition: none;
     }
-
+    /* bg */
     .vertical-bg {
         position: absolute;
         inset: 0;
@@ -115,12 +140,12 @@ const themeColor = color || '#10b981';
         
         opacity: 0.2;
     }
+    /* overlay*/
     .vertical-overlay {
         position: absolute;
         inset: 0;
         background: linear-gradient(to bottom, transparent, rgba(30, 3, 43, 0.386));
     }
-
     /* content */
     .vertical-content {
         position: relative;
@@ -130,9 +155,8 @@ const themeColor = color || '#10b981';
         z-index: 2;
 
         height: 100%;
-        padding: 0.5cqi 0;
+        padding: calc(0.5 * var(--u)) 0;
     }
-
     .vertical-title {
 
         writing-mode: vertical-rl;
@@ -145,7 +169,6 @@ const themeColor = color || '#10b981';
 
         transform: rotate(180deg);
     }
-
     .vertical-desc {
         margin-top: auto;
         overflow: hidden;
@@ -159,8 +182,26 @@ const themeColor = color || '#10b981';
         color: #aaa;
         transform: rotate(180deg);
     }
-
-    /* expanded */
+    /* Image */
+    .vertical-icon-wrapper {
+        width: 60%;
+        aspect-ratio: 1 / 1;
+        margin-bottom: calc(1 * var(--u));
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .vertical-icon {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .vertical-icon.placeholder {
+        opacity: 0;
+    }
+    /* =========================================
+    expanded view
+    ========================================= */
     .binder-expanded-view {
         position: absolute;
         inset: 0;
@@ -177,38 +218,54 @@ const themeColor = color || '#10b981';
         opacity: 1;
         pointer-events: auto;
     }
-
+    /* header */
     .expanded-header {
         display: flex;
         align-items: center;
 
-        gap: 1cqi;
-        padding: 0.2cqi 0.5cqi;
-        border-bottom: 0.05cqi solid rgba(255, 255, 255, 0.1);
+        gap: calc(1 * var(--u));
+        padding: calc(0.2 * var(--u)) calc(0.5 * var(--u));
+        border-bottom: calc(0.05 * var(--u)) solid rgba(255, 255, 255, 0.1);
 
         font-family: monospace;
-        font-size: 0.85cqi;
+        font-size: calc(0.85 * var(--u));
         
         color: var(--theme-color);
         background: rgba(0,0,0,0.3);
     }
-
+    /* Header Image */
+    .header-icon-wrapper {
+        width: calc(1.2 * var(--u)); 
+        aspect-ratio: 1 / 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .header-icon-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .header-icon-img.placeholder {
+        opacity: 0;
+    }
+    /* body */
     .expanded-body {
         flex: 1;
         position: relative;
         overflow-y: auto;
         overflow-x: hidden;
         
-        padding: 1cqi 0;
+        padding: calc(1 * var(--u)) 0;
     }
-
+    /* line */
     .center-axis {
         position: absolute;
         top: 0;
         bottom: 0;
         left: 50%;
 
-        width: 0.1cqi;
+        width: calc(0.1 * var(--u));
         background: var(--theme-color);
         opacity: 0.3;
 
@@ -220,8 +277,8 @@ const themeColor = color || '#10b981';
         position: absolute;
         left: 50%;
         
-        width: 0.6cqi;
-        height: 0.6cqi;
+        width: calc(0.6 * var(--u));
+        height: calc(0.6 * var(--u));
         background: var(--theme-color);
         border-radius: 50%;
         
@@ -230,20 +287,20 @@ const themeColor = color || '#10b981';
     .center-axis::before {
         top: 0;
     }
-
     .center-axis::after {
         bottom: 0;
     }
-
-
+    /* =========================================
+    expanded List
+    ========================================= */
     .exe-list {
         position: relative;
         display: flex;
         flex-direction: column;
+        z-index: 1;
 
         width: 100%;
     }
-
     .empty-message {
         position: absolute;
         top: 45%;
@@ -251,23 +308,122 @@ const themeColor = color || '#10b981';
         transform: translate(-50%, -50%);
         
         font-family: monospace;
-        font-size: 0.85cqi;
+        font-size: calc(0.85 * var(--u));
         color: rgba(255, 255, 255, 0.4);
         letter-spacing: 0.1em;
         white-space: nowrap;
     }
+    /* water mark */
+    .body-watermark {
+        position: absolute; 
+        top: 55%;
+        left: 50%;
+        z-index: 0;
+        
+        width: 45%;
+        aspect-ratio: 1 / 1;
+        
+        opacity: 0; 
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition: opacity 0.4s ease;
+    }
+    .binder-item.is-expanded .body-watermark {
+        opacity: 0.1;
+        transition-delay: 0.3s; 
+    }
+    .body-watermark img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* Color multi */
+    .colorized-mask {
+        width: 100%;
+        height: 100%;
+        background-color: var(--theme-color);
+        
+        -webkit-mask-image: var(--icon-url);
+        -webkit-mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        
+        mask-image: var(--icon-url);
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
+    }
+    
+@media (max-aspect-ratio: 0.5) {
+    .binder-item {
+        --u: 1cqw;
+    }
+    .binder-expanded-view {
+        flex-direction: row !important; 
+    }
+
+    /* Header */
+    .expanded-header {
+        flex-direction:column-reverse; 
+        justify-content: center;
+        align-items: center;
+
+        gap: calc(2 * var(--u));
+        border-bottom: none !important;
+        border-right: calc(0.05 * var(--u)) solid rgba(255, 255, 255, 0.1);
+
+        width: calc(3 * var(--u));
+    }
+    .header-icon-wrapper {
+        margin-bottom: 0;
+        transform: rotate(-90deg);
+    }
+    .header-path {
+        margin-left: 0;
+        margin-bottom: 0;
+        writing-mode: vertical-rl;
+        font-size: calc(1.15*var(--u));
+
+        transform: rotate(180deg);
+        white-space: nowrap;
+    }
+
+    /*Body*/
+    .body-watermark{
+        transform: translate(-50%, -55%) rotate(-90deg);
+    }
+    .center-axis { 
+        display: none; 
+    }
+}
+@media (max-aspect-ratio: 0.5) and (max-width: 450px) {
+     .binder-item {
+        
+        border: calc(0 * var(--u)) solid var(--theme-color);
+        
+        background: #171717;
+    }
+}
 </style>
 
 <script>
-import { currentView } from "../../../store";
+import { addLeaveHook, currentView } from "../../../store";
 import { navigateWithAnimation } from "../../../utils/navigation";
 
+const eventControllers = new WeakMap<HTMLElement, AbortController>();
   document.addEventListener('astro:page-load', () => {
     const binders = document.querySelectorAll('.binder-item');
     const currentPath = decodeURIComponent(window.location.pathname);
     
+    function resetAllBinderScrolls() {
+        Object.keys(sessionStorage).forEach(key => {
+            if (key.startsWith('binder-scroll-')) {
+                sessionStorage.removeItem(key);
+            }
+        });
+    }
     binders.forEach((binder,index) => {
-        
         const slug = (binder as HTMLElement).dataset.slug;
         const targetUrl = `/blog/${slug}`;
         const expandedBody = binder.querySelector<HTMLElement>('.expanded-body');
@@ -294,12 +450,12 @@ import { navigateWithAnimation } from "../../../utils/navigation";
                 binder.classList.remove('is-expanded');
             }
         }
-
+        /* scroll view */
         if (expandedBody) {
-            
             let startX = 0;
             let startY = 0;
             let startScrollTop = 0;
+            let scrollTimeout: any;
 
             expandedBody.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
@@ -329,13 +485,12 @@ import { navigateWithAnimation } from "../../../utils/navigation";
 
 
 
-            let scrollTimeout: any;
             expandedBody.addEventListener('scroll', () => {
                 if (binder.classList.contains('is-expanded')) {
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(() => {
                         sessionStorage.setItem(scrollKey, expandedBody.scrollTop.toString());
-                    }, 100);
+                    }, 600);
                 }
             }, { passive: true });
         }
@@ -400,6 +555,14 @@ import { navigateWithAnimation } from "../../../utils/navigation";
                     navigateWithAnimation(targetUrl);
                 }
             });
+        });
+    });
+    addLeaveHook((targetView)=>{
+        return new Promise((resolve)=>{
+            if(targetView !== 'BlogBinder' && targetView !== 'BlogPaper'){
+                resetAllBinderScrolls();
+            }
+            resolve();
         });
     });
 });

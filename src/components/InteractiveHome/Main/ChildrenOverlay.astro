@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 ---
 
-<div id={id} class="children-overlay" transition:persist="children-overlay" ></div>
+<div id={id} class="children-overlay" transition:persist={id}} ></div>
 
 <style define:vars={{ switchTime, zIndex, width, height,top,left }}>
     .children-overlay {

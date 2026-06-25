@@ -12,9 +12,10 @@ heroImage: ../../../assets/blog-placeholder-3.jpg
 - To be completely honest, the codebase was turning into ~~a piece of shit~~ spaghetti code. If I didn't stop to refactor and organize things now, it would eventually become an unmanageable pile of technical debt.
 ## Approach & Decisions
 I decide to divide the project documentation into four core modules:
-![[Pasted image 20260618151502.png]]
+
+![FourCoreModules](../_images/Personal_Blog-website/Four-Core-Modules.png)
 - Architecture: Documenting Components, Layout, Utils, Z-index management and the relationships between them.
-![[Pasted image 20260618123829.png]]
+    ![ArchitectureMap](../_images/Personal_Blog-website/ArchitectureMap.png)
 - Dev logs: A dedicated space to track progress over time.
 - Issues: A temporary tracker for development roadblocks, their resolution status, and any newly derived bugs.
 - Design: Planning the website layout and CSS implementation strategies.
