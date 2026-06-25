@@ -27,8 +27,11 @@ const { Content } = await render(post);
 
 
 <style define:vars={{pageShowTime}}>
-    /*Main*/
+    /* =========================================
+       Main Container (Holographic Glass Panel)
+    ========================================= */
     .paper-ui {
+        /* 【保留】原有定位与宽高逻辑 */
         position: absolute;
         top: 6.5rem;
         left: 50%;
@@ -41,11 +44,17 @@ const { Content } = await render(post);
         max-width: 900px;
         height: calc(95% - 6.5rem);
         
-        opacity: 0;
-        background-color: #211525;
-        border-radius: 0.5rem;
-        box-shadow: 0 1.5rem 3rem -0.75rem rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(222, 204, 230, 0.1);
+        /* 【修改】深紫毛玻璃材质 + 科技感边框与发光内阴影 */
+        background-color: rgba(13, 9, 20, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        border-radius: 12px;
+        box-shadow: 
+            0 1.5rem 3rem -0.75rem rgba(0, 0, 0, 0.9), 
+            inset 0 0 30px rgba(139, 92, 246, 0.05);
         
+        opacity: 0;
         transform: translate(-50%, 20%) scale(0.95);
         transition: all var(--pageShowTime) cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -54,78 +63,105 @@ const { Content } = await render(post);
         opacity: 1;
     }
 
-    /*Header*/
+    /* =========================================
+       Header (Tech Dashboard Style)
+    ========================================= */
     .paper-header {
+        position: relative;
         display:flex;
         flex: 0 0 auto;
         flex-direction: column;
         align-items: flex-start;
 
-        padding: 1.5rem clamp(1.5rem, 5vw, 4rem) 0.5rem;
-        border-bottom: 3px solid #3c2a45;
+        padding: 2rem clamp(1.5rem, 5vw, 4rem) 1.5rem;
+        /* 【修改】顶部增加微弱的渐变背景，区分头部和内容区 */
+        background: linear-gradient(to bottom, rgba(76, 29, 149, 0.15), transparent);
+        border-bottom: none; /* 去掉原本的实线，改用发光射线 */
         
         max-height: 500px;
-        
         opacity: 1;
         transition: all var(--pageShowTime) cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .paper-header:hover{
+    
+    /* 发光的能量分割线 */
+    .paper-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 5%; right: 5%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent);
+        box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+        transition: opacity var(--pageShowTime) ease;
     }
 
+    /* Back Button (Tech Switch) */
     .back-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         padding: 0.5rem 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
 
-        border: none;
         border-radius: 0.5rem;
-
-        background:  #592d6d; 
-        color: #c7c7c7; 
         font-weight: bold;
         font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
-
         cursor: pointer;
-        transition: background 0.2s,transform  0.2s;
+
+        /* 【修改】与 Binder 统一的科技感按钮 */
+        background: rgba(139, 92, 246, 0.1); 
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        color: #a78bfa; 
+        backdrop-filter: blur(4px);
+        
+        transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .back-btn:hover { 
-        background: #602b6f;
+        background: rgba(139, 92, 246, 0.3);
+        border-color: #8b5cf6;
+        color: #fff;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
         transform: scale(1.05);
-     }
+    }
+
+    /* Meta Info */
     .meta {
         display: flex;
         flex-direction: column;
         width: 100%;
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
     .meta h1 {
-        margin:0;
-        
+        margin: 0;
         font-size: clamp(1.5rem, 4vw + 1rem, 2.5rem);
+        /* 【修改】高对比度亮色 + 紫色霓虹光晕 */
         color: #f3e8ff;
-        font-family: serif; 
-        line-height: 1.3;
+        text-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+        font-family: 'Inter', system-ui, sans-serif; 
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: 0.02em;
     }
     .meta .description {
         margin: 0;
-        margin-left: ;
-
         font-size: clamp(1rem, 2vw + 0.5rem, 1.15rem);
-        color: #8d8490;
-        font-family: sans-serif;
-        line-height: 1.4;
+        color: #cbd5e1;
+        font-family: 'Inter', system-ui, sans-serif;
+        line-height: 1.5;
+        /* 【修改】增加左侧引言线 */
+        border-left: 3px solid rgba(139, 92, 246, 0.5);
+        padding-left: 1rem;
     }
-
     .meta time {
         margin: 0;
-
-        color: #8b7a9f;
+        color: #a78bfa;
         font-size: 0.875rem;
+        font-family: monospace;
+        letter-spacing: 0.05em;
     }
 
-    /*Content*/
+    /* =========================================
+       Content (Premium Markdown Reader)
+    ========================================= */
     .paper-content {
         overflow-y: auto;
         flex: 1;
@@ -133,67 +169,125 @@ const { Content } = await render(post);
 
         padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
 
-        color: #c8bccc;
-        font-family: sans-serif;
+        /* 【修改】冷灰色文字，更适合暗色背景阅读 */
+        color: #cbd5e1;
+        font-family: 'Inter', system-ui, sans-serif;
         line-height: 1.8;
-        font-size: 1rem;
+        font-size: 1.05rem;
+        letter-spacing: 0.01em;
         
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
     .paper-content::-webkit-scrollbar { display: none; }
 
-    .paper-content :global(h2) { margin-top: 2rem; color: #d979f9; border-bottom: 1px solid #352a45; padding-bottom: 0.5rem; }
-    .paper-content :global(p) { margin-bottom: 1.5rem; }
-    .paper-content :global(a) { color: #9f72f4; text-decoration: none; border-bottom: 1px dashed #9972f4; transition: color 0.2s; }
-    .paper-content :global(a:hover) { color: #b946ef; border-color: #d946ef; }
-    .paper-content :global(code) { background: #2a2136; color: #a472f4; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
-    .paper-content :global(pre) { background: #110d17; color: #e2d8ee; padding: 1rem; border-radius: 8px; overflow-x: auto; border: 1px solid #2a2136; }
+    /* Markdown Elements */
+    .paper-content :global(h2) { 
+        margin-top: 3rem; 
+        margin-bottom: 1.5rem;
+        color: #f3e8ff; 
+        /* 【修改】科技感 H2 标题 */
+        border-bottom: 1px solid rgba(139, 92, 246, 0.2); 
+        border-left: 4px solid #8b5cf6;
+        padding-left: 1rem;
+        padding-bottom: 0.5rem; 
+        text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+    }
+    .paper-content :global(h3) {
+        color: #e9d5ff;
+        margin-top: 2rem;
+    }
+    .paper-content :global(p) { 
+        margin-bottom: 1.5rem; 
+    }
+    .paper-content :global(a) { 
+        color: #a78bfa; 
+        text-decoration: none; 
+        border-bottom: 1px solid rgba(167, 139, 250, 0.4); 
+        transition: all 0.2s; 
+    }
+    .paper-content :global(a:hover) { 
+        color: #d8b4fe; 
+        border-color: #d8b4fe; 
+        text-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
+    }
+    .paper-content :global(code) { 
+        /* 【修改】行内代码发光块 */
+        background: rgba(139, 92, 246, 0.15); 
+        color: #d8b4fe; 
+        padding: 0.2rem 0.4rem; 
+        border-radius: 4px; 
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        font-family: monospace;
+        font-size: 0.9em; 
+    }
+    .paper-content :global(pre) { 
+        /* 【修改】深黑终端代码块 */
+        background: rgba(0, 0, 0, 0.5); 
+        color: #e2d8ee; 
+        padding: 1.25rem; 
+        border-radius: 8px; 
+        overflow-x: auto; 
+        border: 1px solid rgba(139, 92, 246, 0.2); 
+        box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        margin-bottom: 1.5rem;
+    }
+    .paper-content :global(blockquote) {
+        /* 【新增】引言样式 */
+        border-left: 4px solid #8b5cf6;
+        background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent);
+        padding: 1rem 1.5rem;
+        margin: 1.5rem 0;
+        border-radius: 0 8px 8px 0;
+        color: #a78bfa;
+        font-style: italic;
+    }
 
-    
-@media (max-width: 768px) {
-    
-    .paper-ui {
-        width: 100%;
-        height: calc(100% - 6.5rem);
+    /* =========================================
+       Media Queries (保留原有逻辑)
+    ========================================= */
+    @media (max-width: 768px) {
+        .paper-ui {
+            width: 100%;
+            height: calc(100% - 6.5rem);
+        }
+        .paper-content {
+            font-size: 0.95rem; /* 移动端稍微调小一点，但比原来的 0.75rem 更易读 */
+        }
         
+        .paper-header.header-hidden {
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            border-bottom-width: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .paper-header.header-hidden::after {
+            opacity: 0; /* 隐藏时同时隐藏发光线 */
+        }
     }
-    .paper-content {
-        font-size: 0.75rem; 
-    }
-    
-    .paper-header.header-hidden{
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-bottom: 0;
-        border-bottom-width: 0;
-        opacity: 0;
-        overflow: hidden;
-    }
-}
 
-
-@media (min-width: 769px) {
-    .paper-ui {
-        left: 37.5%;
-        width: 60%;
-        max-width: 100000px;
-        height: calc(95% - 6.5rem);
-        
-        transform: translate(0, 20%) scale(0.95);
+    @media (min-width: 769px) {
+        .paper-ui {
+            left: 37.5%;
+            width: 60%;
+            max-width: 100000px;
+            height: calc(95% - 6.5rem);
+            transform: translate(0, 20%) scale(0.95);
+        }
+        .paper-ui.open {
+            transform: translate(0, 0) scale(1);
+        }
+        .paper-ui .back-btn {
+            display: none;
+        }
     }
-    .paper-ui.open {
-        transform: translate(0, 0) scale(1);
-    }
-    
-    .paper-ui .back-btn {
-        display: none;
-    }
-}
 </style>
 
 <script>
+    /* JS 逻辑完全保持不变 */
     import { addLeaveHook } from '../../../store';
     import { navigateWithAnimation } from '../../../utils/navigation';
     import { ANIMATION_TIMES } from '../../../config';
@@ -262,7 +356,6 @@ const { Content } = await render(post);
                 }
             });
         }
-
 
         const goBack = () => {
             const targetUrl = backBtn?.getAttribute('data-target') || '/devlog';

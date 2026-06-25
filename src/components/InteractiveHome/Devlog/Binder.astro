@@ -40,16 +40,17 @@ const { title, entries,folderSlug } = Astro.props;
                     </a>
                 </li>
             ))}
-            {entries.length === 0 && <p class="empty-text">Ops! It's empty...</p>}
+            {entries.length === 0 && <p class="empty-text">SYS.WARN // DIRECTORY EMPTY...</p>}
         </ul>
     </div>
 </div>
 
 <style define:vars={{binderShowTime}}>
     /* =========================================
-    Root
+    Root (The Holographic Binder)
     ========================================= */
     .binder-ui {
+        /* 【保留】你的定位和宽高逻辑完全没动 */
         position: absolute;
         top: 6.5rem;
         left: 10%;
@@ -61,13 +62,21 @@ const { title, entries,folderSlug } = Astro.props;
         height: calc(95% - 6.5rem);
 
         border-radius: clamp(0.5rem, 1cqi, 1rem);
-        box-shadow: 0 1rem 2rem rgba(65, 27, 74, 0.768);
-        border-left: clamp(4px, 1.5cqi, 8px) solid #8c439e;
         padding: clamp(1rem, 3vw, 2rem);
 
-        background-color: #120E1A;
-        opacity: 0;
+        /* 【修改】深紫毛玻璃材质 + 发光书脊 */
+        background-color: rgba(13, 9, 20, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        border-left: clamp(4px, 1.5cqi, 8px) solid #8b5cf6; /* 霓虹书脊 */
+        
+        box-shadow: 
+            0 1rem 3rem rgba(0, 0, 0, 0.8), 
+            inset 4px 0 15px rgba(139, 92, 246, 0.2); /* 内部光晕增加立体感 */
+
+        opacity: 0;
         transform: translateY(20%) scale(0.9);
         transition: all var(--binderShowTime) cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -75,20 +84,21 @@ const { title, entries,folderSlug } = Astro.props;
         transform: translateY(0) scale(1);
         opacity: 1;
     }
-     /* =========================================
+    
+    /* =========================================
     Content
     ========================================= */
     .binder-content {
         flex: 1;
         display: flex;
         flex-direction: column;
-
         min-height: 0; 
-        border-radius: 1rem;
-
-        background: #241627;
+        border-radius: 0.5rem;
+        /* 【修改】背景透明，让底层的毛玻璃透出来 */
+        background: transparent;
     }
-     /* =========================================
+
+    /* =========================================
     Header
     ========================================= */
     .binder-header {
@@ -96,42 +106,59 @@ const { title, entries,folderSlug } = Astro.props;
         display: flex;
         justify-content: space-between;
         align-items: center;
-
-        border-bottom: 2px dashed #452852;
-        padding-bottom: 0.75rem;
-        margin-bottom: 0.75rem; 
+        padding-bottom: 1rem;
+        margin-bottom: 1rem; 
+        /* 【修改】去掉虚线，用伪元素做一条发光的渐变能量线 */
+        border-bottom: none;
     }
+    .binder-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(139, 92, 246, 0.8), rgba(139, 92, 246, 0.1), transparent);
+        box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+    }
+
     .binder-header h2 {
         margin: 0;
-        color: #8f8f8f;
+        /* 【修改】高级感的标题排版 */
+        color: #f3e8ff;
+        text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
         font-size: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
-        
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
         transition: all var(--binderShowTime) ease;
     }
-    /* Back Button */
+
+    /* Back Button (Tech Switch Style) */
     .back-btn { 
         display: inline-flex;
         align-items: center;
         justify-content: center;
-
-        border: none; 
         border-radius: 0.5rem; 
         padding: 0.5rem 1rem; 
-
-        background:  #592d6d; 
-        color: #c7c7c7; 
-
         font-weight: bold; 
         font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
-
         cursor: pointer; 
-        transition: background 0.2s,transform  0.2s;
+        
+        /* 【修改】科技感按钮材质 */
+        background: rgba(139, 92, 246, 0.1); 
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        color: #a78bfa; 
+        backdrop-filter: blur(4px);
+        
+        transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .back-btn:hover {
-        background: #602b6f;
+        background: rgba(139, 92, 246, 0.3);
+        border-color: #8b5cf6;
+        color: #fff;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
         transform: scale(1.05);
     }
-     /* =========================================
+
+    /* =========================================
     List
     ========================================= */
     .entry-list { 
@@ -140,47 +167,57 @@ const { title, entries,folderSlug } = Astro.props;
         margin: 0; 
         overflow-y: auto; 
         flex: 1; 
-
         border-radius: 0.5rem;
-
-        background: #241627;
-
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
+        background: transparent;
+        scrollbar-width: none; 
+        -ms-overflow-style: none; 
     }
-    .entry-list::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
-    }
+    .entry-list::-webkit-scrollbar { display: none; }
 
-     /* =========================================
-    List Item
+    /* =========================================
+    List Item (Premium TOC Feel)
     ========================================= */
     .entry-item { 
+        position: relative;
         display: flex; 
         justify-content: space-between; 
         align-items: center; 
-
         padding: 1rem 1.25rem; 
-        border-bottom: 1px solid #3a283c; 
-        background: #241627;
-
+        
+        /* 【修改】极细的暗色分割线 */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+        background: transparent;
         text-decoration: none; 
-        color: #ffffff; 
-
-        transition: background 0.2s, padding-left 0.2s;
+        color: #cbd5e1; /* 冷灰色文字 */
+        overflow: hidden;
+        
+        transition: padding-left 0.3s ease, color 0.3s ease;
     }
+
+    /* 【新增】光影扫过效果 (Sweep Effect) */
+    .entry-item::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0; width: 0;
+        background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), transparent);
+        transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        z-index: 0;
+    }
+
     .entry-item.active {
         padding-left: 1.75rem; 
-        background: #341f38; 
-        color: #d979f9;
-        border-left: 3px solid #d979f9;
+        color: #f3e8ff;
+        border-left: 3px solid #a78bfa;
+        box-shadow: inset 10px 0 20px -10px rgba(139, 92, 246, 0.5);
     }
+    .entry-item.active::before { width: 100%; }
+
     .entry-item:hover {
         padding-left: 1.75rem; 
-
-        background: #341f38; 
-        color: #bf60ea;
+        color: #ffffff;
     }
+    .entry-item:hover::before { width: 100%; }
+
     .entry-item:hover .entry-title.is-overflowing,
     .entry-item.active .entry-title.is-overflowing {
         animation: seamless-marquee 4s linear infinite;
@@ -189,29 +226,37 @@ const { title, entries,folderSlug } = Astro.props;
         0% { transform: translateX(0); }
         100% { transform: translateX(-100%); }
     }
+
     .entry-main {
+        position: relative;
+        z-index: 1; /* 确保内容在光影扫过层之上 */
         display: flex;
         align-items: center;
         margin-right: 1rem;
         flex: 1;
-
         min-width: 0; 
-        gap: 0.75rem; 
+        gap: 1rem; 
     }
-    /*items-title*/
+
+    /* =========================================
+    Typography & Thumbnails
+    ========================================= */
     .entry-title {
         display: inline-block;
         position: relative;
-
         padding-right: 1.75rem;
         width: max-content;
-
-        font-weight: bold;
+        font-weight: 500;
         font-size: clamp(1rem, 1.5vw + 0.5rem, 1.25rem); 
+        letter-spacing: 0.02em;
+        transition: text-shadow 0.3s ease;
     }
-    .entry-title.is-overflowing {
-        padding-right: 1rem;
+    .entry-item.active .entry-title {
+        font-weight: 600;
+        text-shadow: 0 0 10px rgba(139, 92, 246, 0.6); /* 激活状态文字发光 */
     }
+
+    .entry-title.is-overflowing { padding-right: 1rem; }
     .entry-title.is-overflowing::after {
         content: attr(data-title);
         position: absolute;
@@ -219,7 +264,7 @@ const { title, entries,folderSlug } = Astro.props;
         top: 0;
         white-space: nowrap;
     }
-    /* Image */
+    
     .entry-title-wrapper {
         flex: 1; 
         min-width: 0; 
@@ -227,92 +272,88 @@ const { title, entries,folderSlug } = Astro.props;
         white-space: nowrap; 
         container-type: inline-size; 
     }
+
+    /* 【修改】给缩略图加一个科技画框 */
     .entry-thumbnail-wrapper {
         flex-shrink: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        
-        width: 2rem;
-        height: 2rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 6px;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        background: rgba(0, 0, 0, 0.4);
+        padding: 2px;
+        box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
     }
     .entry-thumbnail {
         width: 100%;
         height: 100%;
         object-fit: contain;
+        border-radius: 4px;
     }
-    .entry-thumbnail.placeholder {
-        opacity: 0;
-    }
-    /* Date */
-    .entry-date { 
-        font-size: 0.875rem; 
-        color:  #8f8f8f; 
-        white-space: nowrap;
-
-        transition: font-size 0.3s, color 0.3s;
-    }
-    .entry-item.active .entry-date {
-        font-size: 1rem;
-        color: #d979f9;
-    }
-    .entry-item:hover .entry-date{
-        font-size: 1rem;
-        color: rgb(137, 59, 166);
-    }
+    .entry-thumbnail.placeholder { opacity: 0; }
     
-    /*Empty*/
-    .empty-text{
+    /* Empty State */
+    .empty-text {
         text-align: center;
-        padding: 2rem 1rem;
-        
-        color:#6e6e6e
-
+        padding: 3rem 1rem;
+        color: #a78bfa;
+        font-family: monospace;
         font-size: 1rem;
+        letter-spacing: 0.1em;
+        opacity: 0.7;
     }
 
-@media (max-width: 768px) {
-    .binder-ui {
-        width: 95%;
-        left: 2.5%;
+    /* =========================================
+    Media Queries (保留了你所有的巧思)
+    ========================================= */
+    @media (max-width: 768px) {
+        .binder-ui {
+            width: 95%;
+            left: 2.5%;
+        }
     }
-}
 
-@media (min-width:1080px){
-    .binder-header h2{
-        position: absolute;
-        left: 50%; 
-        transform: translateX(-50%); 
-        color:#ffffff;
+    @media (min-width: 1080px) {
+        .binder-header h2 {
+            position: absolute;
+            left: 50%; 
+            transform: translateX(-50%); 
+        }
+        .back-btn { 
+            transform: translateY(-50%);
+        }
+        .back-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
     }
-    .back-btn { 
-        transform: translateY(-50%);
-    }
-    .back-btn:hover {
-        background: #602b6f;
-        transform:translateY(-50%) scale(1.05) ;
-    }
-}
-/* minimized*/
-@media(min-width:768px){
-    .binder-ui.minimized {
-        left: 5%;
-        padding: 1rem;
 
-        width: 30%; 
-        height: calc(60% - 6.5rem);
+    /* Minimized State */
+    @media(min-width: 768px) {
+        .binder-ui.minimized {
+            left: 5%;
+            padding: 1rem;
+            width: 30%; 
+            height: calc(60% - 6.5rem);
+            /* 折叠状态下稍微降低透明度，让出视觉焦点 */
+            background-color: rgba(13, 9, 20, 0.6);
+        }
+        .binder-ui.minimized .binder-header h2 {
+            position: static;
+            transform: none;
+            font-size: 1.2rem;
+            color: #a78bfa; /* 折叠时标题变暗紫 */
+            text-shadow: none;
+        }
+        .binder-ui.minimized .back-btn { 
+            transform: none; 
+        }
+        .binder-ui.minimized .back-btn:hover {
+            transform: scale(1.05);
+        }
     }
-    .binder-ui.minimized .binder-header h2 {
-        position: static;
-        transform: none;
-        font-size: 1.2rem;
-        color: #8f8f8f;
-    }
-    .binder-ui.minimized .back-btn { 
-        transform: none; 
-    }
-}
-
 </style>
 
 <script>
@@ -320,7 +361,6 @@ const { title, entries,folderSlug } = Astro.props;
     import { handleAnimatedLinkClick, navigateWithAnimation } from '../../../utils/navigation';
     import { ANIMATION_TIMES } from '../../../config';
 
-    
     let savedScrollTop=0;
     document.addEventListener('astro:before-swap', () => {
         const scrollContainer = document.getElementById('entry-list');
@@ -331,7 +371,6 @@ const { title, entries,folderSlug } = Astro.props;
         if (scrollContainer) scrollContainer.scrollTop = savedScrollTop;
     });
 
-    
     document.addEventListener('astro:page-load', () => {
         const binder = document.getElementById('binder-ui');
         const overlay = document.getElementById('binder-overlay');
@@ -339,6 +378,7 @@ const { title, entries,folderSlug } = Astro.props;
         const currentPath = decodeURIComponent(window.location.pathname);
         const currentPostName = currentPath.replace(/\/$/, '').split('/').pop();
         if(!binder || !overlay) return;
+        
         /*Overflow*/
         const checkOverflow = () => {
             const wrappers = document.querySelectorAll('.entry-title-wrapper');

@@ -1,103 +1,180 @@
 ---
+import about_Image from '../../../assets/Images/about.png';
+import bookshelf_Image from '../../../assets/Images/bookshelf.png';
+import { getOptimizedImageUrl } from '../../../utils/assets';
 import '../../../styles/zIndex.css';
 import ComputerBackGround from './ComputerBackGround.astro';
+
+const about_Image_url=await getOptimizedImageUrl(about_Image);
+const bookshelf_Image_url=await getOptimizedImageUrl(bookshelf_Image);
 ---
 
 <button class="desk-item bookshelf" data-target="Devlog" aria-label="Browse Devlogs">
-    <span>Bookshelf</span>
 </button>
 <ComputerBackGround/>
 <button class="desk-item paper" data-target="About" aria-label="About Me">
-    <span>Paper</span>
 </button>
 
 <div id="cursor-tooltip" class="cursor-tooltip"></div>
 
-<style>
-    .desk-item{
-        position:absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+<style define:vars={{about_Image_url , bookshelf_Image_url}}>
+    /* =========================================
+       Desk Items Base
+    ========================================= */
+    .desk-item {
+        position: absolute;
+        outline: none;
+        border: none;
+        cursor: pointer;
         
-        outline:none;
-        border:none;
-        border-radius: 0.5rem;
-
-        color:white;
-
-        font-weight: bold;
-        font-size: 1.2rem;
-        
-        cursor:pointer;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        /* 丝滑的悬浮放大与发光过渡 */
+        transition: 
+            filter 0.4s cubic-bezier(0.22, 1, 0.36, 1), 
+            transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    /* BookShelf */
+
+    .desk-item:hover {
+        /* 悬浮时物品整体散发全息紫光 */
+        filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.6));
+    }
+    
+    /* =========================================
+       Holographic Scanline Animation
+    ========================================= */
+    @keyframes holo-scan {
+        0% { background-position: 0 -100%; }
+        100% { background-position: 0 200%; }
+    }
+
+    .bookshelf::after, .paper::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        
+        /* 科技感霓虹紫能量线 */
+        background: linear-gradient(to bottom, 
+            rgba(139, 92, 246, 0) 0%, 
+            rgba(139, 92, 246, 0.6) 50%, 
+            rgba(139, 92, 246, 0) 100%);
+        background-size: 100% 50%;
+        background-repeat: no-repeat;
+        
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        
+        animation: holo-scan 2s linear infinite;
+    }
+
+    .bookshelf:hover::after, .paper:hover::after {
+        opacity: 1;
+    }
+
+    /* =========================================
+       BookShelf
+    ========================================= */
     .bookshelf {
-        top: 15%;        
-        left: 5%;      
+        top: 0%;        
+        left: 0%;      
         z-index: var(--z-desk-items-bottom);     
 
-        width: 25%;      
-        height: 40%;     
+        width: 25.8125%;      
+        height: 80.30%;     
 
-        background-color: #825491; 
+        background-color: transparent;
+        background-image: var(--bookshelf_Image_url);
+        background-size: contain; 
+        background-repeat: no-repeat;
+        background-position: center; 
     }
-    .bookshelf:hover {
-        transform: scale(1.05);
+    /* 利用 Mask 让扫描线只在书架图像内部显示 */
+    .bookshelf::after {
+        -webkit-mask-image: var(--bookshelf_Image_url);
+        -webkit-mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-image: var(--bookshelf_Image_url);
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
     }
 
-    /* Paper */
+    /* =========================================
+       Paper (About)
+    ========================================= */
     .paper {
         bottom: calc(100% - var(--paper-origin-y));
-        right:calc(100% - var(--paper-origin-x));
+        right: calc(100% - var(--paper-origin-x));
         z-index: var(--z-desk-items-top);
 
-        width: 15%;
-        height: 25%;
-
-        background-color: #9a8c98; 
+        width: 10%;
+        height: 18%;
         
-        transform: rotate(15deg);
+        background-color: transparent;
+        background-image: var(--about_Image_url);
+        background-size: contain; 
+        background-repeat: no-repeat;
+        background-position: center; 
     }
-    .paper:hover {
-        transform: rotate(15deg) scale(1.1);
+    .paper::after {
+        -webkit-mask-image: var(--about_Image_url);
+        -webkit-mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-image: var(--about_Image_url);
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
     }
-
-    /*cursor tooltip */
-    .cursor-tooltip{
-        --shadow-width:0.15cqi;
-        --shadow-color:#5a0062ac;
-
-        position:fixed;
-        top:0;
-        left:0;
-        z-index:var(--z-tooltip);
+    
+    /* =========================================
+       HUD Cursor Tooltip (全息仪表盘提示框)
+    ========================================= */
+    .cursor-tooltip {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: var(--z-tooltip);
         pointer-events: none;
 
-        padding: 0.4rem 1rem;
+        /* 玻璃态背景与科技边框 */
+        padding: 0.5rem 1rem;
+        background: rgba(13, 9, 20, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        border-left: 3px solid #8b5cf6; /* 左侧高亮指示条 */
+        border-radius: 4px;
         
-        color: #e0bb18;
-        font-family: var(--font-cursortooltip);
-        font-size: 3cqi;
-        text-shadow:
-         calc(var(--shadow-width) * -1) calc(var(--shadow-width) * -1) 0 var(--shadow-color), 
-        var(--shadow-width)            calc(var(--shadow-width) * -1) 0 var(--shadow-color),  
-        calc(var(--shadow-width) * -1) var(--shadow-width)            0 var(--shadow-color),  
-        var(--shadow-width)            var(--shadow-width)            0 var(--shadow-color);  
+        /* 悬浮光晕 */
+        box-shadow: 
+            0 4px 15px rgba(0, 0, 0, 0.6), 
+            0 0 15px rgba(139, 92, 246, 0.2);
+
+        /* 极客字体排版 */
+        color: #f3e8ff;
+        font-family: 'Inter', ui-monospace, SFMono-Regular, monospace;
+        font-size: clamp(0.8rem, 2cqi, 1.1rem);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
         white-space: nowrap;
+        text-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+        
         opacity: 0;
-        
-        transform: translate(calc(var(--x, 0px) + 5%), calc(var(--y, 0px) + 5%));
-        
-        transition: opacity 0.2s ease, transform 0.1s ease-out;
+        /* 偏移 15px 防止遮挡鼠标指针 */
+        transform: translate(calc(var(--x, 0px) + 15px), calc(var(--y, 0px) + 15px));
+        transition: opacity 0.2s ease;
     }
+
+
     .cursor-tooltip.is-visible {
         opacity: 1;
     }
 </style>
 
 <script>
+    /* JS 逻辑完全保留 */
     import { navigateWithAnimation } from "../../../utils/navigation";
     import { currentView, isAnimating } from "../../../store";
 

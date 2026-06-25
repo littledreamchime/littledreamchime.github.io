@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import { ANIMATION_TIMES } from "../../../config";
-import { Image } from "astro:assets";
 import '../../../styles/zIndex.css';
+import BookCard from './BookCard.astro'; 
 
 const devlogSlideIn=`${ANIMATION_TIMES.DEVLOG_SLIDEIN}ms`
 
@@ -13,48 +13,35 @@ const books = devlogs.filter(post => post.id.endsWith('/config'));
 books.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const getFolderSlug = (id: string) => id.split('/')[0];
 
-// 接收 mode 属性，默认为 desktop
 const { mode = 'desktop' } = Astro.props;
 ---
 
 <div id={`bookshelf-ui-${mode}`} class={`bookshelf-ui ${mode}`} transition:persist={`bookshelf-ui-${mode}`}>
-    <!--Tmp Title -->
+    <!-- 科技感细框 Header -->
     <div class="placeholder-content">
-        <h2>📚 Devlog Bookshelf</h2>
-        <p>Markdown list: {books.length} books, { devlogs.length - books.length} devlogs</p>
+        <div class="header-info">
+            <h2><span class="icon">📚</span> Devlog Bookshelf</h2>
+            <p>  {books.length} BOOKS // { devlogs.length - books.length} DEVLOGS</p>
+        </div>
+        <div class="led-indicator"></div>
     </div>
     
-    <!--Scroll Container -->
-    <div class="bookshelf-scroll-container" id={`bookshelf-scroll-${mode}`}>
-        <div class="bookshelf-track">
-            {
-                books.map((book) => {
-                    const folderSlug = getFolderSlug(book.id);
-                    return (
-                        /* Items */
-                        <a href={`/devlog/${folderSlug}`} class="book-card entry-item">
-                            <div class="book-content">
-                                <div class="book-cover">
-                                    {book.data.heroImage ? (
-                                        <Image 
-                                            src={book.data.heroImage} 
-                                            alt={book.data.title} 
-                                            class="cover-image" 
-                                        />
-                                    ) : (
-                                        <div class="cover-image placeholder"></div>
-                                    )}
-                                </div>
-                                <div class="book-text-info">
-                                    <h3>{book.data.title}</h3>
-                                    <time>{book.data.pubDate.toLocaleDateString()}</time>
-                                </div>
-                            </div>
-                        </a>
-                    )
-                })
-            }
+    <!-- 【修改】新增视口包装层，解决阴影随滚动条移动的问题 -->
+    <div class="shelf-viewport">
+        <div class="bookshelf-scroll-container" id={`bookshelf-scroll-${mode}`}>
+            <div class="bookshelf-track">
+                {
+                    books.map((book) => {
+                        const folderSlug = getFolderSlug(book.id);
+                        return (
+                            <BookCard book={book} folderSlug={folderSlug} />
+                        )
+                    })
+                }
+            </div>
         </div>
+        <!-- 【新增】固定在顶层的光影遮罩，不参与滚动 -->
+        <div class="shelf-lighting-overlay"></div>
     </div>
 </div>
 
@@ -64,6 +51,7 @@ const { mode = 'desktop' } = Astro.props;
     Root
     ========================================= */
     .bookshelf-ui {
+        container-type: inline-size; 
         position: absolute;
         top: 0;
         right: 0;
@@ -73,12 +61,14 @@ const { mode = 'desktop' } = Astro.props;
 
         width: 100%;
         height: 100%;
-        border-left: 2px solid #666;
-
-        background-color: #4a4a4a; 
+        
+        background-color: rgba(13, 9, 20, 0.95); 
+        border-left: 1px solid rgba(139, 92, 246, 0.3);
+        box-shadow: -20px 0 50px rgba(0,0,0,0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
 
         transform: translateX(100%);
-        
         transition: transform var(--devlogSlideIn) cubic-bezier(0.22, 1, 0.36, 1);
     }
     .bookshelf-ui.slide-in {
@@ -86,134 +76,121 @@ const { mode = 'desktop' } = Astro.props;
     }
 
     /* =========================================
-    Tmp title
+    Header
     ========================================= */
     .placeholder-content {
-        padding: 3cqi;
-
-        color: white;
-        font-family: sans-serif;
-
+        margin: 3cqi 4cqi 2cqi 4cqi;
+        padding: 1.5cqi 3cqi;
+        border: 1px solid rgba(139, 92, 246, 0.4);
+        border-radius: 6px;
+        background: linear-gradient(90deg, rgba(76, 29, 149, 0.15), transparent);
+        box-shadow: inset 0 0 15px rgba(139, 92, 246, 0.1);
+        
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         flex-shrink: 0;
+    }
+    .header-info {
+        display: flex;
+        align-items: baseline;
+        gap: 2cqi;
     }
     .placeholder-content h2 {
-        margin-bottom: 2cqi;
-
-        font-size: 5cqi; 
+        font-size: 2.2cqi; 
+        color: #f3e8ff;
+        text-shadow: 0 0 10px rgba(139, 92, 246, 0.8);
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
     .placeholder-content p {
-        font-size: 2cqi;
+        font-size: 1.2cqi;
+        color: #a78bfa;
+        margin: 0;
+        font-family: monospace;
+        letter-spacing: 0.1em;
     }
+    .led-indicator {
+        width: 1cqi;
+        height: 1cqi;
+        border-radius: 50%;
+        background-color: #0ab83e;
+        box-shadow: 0 0 8px #8bfa9d, 0 0 15px #5cf676;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+
     /* =========================================
-    Scroll View
+    Scroll View & Overlays
     ========================================= */
-    .bookshelf-scroll-container {
+    .shelf-viewport {
         flex: 1;
-        overflow-x: auto;
-        overflow-y: auto;
-        
+        position: relative;
         width: 100%;
-        min-height: 0; 
-        
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE/Edge */
-    }
-    .bookshelf-scroll-container::-webkit-scrollbar {
-        display: none; /* Chrome/Safari */
-    }
-    /* Scroll view track*/
-    .bookshelf-track {
-        display: flex;
-        align-items: flex-end; 
-        
-
-        min-height: 100%;
-        width: max-content;
-        padding: 1cqi 5cqi; 
-        gap: 3cqi;
+        min-height: 0;
+        background: rgba(0, 0, 0, 0.6);
+        overflow: hidden; /* 确保遮罩不溢出 */
     }
 
-    /* =========================================
-    Book card Root 
-    ========================================= */
-    .book-card {
-        flex-shrink: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        width: 20cqi;
-        height: auto;
-        min-height: 24cqi;
-        padding: 2cqi;
-        border: 1px solid #555;
-        border-radius: 12px;
-        
-        margin: 0; 
-
-        color: #aaa;
-        background-color: #2d2d2d;
-        
-        font-size: 2cqi;
-        font-weight: bold;
-        text-decoration: none;
-        
-        transition: transform 0.3s ease, background-color 0.3s ease;
-        cursor: pointer;
-    }
-    .book-card:hover {
-        background-color: #3d3d3d;
-        color: white;
-
-        transform: translateY(-2cqi);
-    }
-    /*book card parent*/
-    .book-content{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        width: 100%;
-
-        text-align: center;
-    }
-    .book-text-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    /* Image */
-    .book-cover {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 1.5cqi;
-        
-        width: 12cqi;
-        aspect-ratio: 1 / 1;
-    }
-    .cover-image {
+    .bookshelf-scroll-container {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        overflow-x: auto;
+        overflow-y: hidden; /* 桌面端禁止垂直滚动 */
+        scrollbar-width: none; 
+        -ms-overflow-style: none; 
     }
-    .cover-image.placeholder {
-        opacity: 0;
+    .bookshelf-scroll-container::-webkit-scrollbar {
+        display: none; 
     }
-    /* Title */
-    .book-content h3 {
-        font-size: 2.5cqi;
-        margin: 0 0 1cqi 0;
-        color: inherit;
+
+    /* 【修改】将内凹阴影和 LED 灯带移到绝对定位的遮罩上，不再随滚动条移动 */
+    .shelf-lighting-overlay {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        pointer-events: none; /* 穿透点击，不影响内部滚动 */
+        box-shadow: 
+            inset 0 25px 30px -10px rgba(0,0,0,0.9),
+            inset 0 -25px 30px -10px rgba(0,0,0,0.9);
+        border-top: 1px solid rgba(255,255,255,0.05);
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        z-index: 10;
     }
-    /* Time */
-    .book-content time {
-        font-size: 1.5cqi;
+    .shelf-lighting-overlay::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+        box-shadow: 0 5px 25px #8b5cf6, 0 0 10px #8b5cf6;
         opacity: 0.7;
     }
 
     /* =========================================
-    Mobile Mode (Max-width: 768px)
+    Shelf Track
+    ========================================= */
+    .bookshelf-track {
+        display: flex;
+        align-items: flex-end; 
+        height: 100%;
+        width: max-content;
+        
+        /* 【修改】调整 padding 给放大的书本留出呼吸感 */
+        padding: 4cqi 5cqi 2cqi 5cqi; 
+        gap: 4cqi; /* 增加书本间距 */
+        
+        border-bottom: 8px solid #1a1025; 
+        box-shadow: 0 -4px 15px rgba(139, 92, 246, 0.15);
+        background: linear-gradient(to bottom, rgba(76,29,149,0.05), transparent);
+        box-sizing: border-box;
+    }
+
+    /* =========================================
+    Mobile Mode
     ========================================= */
     .bookshelf-ui.mobile { display: none; }
 
@@ -222,63 +199,66 @@ const { mode = 'desktop' } = Astro.props;
         
         .bookshelf-ui.mobile { 
             display: flex; 
-            top:6.5rem;
-
+            top: 6.5rem;
             height: calc(100% - 6.5rem);
         }
-        .bookshelf-scroll-container {
-            overflow-x: hidden;
+        
+        .placeholder-content {
+            margin: 1rem;
+            padding: 1rem;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+        .header-info {
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .placeholder-content h2 { font-size: 1.2rem; }
+        .placeholder-content p { font-size: 0.8rem;  }
+        .led-indicator { display: none; }
+
+        .shelf-viewport {
             overflow-y: auto;
+            background: none;
+        }
+        .bookshelf-scroll-container {
+            overflow-y: visible;
+            height: auto;
+        }
+        .shelf-lighting-overlay {
+            display: none; /* 移动端隐藏复杂的边缘光影 */
         }
 
         .bookshelf-track {
             flex-direction: column;
             align-items: stretch;
             width: 100%;
-            padding: 5vw;
-            gap: 1rem;
-        }
-
-        .book-card {
-            width: 100%;
-            min-height: auto;
-            padding: 1rem;
-        }
-
-        .book-content {
-            flex-direction: row;
-            text-align: left;
-            gap: 2.5rem;
-        }
-        .book-cover {
-            width: 4rem;
-            margin-bottom: 0;
-            flex-shrink: 0;
-        }
-
-        .book-text-info {
-            align-items: flex-start;
-            justify-content: center;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            border-bottom: none;
+            background: none;
+            box-shadow: none;
         }
         
-        .book-content h3 { 
-            font-size: clamp(1rem, 4vw, 2.5rem); 
-            margin-bottom: 0.2rem; 
+        .bookshelf-track > :global(*) {
+            border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+            padding-bottom: 1.5rem;
         }
-        .book-content time { 
-            font-size: clamp(0.75rem, 3vw, 1.5rem); 
+        .bookshelf-track > :global(*:last-child) {
+            border-bottom: none;
         }
     }
 </style>
 
 <script>
+    /* JS 逻辑完全保持不变 */
     import { ANIMATION_TIMES } from "../../../config";
     import { addLeaveHook } from "../../../store";
     import { handleAnimatedLinkClick } from "../../../utils/navigation";
     
     let unsubscribe: () => void = () => {};
 
-    /*Reset Scroll*/
     let savedScrollLeft = 0;
     let savedScrollTop = 0;
     let needReset = false;
@@ -305,7 +285,6 @@ const { mode = 'desktop' } = Astro.props;
         if (scrollMobile) scrollMobile.scrollTop = savedScrollTop;
     });
 
-    /*Main*/
     document.addEventListener('astro:page-load', () => {
         const bookshelves = document.querySelectorAll('.bookshelf-ui');
         if(bookshelves.length === 0) return;
@@ -314,7 +293,6 @@ const { mode = 'desktop' } = Astro.props;
             const scrollContainer = bookshelf.querySelector('.bookshelf-scroll-container') as HTMLElement;
             if(!scrollContainer) return;
 
-            //Enter
             if (!bookshelf.classList.contains('slide-in')){
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
@@ -330,7 +308,6 @@ const { mode = 'desktop' } = Astro.props;
                 });
             });
 
-            //Scroll view
             if (scrollContainer && !scrollContainer.dataset.wheelAttached) {
                 const handleWheel = (e: WheelEvent) => {
                     if (window.innerWidth <= 768) return; 
@@ -344,7 +321,6 @@ const { mode = 'desktop' } = Astro.props;
             }
         });
 
-        //Leave
         addLeaveHook((targetView: string) => {
             if (targetView.startsWith('Devlog')) {
                 return Promise.resolve();

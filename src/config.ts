@@ -30,7 +30,6 @@ export interface PreloadAsset {
 /*Load resources */
 export const PRELOAD_ASSETS = [
     /*image,audio,video,font,fetch,page */
-    { type: 'image', src: '/Images/desk_bg_Template.png' },
     {type:'font',src:'/fonts/ArtEnglish.otf'},
     {type:'font',src:'/fonts/CursorTooltip.ttf'},
 

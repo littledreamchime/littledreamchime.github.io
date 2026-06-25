@@ -3,7 +3,7 @@
 ---
 <div id="exe-desc-panel" class="exe-desc-panel">
   <div class="panel-header">
-    <span class="header-title">FILE_PROPERTIES</span>
+    <span class="header-title">SYS.FILE_PROPERTIES</span>
     <div class="header-line"></div>
   </div>
   
@@ -13,74 +13,94 @@
     
     <div class="panel-footer">
       <span id="desc-size" class="desc-size">SIZE: 0 KB</span>
-      <span class="desc-hint">[CLICK TO OPEN]</span>
+      <span class="desc-hint">[CLICK TO EXECUTE]</span>
     </div>
   </div>
 </div>
 
 <style>
+  /* =========================================
+  HUD Panel (Holographic Tooltip)
+  ========================================= */
   .exe-desc-panel {
+    --smooth-curve: cubic-bezier(0.22, 1, 0.36, 1);
+    
     position: absolute;
     top: 50%;
-    padding: 0.25cqi;
+    padding: 0.4cqi;
     z-index: 1000;
-
-    border: 0.05cqi solid var(--panel-color, #fff);
-    border-radius: 0.2cqi;
     width: 45%;
 
-    color: #fff;
-    background: rgba(10, 10, 15, 0.95);
-    font-family: monospace;
-    opacity: 0;
+    /* 极客风玻璃面板 */
+    background: rgba(13, 9, 20, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     
+    border: 0.05cqi solid var(--panel-color, #fff);
+    border-radius: 0.3cqi;
+    box-shadow: 
+      0 10px 25px rgba(0,0,0,0.8),
+      inset 0 0 15px color-mix(in srgb, var(--panel-color) 20%, transparent),
+      0 0 15px color-mix(in srgb, var(--panel-color) 30%, transparent);
+
+    color: #fff;
+    font-family: monospace;
+    
+    /* 初始状态：缩小 + 偏移 + 透明 */
+    opacity: 0;
     pointer-events: none;
-    transform: translateY(calc(-50% + 10px));
-    transition: all 0.2s ease-out;
+    transform: translateY(-50%) scale(0.9) translateX(-10px);
+    transform-origin: center left;
+    transition: all 0.4s var(--smooth-curve);
   }
 
+  /* 激活状态：丝滑弹出 */
   .exe-desc-panel.is-visible {
     opacity: 1;
-    transform: translateY(-50%);
+    transform: translateY(-50%) scale(1) translateX(0);
   }
 
+  /* Header (Scanner Style) */
   .panel-header {
     display: flex;
     align-items: center;
-
-    margin-bottom: 0.15cqi;
-    gap: 0.15cqi;
+    margin-bottom: 0.3cqi;
+    gap: 0.2cqi;
     font-size: 0.35cqi;
-    color: #888;
+    color: var(--panel-color, #888);
+    opacity: 0.8;
+    letter-spacing: 0.05em;
   }
 
+  /* 扫描数据线 */
   .header-line {
     flex: 1;
     height: 0.05cqi;
-    background: #444;
+    background: linear-gradient(90deg, var(--panel-color), transparent);
+    box-shadow: 0 0 5px var(--panel-color);
   }
 
   .desc-title {
-    margin: 0 0 0.25cqi 0;
+    margin: 0 0 0.3cqi 0;
     padding-left: 0.5cqi;
     font-size: 0.7cqi;
+    font-weight: bold;
     white-space: nowrap;
-    color: var(--panel-color, #fff);
+    color: #f3e8ff;
     word-break: break-all;
+    border-left: 0.1cqi solid var(--panel-color);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--panel-color) 60%, transparent);
   }
 
   .desc-text {
     display: -webkit-box;
-    margin: 0 0.45cqi 0.45cqi 0;
-    padding-left: 0.65cqi;
+    margin: 0 0.45cqi 0.6cqi 0;
+    padding-left: 0.6cqi;
     overflow: hidden;
     white-space: nowrap;
-
     font-size: 0.5cqi;
-    line-height: 1.4;
-
-    color: #ccc;
-
+    line-height: 1.5;
+    color: #cbd5e1;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
@@ -89,22 +109,28 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.5cqi;
+    font-size: 0.45cqi;
+    padding-top: 0.2cqi;
+    border-top: 0.05cqi dashed rgba(255,255,255,0.1);
   }
 
   .desc-size {
-    color: #888;
+    color: #8b7a9f;
+    letter-spacing: 0.05em;
   }
 
   .desc-hint {
     color: var(--panel-color, #10b981);
-    animation: blink 1.5s infinite;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--panel-color);
+    animation: hud-blink 1.5s infinite;
   }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+  @keyframes hud-blink {
+    0%, 100% { opacity: 1; text-shadow: 0 0 8px var(--panel-color); }
+    50% { opacity: 0.4; text-shadow: none; }
   }
+
 @media (max-aspect-ratio: 0.5) {
   .exe-desc-panel {
     opacity: 0 !important;

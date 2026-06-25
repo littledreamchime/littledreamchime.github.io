@@ -13,6 +13,8 @@ const themeColor = color || '#10b981';
 <div class="binder-item" data-color={themeColor} data-slug={slug} style={`--theme-color: ${themeColor}`}>
   <!-- vertical -->
   <div class="binder-vertical-view">
+    <!-- 【新增】用于悬浮时的全息渐变背景 -->
+    <div class="vertical-bg-glow"></div>
     <div class="vertical-overlay"></div>
     <div class="vertical-content">
         <div class="vertical-icon-wrapper">
@@ -50,7 +52,7 @@ const themeColor = color || '#10b981';
     <!-- Body -->
     <div class="expanded-body">
         {files.length === 0 ? (
-            <div class="empty-message">THIS PARTITION IS EMPTY.</div>
+            <div class="empty-message">SYS.WARN // PARTITION EMPTY<span class="cursor">_</span></div>
         ) : (
             <div class="exe-list">
             <div class="center-axis"></div>
@@ -71,118 +73,149 @@ const themeColor = color || '#10b981';
 
 <style>
     /* =========================================
-    Root
+    Root (Holographic Glass Panel)
     ========================================= */
     .binder-item {
-        --u:1cqi;
+        --u: 1cqi;
+        /* 高级阻尼动画曲线 */
+        --smooth-curve: cubic-bezier(0.22, 1, 0.36, 1);
 
         position: relative;
         display: flex;
         overflow: hidden;
         flex: 1;
-
         height: 100%;
 
-        border: calc(0.05 * var(--u)) solid var(--theme-color);
-        border-radius: calc(0.2 * var(--u));
-        background: #0a0a0f;
+        /* 【修改】深色毛玻璃材质 */
+        background: rgba(13, 9, 20, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        
+        /* 边框默认微亮，激活时变为主题色 */
+        border: calc(0.05 * var(--u)) solid rgba(255, 255, 255, 0.08);
+        border-radius: calc(0.4 * var(--u));
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.5);
 
         cursor: pointer;
         transform: translateY(150%);
-        transition: flex 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-                opacity 0.3s, 
-                transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-                border 0.3s ease,
-                background 0.3s ease;
+        
+        /* 【修改】极度丝滑的过渡动画 */
+        transition: 
+            flex 0.8s var(--smooth-curve),
+            opacity 0.4s ease, 
+            transform 0.8s var(--smooth-curve),
+            border-color 0.4s ease,
+            box-shadow 0.4s ease,
+            background 0.4s ease;
     }
+    
     .binder-item.is-loaded {
         transform: translateY(0);
     }
-    /* clooapsed*/
+    
+    /* Collapsed State */
     .binder-item.is-collapsed {
         flex: 0 0 calc(1.5 * var(--u));
-        opacity: 0.6;
+        opacity: 0.5;
+        filter: grayscale(0.5); /* 折叠时稍微褪色，突出焦点 */
+        transition: all 0.8s var(--smooth-curve), filter 0.4s ease;
     }
     .binder-item.is-collapsed:hover {
         opacity: 1;
+        filter: grayscale(0);
+        /* 悬浮时边框发光 */
+        border-color: var(--theme-color);
+        box-shadow: 
+            inset 0 0 15px rgba(255, 255, 255, 0.05), 
+            0 0 15px color-mix(in srgb, var(--theme-color) 40%, transparent);
+        transform: translateY(-2px);
     }
-    /* expanded */
+
+    /* Expanded State (Active) */
     .binder-item.is-expanded {
         flex: 10;
         cursor: default;
+        background: rgba(15, 10, 25, 0.85);
+        border-color: var(--theme-color);
+        /* 展开时强烈的霓虹内阴影与外发光 */
+        box-shadow: 
+            inset 0 0 40px color-mix(in srgb, var(--theme-color) 15%, transparent),
+            0 15px 40px rgba(0, 0, 0, 0.8),
+            0 0 20px color-mix(in srgb, var(--theme-color) 30%, transparent);
     }
+
     /* =========================================
-    vertical view
+    Vertical View
     ========================================= */
     .binder-vertical-view {
         display: flex;
         position: absolute;
-        flex-direction: column;
         inset: 0;
         align-items: center;
         justify-content: center;
-        
-        transition: opacity 0.3s;
+        transition: opacity 0.4s ease, transform 0.6s var(--smooth-curve);
     }
     .binder-item.is-expanded .binder-vertical-view {
         opacity: 0;
+        transform: scale(0.9); /* 展开时垂直内容微缩淡出 */
         pointer-events: none;
-        transition: none;
     }
-    /* bg */
-    .vertical-bg {
+
+    /* 【新增】悬浮时的全息渐变背景 */
+    .vertical-bg-glow {
         position: absolute;
         inset: 0;
-        object-fit: cover;
-
-        width: 100%;
-        height: 100%;
-        
-        opacity: 0.2;
+        background: linear-gradient(to bottom, var(--theme-color), transparent);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 0;
     }
-    /* overlay*/
+    .binder-item:hover .vertical-bg-glow {
+        opacity: 0.15;
+    }
+
     .vertical-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to bottom, transparent, rgba(30, 3, 43, 0.386));
+        background: linear-gradient(to bottom, transparent, rgba(10, 5, 15, 0.8));
+        z-index: 1;
     }
-    /* content */
+    
     .vertical-content {
         position: relative;
         display: flex;
         flex-direction: column; 
         align-items: center; 
         z-index: 2;
-
         height: 100%;
         padding: calc(0.5 * var(--u)) 0;
     }
+
     .vertical-title {
-
         writing-mode: vertical-rl;
-        font-family: monospace;
+        font-family: 'Inter', monospace, sans-serif;
         font-size: 0.85cqw;
-        font-weight: bold;
+        font-weight: 700;
+        letter-spacing: 0.1em;
         white-space: nowrap;
-
         color: var(--theme-color);
-
+        text-shadow: 0 0 10px color-mix(in srgb, var(--theme-color) 60%, transparent);
         transform: rotate(180deg);
     }
     .vertical-desc {
         margin-top: auto;
         overflow: hidden;
-
         writing-mode: vertical-rl;
         font-family: monospace;
         font-size: 0.5cqw;
+        letter-spacing: 0.05em;
         text-overflow: ellipsis;
-        line-height: 1;
-
-        color: #aaa;
+        line-height: 1.5;
+        color: #8b7a9f;
         transform: rotate(180deg);
     }
-    /* Image */
+
+    /* Vertical Image */
     .vertical-icon-wrapper {
         width: 60%;
         aspect-ratio: 1 / 1;
@@ -190,17 +223,23 @@ const themeColor = color || '#10b981';
         display: flex;
         justify-content: center;
         align-items: center;
+        /* 图标悬浮放大 */
+        transition: transform 0.4s var(--smooth-curve);
+    }
+    .binder-item:hover .vertical-icon-wrapper {
+        transform: scale(1.1);
     }
     .vertical-icon {
         width: 100%;
         height: 100%;
         object-fit: contain;
+        /* 【亮点】让 mask 图标产生发光投影 */
+        filter: drop-shadow(0 0 8px color-mix(in srgb, var(--theme-color) 60%, transparent));
     }
-    .vertical-icon.placeholder {
-        opacity: 0;
-    }
+    .vertical-icon.placeholder { opacity: 0; }
+
     /* =========================================
-    expanded view
+    Expanded View
     ========================================= */
     .binder-expanded-view {
         position: absolute;
@@ -208,32 +247,44 @@ const themeColor = color || '#10b981';
         display: flex;
         flex-direction: column;
         z-index: 5;
-
         opacity: 0;
-
+        transform: translateY(10px); /* 增加微小的滑入效果 */
         pointer-events: none;
-        transition: opacity 0.3s 0.2s;
+        transition: opacity 0.4s 0.2s ease, transform 0.6s 0.2s var(--smooth-curve);
     }
     .binder-item.is-expanded .binder-expanded-view {
         opacity: 1;
+        transform: translateY(0);
         pointer-events: auto;
     }
-    /* header */
+
+    /* Header (Tech Dashboard) */
     .expanded-header {
+        position: relative;
         display: flex;
         align-items: center;
-
         gap: calc(1 * var(--u));
-        padding: calc(0.2 * var(--u)) calc(0.5 * var(--u));
-        border-bottom: calc(0.05 * var(--u)) solid rgba(255, 255, 255, 0.1);
-
+        padding: calc(0.4 * var(--u)) calc(0.8 * var(--u));
+        
+        /* 顶部科技感渐变背景 */
+        background: linear-gradient(90deg, color-mix(in srgb, var(--theme-color) 15%, transparent), transparent);
         font-family: monospace;
         font-size: calc(0.85 * var(--u));
-        
+        font-weight: bold;
+        letter-spacing: 0.05em;
         color: var(--theme-color);
-        background: rgba(0,0,0,0.3);
+        text-shadow: 0 0 8px color-mix(in srgb, var(--theme-color) 50%, transparent);
     }
-    /* Header Image */
+    /* 发光分割线 */
+    .expanded-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, var(--theme-color), transparent);
+        box-shadow: 0 0 8px var(--theme-color);
+    }
+
     .header-icon-wrapper {
         width: calc(1.2 * var(--u)); 
         aspect-ratio: 1 / 1;
@@ -245,30 +296,30 @@ const themeColor = color || '#10b981';
         width: 100%;
         height: 100%;
         object-fit: contain;
+        filter: drop-shadow(0 0 5px var(--theme-color));
     }
-    .header-icon-img.placeholder {
-        opacity: 0;
-    }
-    /* body */
+    .header-icon-img.placeholder { opacity: 0; }
+
+    /* Body */
     .expanded-body {
         flex: 1;
         position: relative;
         overflow-y: auto;
         overflow-x: hidden;
-        
-        padding: calc(1 * var(--u)) 0;
+        padding: calc(1.5 * var(--u)) 0;
+        scrollbar-width: none;
     }
-    /* line */
+    .expanded-body::-webkit-scrollbar { display: none; }
+
+    /* Center Axis (Energy Pipeline) */
     .center-axis {
         position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-
+        top: 0; bottom: 0; left: 50%;
         width: calc(0.1 * var(--u));
-        background: var(--theme-color);
-        opacity: 0.3;
-
+        /* 能量管发光效果 */
+        background: linear-gradient(180deg, transparent, var(--theme-color) 10%, var(--theme-color) 90%, transparent);
+        box-shadow: 0 0 10px var(--theme-color);
+        opacity: 0.4;
         transform: translateX(-50%);
     }
     .center-axis::before,
@@ -276,60 +327,62 @@ const themeColor = color || '#10b981';
         content: '';
         position: absolute;
         left: 50%;
-        
         width: calc(0.6 * var(--u));
         height: calc(0.6 * var(--u));
         background: var(--theme-color);
         border-radius: 50%;
-        
         transform: translateX(-50%);
+        box-shadow: 0 0 15px var(--theme-color), 0 0 5px #fff;
     }
-    .center-axis::before {
-        top: 0;
-    }
-    .center-axis::after {
-        bottom: 0;
-    }
+    .center-axis::before { top: 0; }
+    .center-axis::after { bottom: 0; }
+
     /* =========================================
-    expanded List
+    Expanded List & Empty State
     ========================================= */
     .exe-list {
         position: relative;
         display: flex;
         flex-direction: column;
         z-index: 1;
-
         width: 100%;
     }
+    
     .empty-message {
         position: absolute;
         top: 45%;
         left: 50%;
         transform: translate(-50%, -50%);
-        
         font-family: monospace;
         font-size: calc(0.85 * var(--u));
-        color: rgba(255, 255, 255, 0.4);
+        color: var(--theme-color);
+        opacity: 0.7;
         letter-spacing: 0.1em;
         white-space: nowrap;
+        text-shadow: 0 0 10px color-mix(in srgb, var(--theme-color) 50%, transparent);
     }
-    /* water mark */
+    .cursor {
+        display: inline-block;
+        animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Watermark (Holographic Flicker) */
     .body-watermark {
         position: absolute; 
         top: 55%;
         left: 50%;
         z-index: 0;
-        
         width: 45%;
         aspect-ratio: 1 / 1;
-        
         opacity: 0; 
         pointer-events: none;
-        transform: translate(-50%, -50%);
-        transition: opacity 0.4s ease;
+        transform: translate(-50%, -50%) scale(0.9);
+        transition: opacity 0.8s ease, transform 0.8s var(--smooth-curve);
     }
     .binder-item.is-expanded .body-watermark {
-        opacity: 0.1;
+        opacity: 0.08; /* 降低透明度，不喧宾夺主 */
+        transform: translate(-50%, -50%) scale(1);
         transition-delay: 0.3s; 
     }
     .body-watermark img {
@@ -338,76 +391,83 @@ const themeColor = color || '#10b981';
         object-fit: contain;
     }
 
-    /* Color multi */
+    /* Color Mask */
     .colorized-mask {
         width: 100%;
         height: 100%;
         background-color: var(--theme-color);
-        
         -webkit-mask-image: var(--icon-url);
         -webkit-mask-size: contain;
         -webkit-mask-repeat: no-repeat;
         -webkit-mask-position: center;
-        
         mask-image: var(--icon-url);
         mask-size: contain;
         mask-repeat: no-repeat;
         mask-position: center;
     }
     
-@media (max-aspect-ratio: 0.5) {
-    .binder-item {
-        --u: 1cqw;
-    }
-    .binder-expanded-view {
-        flex-direction: row !important; 
+    /* =========================================
+    Media Queries (完全保留原有逻辑)
+    ========================================= */
+    @media (max-aspect-ratio: 0.5) {
+        .binder-item {
+            --u: 1cqw;
+        }
+        .binder-expanded-view {
+            flex-direction: row !important; 
+        }
+
+        /* Header Rotated */
+        .expanded-header {
+            flex-direction: column-reverse; 
+            justify-content: center;
+            align-items: center;
+            gap: calc(2 * var(--u));
+            width: calc(3 * var(--u));
+            /* 移动端旋转后的渐变背景和发光线 */
+            background: linear-gradient(180deg, color-mix(in srgb, var(--theme-color) 15%, transparent), transparent);
+        }
+        .expanded-header::after {
+            bottom: 0; top: 0; right: 0; left: auto;
+            width: 1px; height: 100%;
+            background: linear-gradient(180deg, var(--theme-color), transparent);
+        }
+
+        .header-icon-wrapper {
+            margin-bottom: 0;
+            transform: rotate(-90deg);
+        }
+        .header-path {
+            margin-left: 0;
+            margin-bottom: 0;
+            writing-mode: vertical-rl;
+            font-size: calc(1.15 * var(--u));
+            transform: rotate(180deg);
+            white-space: nowrap;
+        }
+
+        /* Body */
+        .body-watermark {
+            transform: translate(-50%, -55%) rotate(-90deg) scale(0.9);
+        }
+        .binder-item.is-expanded .body-watermark {
+            transform: translate(-50%, -55%) rotate(-90deg) scale(1);
+        }
+        .center-axis { 
+            display: none; 
+        }
     }
 
-    /* Header */
-    .expanded-header {
-        flex-direction:column-reverse; 
-        justify-content: center;
-        align-items: center;
-
-        gap: calc(2 * var(--u));
-        border-bottom: none !important;
-        border-right: calc(0.05 * var(--u)) solid rgba(255, 255, 255, 0.1);
-
-        width: calc(3 * var(--u));
+    @media (max-aspect-ratio: 0.5) and (max-width: 450px) {
+        .binder-item {
+            border: calc(0 * var(--u)) solid var(--theme-color);
+            background: rgba(15, 10, 25, 0.9); /* 移动端加深背景 */
+        }
     }
-    .header-icon-wrapper {
-        margin-bottom: 0;
-        transform: rotate(-90deg);
-    }
-    .header-path {
-        margin-left: 0;
-        margin-bottom: 0;
-        writing-mode: vertical-rl;
-        font-size: calc(1.15*var(--u));
-
-        transform: rotate(180deg);
-        white-space: nowrap;
-    }
-
-    /*Body*/
-    .body-watermark{
-        transform: translate(-50%, -55%) rotate(-90deg);
-    }
-    .center-axis { 
-        display: none; 
-    }
-}
-@media (max-aspect-ratio: 0.5) and (max-width: 450px) {
-     .binder-item {
-        
-        border: calc(0 * var(--u)) solid var(--theme-color);
-        
-        background: #171717;
-    }
-}
 </style>
 
 <script>
+/* JS 逻辑完全保持不变 */
 import { addLeaveHook, currentView } from "../../../store";
 import { navigateWithAnimation } from "../../../utils/navigation";
 

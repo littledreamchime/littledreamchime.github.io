@@ -10,7 +10,6 @@ const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
   <div class="tape"></div>
 
   <div class="paper-body">
-
     <div class="content-area">
         <div class="red-line line-1"></div>
         <div class="red-line line-2"></div>
@@ -21,8 +20,11 @@ const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
 
 <style define:vars={{pageShowTime}}>
   .paper-wrapper {
-    --background-color:#f2f2e6;
-    position:absolute;
+    --background-color: rgba(13, 9, 20, 0.85);
+    --neon-purple: #8b5cf6;
+    --deep-purple: #4c1d95;
+
+    position: absolute;
     z-index: var(--z-view-main);
     top: 6.5rem;
     left: 50%;
@@ -33,7 +35,7 @@ const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
     max-width: 1024px;
     
     opacity: 0;
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 40px rgba(140, 75, 238, 0.4), inset 0 0 20px rgba(139, 92, 246, 0.1);
 
     transform: translate(-50%, 20%);
     transition: all var(--pageShowTime) cubic-bezier(0.22, 1, 0.36, 1);
@@ -43,51 +45,82 @@ const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
       transform: translate(-50%, 0);
       opacity: 1;
   }
+
   .tape {
     position: absolute;
-    top: -16px;
+    top: -2px;
     left: 50%;
-    transform: translateX(-50%) rotate(-3deg);
+    transform: translateX(-50%);
 
-    width: 15%;
-    min-width: 90px;
-    max-width: 130px;
-    height: 32px;
+    width: 20%;
+    min-width: 120px;
+    max-width: 200px;
+    height: 4px;
     
-    background-color: rgba(255, 255, 255, 0.6);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-
+    background: linear-gradient(90deg, transparent, var(--neon-purple), transparent);
+    box-shadow: 0 0 15px var(--neon-purple), 0 0 5px var(--neon-purple);
+    border: none;
+    border-radius: 4px;
     z-index: 20;
+  }
+
+  .tape::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--neon-purple);
+    box-shadow: 0 0 10px var(--neon-purple);
+    border-radius: 0 0 4px 4px;
+    opacity: 0.8;
   }
 
   .paper-body {
     position: relative;
+    width: 100%;
     background-color: var(--background-color);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    border-radius: 4px;
+    border: 1px solid rgb(151, 92, 246);
+    border-radius: 12px;
     overflow-y: auto;
     
-    background-image: repeating-linear-gradient(transparent, transparent 31px, #e2e8f0 31px, #e2e8f0 32px);
+    background-image: 
+      linear-gradient(rgba(138, 92, 246, 0.158) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(138, 92, 246, 0.11) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center top;
     background-attachment: local;
+
+    
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
   .paper-body::-webkit-scrollbar { width: 6px; }
-  .paper-body::-webkit-scrollbar-track { background: transparent; }
-  .paper-body::-webkit-scrollbar-thumb { background-color: #d6d3d1; border-radius: 10px; }
+  .paper-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 8px; margin: 10px 0; }
+  .paper-body::-webkit-scrollbar-thumb { 
+    background-color: rgba(139, 92, 246, 0.4); 
+    border-radius: 8px; 
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+  .paper-body::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(139, 92, 246, 0.8); 
+  }
 
   .red-line {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 2px;
-    background-color: rgba(248, 113, 113, 0.4);
+    width: 1px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(139, 92, 246, 0.5) 15%, rgba(139, 92, 246, 0.8) 50%, rgba(139, 92, 246, 0.5) 85%, transparent 100%);
+    box-shadow: 0 0 8px rgba(139, 92, 246, 0.8);
     z-index: 0;
   }
   .line-1 { left: 32px; }
-  .line-2 { left: 40px; }
+  .line-2 { left: 40px; opacity: 0.3; } /* 第二条线降低透明度，增加层次感 */
   @media (min-width: 640px) {
     .line-1 { left: 48px; }
     .line-2 { left: 56px; }
@@ -97,8 +130,8 @@ const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
     position: relative;
     z-index: 10;
     padding: 64px 48px;
-    font-family: serif;
-    color: #374151;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #cbd5e1; 
     text-align: justify;
   }
   @media (min-width: 640px) {
@@ -108,38 +141,58 @@ const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
   .content-area :global(p),
   .content-area :global(ul),
   .content-area :global(ol) {
-    line-height: 32px;
+    line-height: 1.8;
     margin-top: 0;
     margin-bottom: 32px;
-    font-size: clamp(15px, 2vw + 10px, 18px); 
+    font-size: clamp(15px, 2vw + 10px, 16px); 
+    letter-spacing: 0.02em;
   }
 
   .content-area :global(h1),
   .content-area :global(h2),
   .content-area :global(h3) {
-    line-height: 32px;
-    margin-top: 32px;
-    margin-bottom: 32px;
-    font-weight: bold;
-    color: #1f2937;
+    line-height: 1.4;
+    margin-top: 40px;
+    margin-bottom: 24px;
+    font-weight: 600;
+    color: #f3e8ff;
+    text-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+    letter-spacing: 0.05em;
   }
 
   .content-area :global(h1) {
     font-size: clamp(24px, 3vw + 12px, 32px);
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .content-area :global(h1)::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--neon-purple);
+    margin: 16px auto 0;
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--neon-purple);
   }
 
   .content-area :global(h2) {
-    font-size: clamp(20px, 2.5vw + 12px, 26px);
+    font-size: clamp(20px, 2.5vw + 12px, 24px);
+    border-left: 4px solid var(--neon-purple);
+    padding-left: 12px;
   }
    
-@media (max-width: 768px) {
-    
+  @media (max-width: 768px) {
     .paper-wrapper {
         width: 100%;
         height: calc(100% - 6.5rem);
     }
-}
+  }
 </style>
 
 <script>

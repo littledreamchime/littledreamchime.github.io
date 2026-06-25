@@ -5,7 +5,6 @@ import '../../../styles/zIndex.css';
 const headerShow=`${ANIMATION_TIMES.HEADER_SHOW}ms`;
 import { getCollection } from 'astro:content';
 
-
 const allDevlogs = await getCollection('devlog');
 const allBlogs = await getCollection('blog');
 const autoPreloadDevlogUrls = allDevlogs
@@ -26,21 +25,42 @@ const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
 </script>
 
 <div id="welcome-overlay" class="welcome-overlay">
-    <!-- Content -->
-    <div class="content">
-        <h1 id="type-title" data-text="[ WELCOME ]"></h1>
-        <p id="type-subtitle" class="subtitle"></p>
+    <!-- 赛博网格背景 -->
+    <div class="cyber-grid"></div>
+
+    <!-- 核心内容区 -->
+    <div class="content-wrapper">
+        <!-- 标题区 -->
+        <div class="header-section">
+            <h1 id="type-title" data-text="HELLO! WELCOME!"></h1>
+        </div>
+
+        <!-- 加载动画区 (转圈 + 无限进度条) -->
+        <div id="loading-ui" class="loading-ui">
+            <div class="spinner-ring"></div>
+            <div class="progress-track">
+                <div class="progress-glow"></div>
+            </div>
+        </div>
+
+        <!-- 终端日志区 -->
+        <div class="terminal-logs">
+            <p id="type-subtitle" class="subtitle"></p>
+        </div>
     </div>
 
-    <!--Scroll arrow -->
-    <ScrollArrowIcon width="48"/> 
+    <!--Scroll arrow (保留你的箭头) -->
+    <ScrollArrowIcon id="scroll-arrow" width="48" class="welcome-arrow" /> 
 </div>
 
 <style define:vars={{headerShow}}>
     :global(html.hide-welcome) .welcome-overlay {
         display: none !important;
     }
-    /* Main */
+
+    /* =========================================
+       Main Overlay (Holographic Terminal)
+    ========================================= */
     .welcome-overlay {
         display: flex;
         position: fixed;
@@ -50,79 +70,175 @@ const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
         inset: 0; 
 		z-index: var(--z-welcome);
         
-        background: linear-gradient(
-            to bottom, 
-            rgba(0, 0, 0, 1) 30%,
-            rgba(0,0,0,0.6) 60%,
-            rgba(0, 0, 0, 0.2) 90%,
-            rgba(0, 0, 0, 0.0) 100%
-        );
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(12px);
-        color: white;
+        /* 深邃的暗紫黑渐变底色 */
+        background: radial-gradient(circle at center, rgba(30, 15, 45, 0.9) 0%, rgba(5, 2, 10, 1) 100%);
+        backdrop-filter: blur(30px) saturate(150%);
+        -webkit-backdrop-filter: blur(30px) saturate(150%);
+        color: #e2d8ee;
         
         transition: transform var(--headerShow) cubic-bezier(0.7, 0, 0.3, 1), 
-                    opacity var(--headerShow) ease-in-out,
-                    backdrop-filter var(--headerShow) ease;
+                    opacity var(--headerShow) ease-in-out;
     }
+    
     .welcome-overlay.dismissed {
         opacity: 0;
-        backdrop-filter: blur(0px); 
-
         pointer-events: none;
         transform: translateY(-100vh);
     }
 
-    /*Content*/
-    .content {
-        text-align: center;
-        margin: 5%;
+    /* 极弱的背景网格，增加科技感 */
+    .cyber-grid {
+        position: absolute;
+        inset: 0;
+        background: 
+            linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+    }
 
+    /* =========================================
+       Content Layout
+    ========================================= */
+    .content-wrapper {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 600px;
+        padding: 2rem;
         transform: translateY(-2rem);
     }
-    /* title */
-    h1 {
-        margin-bottom: 0.5rem;
 
-        font-size: clamp(2rem, 5vw, 4rem);
-        letter-spacing: 0.2rem;
+    /* Title */
+    .header-section {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    h1 {
+        margin: 0;
+        font-family: 'Inter', ui-monospace, SFMono-Regular, monospace;
+        font-size: clamp(1.8rem, 4vw, 3.5rem);
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        color: #f3e8ff;
+        text-shadow: 0 0 20px rgba(167, 139, 250, 0.6);
+    }
+
+    /* =========================================
+       Loading UI (Spinner & Progress Bar)
+    ========================================= */
+    .loading-ui {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .loading-ui.fade-out {
+        opacity: 0;
+        transform: scale(0.95);
+        pointer-events: none;
+    }
+
+    /* 科技感加载环 */
+    .spinner-ring {
+        width: 40px;
+        height: 40px;
+        border: 2px solid rgba(139, 92, 246, 0.1);
+        border-top: 2px solid #a78bfa;
+        border-right: 2px solid #a78bfa;
+        border-radius: 50%;
+        animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* 无限扫描进度条 */
+    .progress-track {
+        width: 80%;
+        max-width: 300px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2px;
+        position: relative;
+        overflow: hidden;
+    }
+    .progress-glow {
+        position: absolute;
+        top: 0; left: 0;
+        height: 100%;
+        width: 40%;
+        background: linear-gradient(90deg, transparent, #d8b4fe, #ffffff, transparent);
+        box-shadow: 0 0 10px #d8b4fe;
+        animation: scan-bar 1.5s linear infinite;
+    }
+    @keyframes scan-bar {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(300%); }
+    }
+
+    /* =========================================
+       Terminal Logs
+    ========================================= */
+    .terminal-logs {
+        text-align: center;
+        min-height: 4rem; /* 预留高度防止跳动 */
     }
     .subtitle {
-        color: #a3a3a3;
-
-        font-family: monospace;
-        letter-spacing: 0.1rem;
-        font-size:1.75rem;
+        margin: 0;
+        color: #a78bfa;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        letter-spacing: 0.05em;
+        font-size: clamp(0.9rem, 2vw, 1.2rem);
+        line-height: 1.6;
+        text-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
     }
-    @media (max-width: 400px){
-        .content{
-            text-align:left;
-        }
-        h1{
-            font-size: clamp(1.75rem, 4vw, 4rem);
-        }
-        .subtitle {
-            font-size:1.125rem;
-        }
-    } 
+
+    /* 打字机光标 */
     .typing-cursor::after {
         content: '█'; 
-        margin-left:
-        color: #be0abe; 
+        margin-left: 4px;
+        color: #d8b4fe; 
         animation: cursorBlink 0.8s step-end infinite;
+        text-shadow: 0 0 8px #d8b4fe;
     }
     @keyframes cursorBlink {
         0%, 100% { opacity: 1; }
         50% { opacity: 0; }
     }
-    :global(#scroll-arrow) {
+
+    /* =========================================
+       Arrow Wrapper
+    ========================================= */
+    #scroll-arrow.welcome-arrow {
+        /* 初始状态：冻结动画并隐藏 */
+        animation-play-state: paused;
         opacity: 0;
+        visibility: hidden;
         pointer-events: none;
     }
-    :global(#scroll-arrow.visible) {
-        opacity: 1;
+    
+    #scroll-arrow.welcome-arrow.visible {
+        /* 触发状态：恢复动画播放 */
+        animation-play-state: running;
+        visibility: visible;
         pointer-events: auto;
     }
+
+    /* Mobile Tweaks */
+    @media (max-width: 400px){
+        .content-wrapper { padding: 1.5rem; }
+        .progress-track { width: 100%; }
+    } 
 </style>
 
 <script >
@@ -134,6 +250,8 @@ const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
         const arrowBtn = document.getElementById('scroll-arrow');
         const titleEl = document.getElementById('type-title');
         const subtitleEl = document.getElementById('type-subtitle');
+        const loadingUi = document.getElementById('loading-ui'); // 【新增】获取加载动画容器
+        
         let isDismissed = false;
         let canDismiss = false;
         
@@ -195,18 +313,21 @@ const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
             }
             type();
         }
+        
         setTimeout(() => {
-            const titleText = titleEl.getAttribute('data-text') || '[ WELCOME ]';
+            const titleText = titleEl.getAttribute('data-text') || 'HELLO! WELCOME';
             
             typeWriter(titleEl, titleText, 3, () => {
                 
-                typeWriter(subtitleEl, "Loading resources...", 3, () => {
+                typeWriter(subtitleEl, "> Loading core resources...", 3, () => {
                     if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
                     
                     preloadAssets().then(() => {
+                        // 【新增逻辑】资源加载完毕后，优雅地淡出转圈和进度条
+                        if(loadingUi) loadingUi.classList.add('fade-out');
                         
                         if(subtitleEl) subtitleEl.classList.remove('typing-cursor'); 
-                        typeWriter(subtitleEl, "^ Loading Successfully, scroll to access.", 3, () => {
+                        typeWriter(subtitleEl, "^> Loading Successfully.^> Scroll to access system.", 3, () => {
                             
                             if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
                             canDismiss = true;

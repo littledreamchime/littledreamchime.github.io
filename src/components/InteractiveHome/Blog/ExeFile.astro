@@ -41,40 +41,50 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
   Root
   ========================================= */
   .exe-wrapper {
+    --smooth-curve: cubic-bezier(0.22, 1, 0.36, 1);
     display: flex;
     position: relative;
-
     width: 100%;
     margin-bottom: 0.9cqi;
   }
   .exe-wrapper.align-left {
     justify-content: flex-end;
-    
     padding-right: 60%;
   }
   .exe-wrapper.align-right {
     justify-content: flex-start;
     padding-left: 60%;
   }
+
   /* =========================================
-  Line
+  Energy Line (能量传输线)
   ========================================= */
   .exe-wrapper::before {
     content: '';
     position: absolute;
     top: 50%;
-
     width: 10%;
-    height: 0.05cqi;
-    
-    background: var(--exe-color);
-    opacity: 0.5;
+    height: 0.08cqi;
+    opacity: 0.6;
+    box-shadow: 0 0 8px var(--exe-color);
+    transition: opacity 0.4s var(--smooth-curve);
   }
-  .exe-wrapper.align-left::before { right: calc(50%); }
-  .exe-wrapper.align-right::before { left: calc(50%); }
+  /* 左侧文件：能量从中间向左渐变 */
+  .exe-wrapper.align-left::before { 
+    right: calc(50%); 
+    background: linear-gradient(to left, var(--exe-color), transparent);
+  }
+  /* 右侧文件：能量从中间向右渐变 */
+  .exe-wrapper.align-right::before { 
+    left: calc(50%); 
+    background: linear-gradient(to right, var(--exe-color), transparent);
+  }
+  .exe-wrapper:hover::before {
+    opacity: 1;
+  }
   
   /* =========================================
-  Box
+  Box (Holographic Glass Module)
   ========================================= */
   .exe-file-box {
     display: flex;
@@ -82,73 +92,95 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     cursor: pointer;
     position: relative;
     z-index: 2;
-
     width: 80%;
-
     gap: 0.6cqi;
-    padding: 0.2cqi 0.5cqi;
-    border: 0.05cqi solid rgba(255, 255, 255, 0.1);
-    border-radius: 0.3cqi;
-
-    background: rgba(0, 0, 0, 0.4);
-    transition: all 0.2s;
+    padding: 0.3cqi 0.6cqi;
+    
+    /* 玻璃态材质 */
+    background: rgba(13, 9, 20, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+    border: 0.05cqi solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.4cqi;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 0 4px 10px rgba(0,0,0,0.3);
+    
+    transition: all 0.4s var(--smooth-curve);
   }
+  
   .exe-file-box:hover {
     border-color: var(--exe-color);
-    background: rgba(255, 255, 255, 0.05);
-    transform:translateY(-2%);
+    background: rgba(15, 10, 25, 0.8);
+    transform: translateY(-5%) scale(1.02);
+    /* 强烈的霓虹发光效果 */
+    box-shadow: 
+      inset 0 0 15px color-mix(in srgb, var(--exe-color) 30%, transparent), 
+      0 8px 20px rgba(0,0,0,0.6),
+      0 0 15px color-mix(in srgb, var(--exe-color) 40%, transparent);
   }
+
   /* Icon */
   .exe-icon {
     flex-shrink: 0; 
-    width: 1cqi;
-    height: 1cqi;
+    width: 1.2cqi;
+    height: 1.2cqi;
     color: var(--exe-color);
-    
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.4s var(--smooth-curve);
+    /* 图标发光 */
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--exe-color) 60%, transparent));
+  }
+  .exe-file-box:hover .exe-icon {
+    transform: scale(1.1);
   }
   .exe-icon svg {
     width: 100%;
     height: 100%;
   }
+
   /* Text */
   .exe-info {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    
     flex: 1; 
     min-width: 0; 
   }
   .exe-title {
-    font-family: monospace;
+    font-family: 'Inter', monospace, sans-serif;
     font-size: 0.8cqi;
-    color: var(--exe-color);
+    font-weight: 600;
+    color: #f3e8ff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  .exe-file-box:hover .exe-title {
+    color: var(--exe-color);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--exe-color) 60%, transparent);
   }
   .exe-date {
     font-family: monospace;
     font-size: 0.5cqi;
-    color: #666;
+    color: #8b7a9f;
+    letter-spacing: 0.05em;
   }
-  /* Image */
+
+  /* Image Mask */
   .icon-img {
     width: 100%;
     height: 100%;
   }
-  
   .colorized-mask {
     background-color: var(--exe-color);
-    
     -webkit-mask-image: var(--icon-url);
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    
     mask-image: var(--icon-url);
     mask-size: contain;
     mask-repeat: no-repeat;
@@ -156,24 +188,20 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
   }
 
 @media (max-aspect-ratio: 0.5){
-  
   .exe-wrapper {
     justify-content: center !important;
     padding: 0 !important;
     margin-bottom: 1cqw;
   }
-  
   .exe-wrapper::before {
     opacity: 0;
   }
   .exe-file-box {
     justify-content: flex-start; 
-
     width: 80%;
-    padding:0 2.5cqw;
-    gap:2.5cqw;
+    padding: 0 2.5cqw;
+    gap: 2.5cqw;
   }
-  
   .exe-title {
     font-size: 2cqw;
   }
@@ -184,6 +212,9 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     width: 2cqw;
     height: 2cqw;
     transform: rotate(-90deg);
+  }
+  .exe-file-box:hover .exe-icon {
+    transform: rotate(-90deg) scale(1.1);
   }
 }
 </style>

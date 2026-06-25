@@ -18,17 +18,16 @@ const blogs=(await getCollection('blog')).sort(
 		<div class="footer-left">
 			<!--Nav Menu -->
 			<div class="footer-nav">
-				<a href="#top">↑ Back to top</a>
-				<a href="/about">About Me</a>
-				<a href="mailto:littledreamchime@gmail.com">Mail Me ✉️</a>
+				<a href="#top">↑ BACK TO TOP</a>
+				<a href="/about">ABOUT ME</a>
+				<a href="mailto:littledreamchime@gmail.com">MAIL ME ✉️</a>
 			</div>
 			<!--Web info -->
 			<div class="footer-info">
-				<p>・Email: littledreamchime@gmail.com</p>
-				<p> ・Since 2026 | {blogs.length} Posts | {devlogs.length} Notes</p>
-				<p>・Built with <a href="https://astro.build"target="_blank" rel="noopener noreferrer">Astro</a> | Hosted on github
-				</p>
-				<p> &copy; {today.getFullYear()} Bob Smith. No rights reserved.😋</p>
+				<p><span class="sys-prefix">> Contant Me:</span> littledreamchime@gmail.com</p>
+				<p><span class="sys-prefix">> This Blog:</span> Since 2026 | {blogs.length} Posts | {devlogs.length} Notes</p>
+				<p><span class="sys-prefix">> The Core:</span> Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a> | Hosted on github</p>
+				<p><span class="sys-prefix">></span> &copy; {today.getFullYear()} Bob Smith. No rights reserved.😋</p>
 			</div>
 		</div>
 		<!--Footer right ( Logo )-->
@@ -39,111 +38,167 @@ const blogs=(await getCollection('blog')).sort(
 </footer>
 
 <style>
-	/*Main footer*/
-	.customer-footer
-	{
+	/* =========================================
+       Main Footer (Solid Dark & Premium)
+    ========================================= */
+	.customer-footer {
 		--border: #64467c;
-		--footer-text:#949494;
-		--footer-link:#825491;
-		--footer-link-hover:linear-gradient(0deg, #a329bb, #e3c1e4,#ffffff);
+		--footer-text: #8b7a9f; /* 调整为更柔和的紫灰色 */
+		--footer-link: #a78bfa; /* 稍微提亮默认链接颜色 */
+		--footer-link-hover: linear-gradient(0deg, #a329bb, #e3c1e4, #ffffff);
 
-		padding:0.8rem 2rem;
-		border-top: 1px dashed var(--border);
+		position: relative;
+		padding: 2.5rem 2rem 2rem;
 		z-index: var(--z-view-overlay);
-
+		
+		/* 纯粹的深色背景，无毛玻璃，稳重扎实 */
+		background-color: #05020a; 
 		text-align: left;
-		font-size:0.9rem;
+		font-size: 0.9rem;
 	}
-	/*Footer content*/
-	.footer-content{
+
+	/* 顶部发光能量线 */
+	.customer-footer::before {
+		content: '';
+		position: absolute;
+		top: 0; left: 0; right: 0;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.5), transparent);
+		box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+	}
+
+	/* Footer content */
+	.footer-content {
 		display: flex;
 		justify-content: space-between;
 		align-items: flex-end;
+		max-width: 1200px;
+		margin: 0 auto;
 	}
-	/*Footer left ( Menu and info )*/
-	.footer-left{
+
+	/* Footer left ( Menu and info ) */
+	.footer-left {
 		display: flex;
 		flex-direction: column;
+		gap: 1.5rem; /* 增加导航和信息之间的呼吸感 */
 	}
-	/*Footer right ( Logo )*/
-	.footer-right{
+
+	/* Footer right ( Logo ) */
+	.footer-right {
 		display: flex;
 		align-items: center;
-
 		padding-right: 0.5rem;
 		padding-bottom: 0.5rem;
 	}
-	.footer-signature{ 
+	
+	.footer-signature { 
         font-family: var(--font-title), serif; 
-        font-size: 3rem;
+        font-size: 3.5rem;
         font-weight: normal;
-        opacity: 0.5;
-
-        transition: opacity 0.3s ease;
+        margin: 0;
+        opacity: 0.3; /* 默认更暗，不抢视觉焦点 */
+        transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	.footer-signature a {
+		color: #e9d5ff;
+		text-decoration: none;
 	}
 	.footer-signature:hover {
-        opacity: 1;
+        opacity: 0.8;
+		filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.4)); /* 悬浮微微发光 */
     }
-	/*Nav Menu*/
-	.customer-footer a{
-		display: inline-block;
 
-		color:var(--footer-link);
-
-		text-decoration: none;
-		white-space:nowrap;
-
-		transition: transform 0.2s ease; 
-	}
-	.customer-footer a:hover{
-		background-image: var(--footer-link-hover);
-		-webkit-background-clip: text;
-		background-clip:text;
-		color:transparent;
-
-		text-decoration:none;
-
-		transform: scale(1.2); 
-	}
-	.footer-nav{
+	/* =========================================
+       Nav Menu
+    ========================================= */
+	.footer-nav {
 		display: flex;
 		gap: 2rem;
 		flex-wrap: wrap;
 	}
-	.footer-nav a{
+	.footer-nav a {
+		display: inline-block;
+		color: var(--footer-link);
+		font-family: 'Inter', ui-monospace, SFMono-Regular, sans-serif;
+		font-weight: 600;
+		letter-spacing: 0.05em;
 		text-decoration: none;
+		white-space: nowrap;
+		transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1); 
 	}
-	/*info*/
-	.customer-footer p {
-		margin: 0.2rem 0; 
-	}
-	.footer-info a{
-		padding: 0.2rem 0.2rem; 
-		margin: -0.2rem 0.1rem; 
+	
+	/* 【保留】你的专属渐变，改用更高级的微动效和发光 */
+	.footer-nav a:hover {
+		background-image: var(--footer-link-hover);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		text-decoration: none;
 		
-		color:var(--footer-link);
+		transform: translateY(-2px); /* 微微上浮代替夸张的放大 */
+		filter: drop-shadow(0 0 8px rgba(216, 180, 254, 0.5)); /* 渐变发光 */
 	}
-	.footer-info p{
-		color:var(--footer-text);
 
-		line-height: 1;overflow-wrap: break-word;
+	/* =========================================
+       Terminal Info
+    ========================================= */
+	.footer-info {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+	.footer-info p {
+		margin: 0; 
+		color: var(--footer-text);
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+		font-size: 0.85rem;
+		line-height: 1.4;
+		overflow-wrap: break-word;
         word-break: break-all;
 	}
-	@media(max-width:480px)
-	{
+	
+	/* 极客前缀 */
+	.sys-prefix {
+		color: #6d28d9;
+		font-weight: bold;
+		margin-right: 0.2rem;
+	}
+
+	.footer-info a {
+		color: var(--footer-link);
+		text-decoration: none;
+		border-bottom: 1px solid rgba(167, 139, 250, 0.3);
+		transition: all 0.2s ease;
+	}
+	.footer-info a:hover {
+		color: #d8b4fe;
+		border-color: #d8b4fe;
+		text-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
+	}
+
+	/* =========================================
+       Mobile
+    ========================================= */
+	@media (max-width: 768px) {
+		.customer-footer {
+			padding: 2rem 1.5rem;
+		}
 		.footer-content {
             flex-direction: column; 
             align-items: flex-start;
-            gap: 0.4rem;
+            gap: 2rem;
         }
-		.footer-nav{
+		.footer-nav {
 			flex-direction: column;
-			gap:0.01rem;
+			gap: 1rem;
 		}
 		.footer-right {
             padding-right: 0;
             padding-bottom: 0;
         }
+		.footer-signature {
+			font-size: 2.5rem;
+		}
 	}
 </style>
 

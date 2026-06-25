@@ -43,155 +43,187 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
 </div>
 
 <style define:vars={{open,close}}>
-    /*screen*/
+    /* =========================================
+       Outer Shell (Quantum Holographic Casing)
+    ========================================= */
     .computer-screen {
-        --u:1cqi;
+        --u: 1cqi;
 
         position: absolute;
-        top:50%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         padding: calc(0.45 * var(--u));
         z-index: var(--z-desk-items-mid);
         will-change: transform;
 
+        /* 【保留】原有尺寸与圆角 */
         width: 45%;
         height: 45%;
         border-radius: calc(0.6 * var(--u));
-        background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
-        border: calc(0.05 * var(--u)) solid #2a2a2a;
+        border: calc(0.05 * var(--u)) solid rgba(139, 92, 246, 0.3); /* 霓虹紫边框 */
+        
+        /* 【修改】深紫亚克力玻璃材质 + 霓虹环境光晕 */
+        background: linear-gradient(145deg, rgba(20, 15, 30, 0.95), rgba(10, 5, 15, 0.98));
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+
         box-shadow: 
-        0 calc(0.8 * var(--u)) calc(2 * var(--u)) rgba(0, 0, 0, 0.8),
-        inset 0 calc(0.05 * var(--u)) calc(0.1 * var(--u)) rgba(255, 255, 255, 0.08),
-        inset 0 calc(-0.05 * var(--u)) calc(0.1 * var(--u)) rgba(0, 0, 0, 0.5);
+            0 calc(1 * var(--u)) calc(3 * var(--u)) rgba(0, 0, 0, 0.9),
+            0 0 calc(2 * var(--u)) rgba(139, 92, 246, 0.2), /* 外发光 */
+            inset 0 calc(0.05 * var(--u)) calc(0.1 * var(--u)) rgba(255, 255, 255, 0.1),
+            inset 0 calc(-0.05 * var(--u)) calc(0.1 * var(--u)) rgba(0, 0, 0, 0.6);
         
         box-sizing: border-box;
     }
+
+    /* 待机扫描线 (Energy Scanline) */
+    .computer-screen::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        
+        /* 【修改】更具科技感的紫色能量线 */
+        background: linear-gradient(to bottom, rgba(139, 92, 246, 0) 0%, rgba(139, 92, 246, 0.5) 50%, rgba(139, 92, 246, 0) 100%);
+        background-size: 100% 50%;
+        background-repeat: no-repeat;
+        
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 1.5s ease;
+        animation: scan-glow 2s linear infinite;
+        border-radius: inherit;
+    } 
+    .computer-screen:has(.is-off):hover::after {
+        opacity: 1;
+    }
+
+    @keyframes scan-glow {
+        0% { background-position: 0 -100%; }
+        100% { background-position: 0 200%; }
+    }
+
     .screen-inner {
         display: flex;
         flex-direction: column;
         gap: calc(0.5 * var(--u));
-
         width: 100%;
         height: 100%;
     }
 
-    /*computer-wrapper*/
-    .screen-body{
+    /* =========================================
+       Screen Bezel & Dormant State
+    ========================================= */
+    .screen-body {
         flex: 1;
         overflow: hidden;
         width: 100%;
         position: relative;
 
-        box-shadow: inset 0 0 calc(100 * var(--u)) rgba(0, 0, 0, 0.9);
-        border: calc(0.05 * var(--u)) solid #1f2937;
+        /* 【保留】原有边框与圆角 */
+        border: calc(0.05 * var(--u)) solid rgba(139, 92, 246, 0.2);
         border-radius: calc(0.5 * var(--u));
 
-        background-color: #161616; /* #1f0826 */
+        /* 【修改】极深紫色背景 + 屏幕内凹阴影 */
+        background-color: #08040d; 
+        box-shadow: 
+            inset 0 0 calc(3 * var(--u)) rgba(0, 0, 0, 1),
+            0 0 calc(0.5 * var(--u)) rgba(139, 92, 246, 0.1);
     }
+
+    /* 【新增】休眠态的微弱量子网格 (Quantum Grid) */
+    .screen-body::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: 
+            linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+        background-size: calc(0.5 * var(--u)) calc(0.5 * var(--u));
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    /* =========================================
+       Inner Screen Wrapper (The Display)
+    ========================================= */
     .computer-wrapper {
         flex: 1;
-        inset:0;
+        inset: 0;
         overflow: hidden;
         position: absolute;
         transform-origin: center center; 
         
         width: 100%;
         height: 100%;
-        box-shadow: inset 0 0 calc(100 * var(--u)) rgba(0, 0, 0, 0.9);
         border-radius: calc(0.5 * var(--u));
+        box-shadow: inset 0 0 calc(3 * var(--u)) rgba(0, 0, 0, 0.9);
 
-        background-color: #1f0826; /* #1f0826 */
+        background-color: #130a1c; 
         opacity: 0;
-        
         transform: scale(0);
+        z-index: 2;
     }
-    /*Animation*/
+
+    /* CRT 屏幕线 (CRT Scanlines) */
+    .computer-wrapper.power-on::after,
+    .computer-wrapper.power-off::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: var(--z-view-overlay);
+        /* 【修改】带有一点紫色的 CRT 扫描线 */
+        background: linear-gradient(to bottom, rgba(139, 92, 246, 0.1) 50%, rgba(0, 0, 0, 0.2) 50%);
+        background-size: 100% calc(0.2 * var(--u));
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    /* 【保留】原有开机/关机动画逻辑完全不变 */
     .computer-wrapper.power-on {
         animation: tv-on var(--open) cubic-bezier(0.23, 1, 0.32, 1) forwards;
     }
     .computer-wrapper.power-off {
         animation: tv-off var(--close) cubic-bezier(0.23, 1, 0.32, 1) forwards;
     }
-    .computer-wrapper.power-on::after,
-    .computer-wrapper.power-off::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index:var(--z-view-overlay);
-
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.155) 50%, rgba(0, 0, 0, 0.1) 50%);
-        background-size: 100% calc(0.2 * var(--u));
-        opacity: 0.25;
-
-        pointer-events: none;
-    }
-    @keyframes tv-on {
-        0% {
-            transform: scale(0.01, 0.01);
-            opacity: 0;
-            filter: brightness(10) contrast(3);
-        }
-        40% {
-            transform: scale(1, 0.01);
-            opacity: 1;
-            filter: brightness(5) contrast(2);
-        }
-        80% {
-            transform: scale(1, 1);
-            filter: brightness(1.5);
-        }
-        100% {
-            transform: scale(1, 1);
-            opacity: 1;
-            filter: brightness(1) contrast(1);
-        }
-    }
-
-    @keyframes tv-off {
-        0% {
-            transform: scale(1, 1);
-            opacity: 1;
-            filter: brightness(1);
-        }
-        40% {
-            transform: scale(1, 0.01);
-            filter: brightness(5);
-        }
-        80% {
-            transform: scale(0.01, 0.01);
-            opacity: 1;
-            filter: brightness(10);
-        }
-        100% {
-            transform: scale(0, 0);
-            opacity: 0;
-            filter: brightness(0);
-        }
-    }
-
-    .computer-wrapper.is-on{
+    .computer-wrapper.is-on {
         transform: scale(1, 1);
         opacity: 1;
         filter: brightness(1) contrast(1);
     }
-    .computer-wrapper.is-off{
+    .computer-wrapper.is-off {
         transform: scale(0, 0);
         opacity: 0;
         filter: brightness(0);
     }
 
+    @keyframes tv-on {
+        0% { transform: scale(0.01, 0.01); opacity: 0; filter: brightness(10) contrast(3); }
+        40% { transform: scale(1, 0.01); opacity: 1; filter: brightness(5) contrast(2); }
+        80% { transform: scale(1, 1); filter: brightness(1.5); }
+        100% { transform: scale(1, 1); opacity: 1; filter: brightness(1) contrast(1); }
+    }
 
-    /*bottom*/
+    @keyframes tv-off {
+        0% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
+        40% { transform: scale(1, 0.01); filter: brightness(5); }
+        80% { transform: scale(0.01, 0.01); opacity: 1; filter: brightness(10); }
+        100% { transform: scale(0, 0); opacity: 0; filter: brightness(0); }
+    }
+
+    /* =========================================
+       Bottom Control Panel (HUD Dashboard)
+    ========================================= */
     .bottom-bar {
         display: flex;
         justify-content: space-between;
         align-items: center;
         height: calc(0.6 * var(--u));
         padding: 0 calc(0.4 * var(--u));
+        background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.03), transparent);
+        border-radius: calc(0.2 * var(--u));
     }
 
-    /*buttons*/
     .left-controls {
         display: flex;
         gap: calc(1.5 * var(--u));
@@ -199,76 +231,90 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         flex: 1; 
     }
 
+    /* =========================================
+       Holographic Tech Buttons (无边框发光按钮)
+    ========================================= */
     .ctrl-btn {
         display: flex;
         align-items: center;
         justify-content: center;
 
+        background: transparent;
         border: none;
+        outline: none;
         padding: calc(0.3 * var(--u));
 
-        color: #4b5563;
-        background: none;
-
+        color: #6b7280;
         cursor: pointer;
-        transition: color 0.3s ease, transform 0.1s ease;
+        transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .ctrl-btn.is-white:hover {
-        color: #c460fa;
-        filter: drop-shadow(0 0 calc(1 * var(--u)) rgba(201, 96, 250, 0.6)); 
-    }
 
+    /* 激活状态 (Active / Power On) */
     .ctrl-btn.is-white {
-        color: #d1d5db; 
-        filter: drop-shadow(0 0 calc(0.5 * var(--u)) rgba(255,255,255,0.5)); 
+        color: #f3e8ff; 
+        /* 激活时自带微弱的环境光晕 */
+        filter: drop-shadow(0 0 calc(0.3 * var(--u)) rgba(139, 92, 246, 0.4));
+    }
+    
+    /* 激活状态下的悬浮：亮度拉满 */
+    .ctrl-btn.is-white:hover {
+        color: #d77aee;
+        filter: drop-shadow(0 0 calc(0.8 * var(--u)) rgba(167, 139, 250, 1));
     }
 
-    /* text */
+    /* =========================================
+       Typography (Neon HUD Text)
+    ========================================= */
     .center-text, .right-signature {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+        font-family: 'Inter', ui-monospace, SFMono-Regular, monospace;
         font-size: calc(0.7 * var(--u));
-        color: #666;
-        letter-spacing: calc(0.05 * var(--u));
+        letter-spacing: calc(0.08 * var(--u));
     }
 
     .center-text {
         flex: 1;
-        
         text-align: center;
         text-transform: uppercase;
-        font-weight: 600;
-        color: #796b80;
-        font-weight: bold;
-        text-shadow: 0 0 calc(0.4 * var(--u)) rgb(153, 112, 192);
+        font-weight: 700;
+        /* 【修改】高对比度亮紫 + 霓虹发光 */
+        color: #f3e8ff;
+        text-shadow: 0 0 calc(0.6 * var(--u)) rgba(139, 92, 246, 0.8);
     }
 
     .right-signature {
         flex: 1;
         text-align: right;
-        font-style: italic;
-        color: #594b63;
+        font-style: normal;
+        font-weight: 600;
+        /* 【修改】极客紫 */
+        color: #a78bfa;
     }
+
     .no-animation {
         animation: none !important;
         transition: none !important;
     }
 
-@media (max-aspect-ratio: 0.5){
-    .computer-screen {
-        --u:1cqw;
+    /* =========================================
+       Media Queries (保留原有逻辑)
+    ========================================= */
+    @media (max-aspect-ratio: 0.5){
+        .computer-screen {
+            --u: 1cqw;
+        }
     }
-}
-@media (max-aspect-ratio: 0.5) and (max-width: 450px) {
-    .screen-body{
-        border: 0 solid #1f2937;
+    @media (max-aspect-ratio: 0.5) and (max-width: 450px) {
+        .screen-body{
+            border: 0 solid rgba(139, 92, 246, 0.2);
+        }
     }
-}
 </style>
 
 <script>
+    /* JS 逻辑完全保持不变，功能零影响 */
     import { ANIMATION_TIMES } from "../../../config";
-import { addLeaveHook, currentView } from "../../../store";
+    import { addLeaveHook, currentView } from "../../../store";
     import { navigateWithAnimation } from "../../../utils/navigation";
 
     document.addEventListener('astro:page-load',()=>{
@@ -331,13 +377,11 @@ import { addLeaveHook, currentView } from "../../../store";
                 if(!currentView.get().startsWith('Blog') && targetView.startsWith('Blog')){
                     computerWrapper.classList.remove('power-off','is-off','is-on'); 
                     computerWrapper.classList.add('power-on');
-                    //setTimeout(resolve,ANIMATION_TIMES.COMPUTER_OPEN);
                 }
                 /* off */
                 if(currentView.get().startsWith('Blog') && !targetView.startsWith('Blog')){
                     computerWrapper.classList.remove('power-on','is-off','is-on');  
                     computerWrapper.classList.add('power-off');    
-                    //setTimeout(resolve,ANIMATION_TIMES.COMPUTER_CLOSE);
                 }
                 resolve();
             });
