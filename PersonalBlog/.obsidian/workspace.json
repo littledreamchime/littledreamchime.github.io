@@ -29,7 +29,7 @@
               "type": "markdown",
               "state": {
                 "file": "03_Issues/Issues_004.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -72,8 +72,7 @@
               "title": "Issues_005"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -238,12 +237,12 @@
   },
   "active": "51788b08e6e9b858",
   "lastOpenFiles": [
-    "03_Issues/Issues_005.md",
+    "02_Devlogs/Devlog_004.md",
     "03_Issues/Issues_004.md",
+    "02_Devlogs/Devlog_003.md",
+    "03_Issues/Issues_005.md",
     "02_Devlogs/DevLog_002.md",
     "02_Devlogs/DevLog_001.md",
-    "02_Devlogs/Devlog_004.md",
-    "02_Devlogs/Devlog_003.md",
     "02_Devlogs/Devlog_002.md",
     "02_Devlogs/Devlog_001.md",
     "Template/Images/Pasted image 20260622115506.png",

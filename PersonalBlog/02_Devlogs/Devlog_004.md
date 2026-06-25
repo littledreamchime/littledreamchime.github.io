@@ -17,3 +17,4 @@ With the core logic and layouts completed, it is time to bring everything togeth
 ## The Results:
 ## Next Steps:
 - Art Production: Put on my artist hat and illustrate all the required custom art assets to replace the temporary color blocks.
+- Issues_005.
