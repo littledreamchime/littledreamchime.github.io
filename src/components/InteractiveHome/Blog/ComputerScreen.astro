@@ -4,6 +4,8 @@ import { ANIMATION_TIMES } from "../../../config";
 import Binder from "./Binder.astro";
 import '../../../styles/zIndex.css';
 import ExeFileDescription from "./ExeFileDescription.astro";
+// 👇 引入刚刚写好的 Search 组件 (请确保路径正确)
+import Search from "./Search.astro"; 
 
 const blogs = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -14,6 +16,15 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 ---
 <div id="binder-container" class="binder-container" transition:persist="binder-container">
   
+  <!-- 系统提示文字 -->
+  <div class="binder-container-info">System Online</div>
+
+  <!-- 👇 搜索框区域 -->
+  <div class="search-wrapper">
+    <Search />
+  </div>
+
+  <!-- 👇 文件区 -->
   <div class="binders-wrapper">
     {binders.map((binder, index) => {
       const folder = getFolderSlug(binder.id);
@@ -28,18 +39,20 @@ const getFolderSlug = (id: string) => id.split('/')[0];
       );
     })}
   </div>
-  <div class="binder-container-info">System Online</div>
+  
 </div>
-
 
 <style>
   .binder-container {
     position: absolute;
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
     display: flex;
-    overflow: hidden;
-    top:49%;
+    gap: 5%; 
+    overflow: hidden; 
+    
+    top: 49%;
     left: 50%;
     padding: 0.45cqi;
     z-index: var(--z-desk-items-mid);
@@ -49,7 +62,7 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     border-radius: 0.6cqi;
 
     transform: translate(-50%, -50%);
-    transition: all 0.2s ease-out; 
+    transition: all 0.3s ease-out; 
   }
   
   .binder-container.is-hiding {
@@ -58,11 +71,12 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     pointer-events: none;
     transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1) !important;
   }
+  
   .binder-container.is-on::after {
     content: "";
     position: absolute;
     inset: 0;
-    z-index:999;
+    z-index: 999;
 
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.155) 50%, rgba(0, 0, 0, 0.1) 50%);
     background-size: 100% 0.2cqi;
@@ -70,27 +84,74 @@ const getFolderSlug = (id: string) => id.split('/')[0];
 
     pointer-events: none;
   }
+
+  .search-wrapper {
+    width: 70%;
+    height: 10%;
+    position: relative;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  /* 默认横向状态 */
+  .search-wrapper :global(.cyber-search-wrapper) {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+  }
+
   .binders-wrapper {
     display: flex;
-
     gap: 0.3cqi;
     width: 90%;
-    height: 90%;
+    height: 82%; 
+    position: relative;
+    z-index: 10;
+    transition: all 0.3s ease;
   }
+  
   .binder-container-info {
     position: absolute;
     top: 0.2cqi;
     left: 1cqi;
-    
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    
     color: #686868;
-    
     font-size: 0.6cqi;
     font-weight: 500;
-
     user-select: none; 
     pointer-events: none;
+  }
+
+  @media (max-aspect-ratio: 0.5) {
+    .binder-container {
+      /* 改为横向排列：左边搜索框，右边文件区 */
+      flex-direction: row; 
+      gap: 2%;
+    }
+    
+    .search-wrapper {
+      width: 7%; 
+      height: 90%; 
+    }
+
+    .search-wrapper :global(.cyber-search-wrapper) {
+      position: absolute;
+      /* 使用 JS 实时计算的尺寸，完美交换宽高 */
+      width: var(--sw-height, 300px) !important;
+      height: var(--sw-width, 40px) !important;
+      /* 逆时针旋转 90 度 */
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+
+    .binders-wrapper {
+      /* 高度恢复 90%，占据剩余宽度 */
+      width: 84%; 
+      height: 90%; 
+    }
   }
 </style>
 
@@ -116,5 +177,18 @@ const getFolderSlug = (id: string) => id.split('/')[0];
       return Promise.resolve();
     });
 
+    /* 👇 新增：监听 search-wrapper 尺寸，用于垂直模式下的完美旋转适配 */
+    const searchWrapper = document.querySelector('.search-wrapper') as HTMLElement;
+    if (searchWrapper) {
+      const updateSize = () => {
+        // 将外壳的实时宽高注入为 CSS 变量
+        searchWrapper.style.setProperty('--sw-height', `${searchWrapper.clientHeight}px`);
+        searchWrapper.style.setProperty('--sw-width', `${searchWrapper.clientWidth}px`);
+      };
+      // 使用 ResizeObserver 确保在窗口缩放时依然完美贴合
+      const observer = new ResizeObserver(updateSize);
+      observer.observe(searchWrapper);
+      updateSize(); // 初始化调用一次
+    }
   });
 </script>

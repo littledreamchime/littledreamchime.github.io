@@ -6,7 +6,7 @@
 	 #Assets
 - [ ]  问题3：Blog界面具体项目的图片显示，在Description和Page页面显示即可
 	 #Layout 
-- [ ] 问题4：评论
+- [x] 问题4：评论
 	- 给所有Page，包括Blog的Page页面、Devlog的Page页面、About页面添加评论功能
 	 #Feat
 - [ ] 问题5：搜索功能

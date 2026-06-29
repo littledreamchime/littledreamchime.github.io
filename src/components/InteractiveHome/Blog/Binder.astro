@@ -25,7 +25,6 @@ const themeColor = color || '#10b981';
         )}
         </div>
         <span class="vertical-title">{driveLetter}:\ {title}</span>
-        <span class="vertical-desc">{description}</span>
     </div>
   </div>
 
@@ -200,18 +199,6 @@ const themeColor = color || '#10b981';
         white-space: nowrap;
         color: var(--theme-color);
         text-shadow: 0 0 10px color-mix(in srgb, var(--theme-color) 60%, transparent);
-        transform: rotate(180deg);
-    }
-    .vertical-desc {
-        margin-top: auto;
-        overflow: hidden;
-        writing-mode: vertical-rl;
-        font-family: monospace;
-        font-size: 0.5cqw;
-        letter-spacing: 0.05em;
-        text-overflow: ellipsis;
-        line-height: 1.5;
-        color: #8b7a9f;
         transform: rotate(180deg);
     }
 
