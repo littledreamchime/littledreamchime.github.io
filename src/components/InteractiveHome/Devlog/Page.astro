@@ -2,6 +2,7 @@
 import {render } from 'astro:content';
 import '../../../styles/zIndex.css';
 import { ANIMATION_TIMES } from '../../../config';
+import Giscus from '../Main/Giscus.astro';
 const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
 
 const {post,folderSlug}=Astro.props;
@@ -22,6 +23,7 @@ const { Content } = await render(post);
 
 	<div id="paper-content" class="paper-content">
 		<Content />
+        <Giscus />
 	</div>
 </div>
 

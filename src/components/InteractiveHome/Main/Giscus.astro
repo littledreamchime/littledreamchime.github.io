@@ -1,0 +1,241 @@
+---
+// src/components/Giscus.astro
+---
+
+<div class="comments-section">
+    <!-- 华丽的科技感头部 -->
+    <div id="cyber-comments-header" class="cyber-header">
+        <div class="header-content">
+            <div class="decorative-line left"></div>
+            <div class="title-wrapper">
+                <span class="sub-text">Leave a comment for this place!</span>
+                <h2 class="glitch-text" data-text="COMMENTS">COMMENTS</h2>
+            </div>
+            <div class="decorative-line right"></div>
+        </div>
+        <div class="glow-floor"></div>
+    </div>
+
+    <!-- Giscus 容器 -->
+    <div id="giscus-container" class="giscus-wrapper"></div>
+</div>
+
+<style>
+    .comments-section {
+        margin-top: 5rem;
+        padding-bottom: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* =========================================
+       Cyber Header Styles (科技感标题样式)
+    ========================================= */
+    .cyber-header {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2rem;
+        /* 初始状态：隐藏，等待 JS 触发动画 */
+        opacity: 0; 
+    }
+
+    /* 当 JS 添加 .animate-in 类时触发动画 */
+    .cyber-header.animate-in {
+        opacity: 1;
+    }
+
+    .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        gap: 1.5rem;
+    }
+
+    /* 左右两侧的发光射线 */
+    .decorative-line {
+        height: 1px;
+        flex-grow: 1;
+        background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.8), transparent);
+        box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        transform: scaleX(0);
+        transform-origin: center;
+    }
+    .cyber-header.animate-in .decorative-line {
+        animation: lineExpand 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        animation-delay: 0.3s;
+    }
+
+    /* 标题容器 */
+    .title-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* 顶部小字 (终端风格) */
+    .sub-text {
+        font-family: monospace;
+        font-size: 0.75rem;
+        color: #a78bfa;
+        letter-spacing: 0.2em;
+        margin-bottom: 0.5rem;
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    .cyber-header.animate-in .sub-text {
+        animation: fadeUp 0.6s ease forwards;
+        animation-delay: 0.6s;
+    }
+
+    /* 主标题 COMMENTS */
+    .glitch-text {
+        margin: 0;
+        font-family: 'Inter', system-ui, sans-serif;
+        font-weight: 900;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        color: #f3e8ff;
+        text-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+        line-height: 1;
+        
+        /* 动画初始状态 */
+        opacity: 0;
+        filter: blur(10px);
+        letter-spacing: -0.2em;
+        transform: scale(0.9) translateY(20px);
+    }
+    .cyber-header.animate-in .glitch-text {
+        animation: textReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        animation-delay: 0.1s;
+    }
+
+    /* 底部环境光晕 */
+    .glow-floor {
+        position: absolute;
+        bottom: -20px;
+        width: 150px;
+        height: 4px;
+        background: #8b5cf6;
+        border-radius: 50%;
+        filter: blur(15px);
+        opacity: 0;
+    }
+    .cyber-header.animate-in .glow-floor {
+        animation: pulseGlow 2s ease-in-out infinite alternate;
+        animation-delay: 1s;
+    }
+
+    /* =========================================
+       Giscus Wrapper Styles
+    ========================================= */
+    .giscus-wrapper {
+        width: 100%;
+        min-height: 300px; /* 给一个最小高度，防止加载时页面跳动 */
+        padding-top: 1rem;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    /* Giscus 容器的入场动画 */
+    .giscus-wrapper.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* =========================================
+       Keyframes (关键帧动画)
+    ========================================= */
+    @keyframes textReveal {
+        0% { 
+            opacity: 0; 
+            filter: blur(10px); 
+            letter-spacing: -0.2em; 
+            transform: scale(0.8) translateY(30px); 
+        }
+        50% { 
+            opacity: 0.8; 
+            filter: blur(2px); 
+            letter-spacing: 0.2em; 
+            transform: scale(1.05) translateY(-5px); 
+        }
+        100% { 
+            opacity: 1; 
+            filter: blur(0); 
+            letter-spacing: 0.1em; 
+            transform: scale(1) translateY(0); 
+        }
+    }
+
+    @keyframes lineExpand {
+        0% { transform: scaleX(0); opacity: 0; }
+        100% { transform: scaleX(1); opacity: 1; }
+    }
+
+    @keyframes fadeUp {
+        0% { opacity: 0; transform: translateY(10px); }
+        100% { opacity: 0.8; transform: translateY(0); }
+    }
+
+    @keyframes pulseGlow {
+        0% { opacity: 0.3; transform: scaleX(0.8); }
+        100% { opacity: 0.8; transform: scaleX(1.5); }
+    }
+</style>
+
+<script>
+    function initCommentsSection() {
+        const header = document.getElementById('cyber-comments-header');
+        const container = document.getElementById('giscus-container');
+        if (!header || !container) return;
+
+        // 1. 设置 IntersectionObserver (滚动监听)
+        // 只有当标题露出视口 10% 时，才触发动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 触发标题的华丽动画
+                    header.classList.add('animate-in');
+                    // 触发 Giscus 容器的浮现动画
+                    container.classList.add('show');
+                    // 动画只播放一次，播放完就取消监听
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        observer.observe(header);
+
+        // 2. 加载 Giscus 脚本 (逻辑保持不变)
+        container.innerHTML = '';
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const themeUrl = isLocal ? 'transparent_dark' : window.location.origin + '/giscus-theme.css';
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'littledreamchime/littledreamchime.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDOSfMZ1A');
+        script.setAttribute('data-category', 'General');
+        script.setAttribute('data-category-id', 'DIC_kwDOSfMZ1M4DAIgW');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'bottom');
+        script.setAttribute('data-theme', themeUrl); 
+        script.setAttribute('data-lang', 'en');
+        script.setAttribute('data-loading', 'lazy');
+        script.crossOrigin = 'anonymous';
+        script.async = true;
+
+        container.appendChild(script);
+    }
+
+    // 监听 Astro 的页面加载事件
+    document.addEventListener('astro:page-load', initCommentsSection);
+</script>

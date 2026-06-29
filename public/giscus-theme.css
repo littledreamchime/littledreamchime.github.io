@@ -1,0 +1,51 @@
+/*! public/giscus-theme.css */
+main {
+  /* ================= 文字颜色 ================= */
+  --color-fg-default: #cbd5e1; /* 主文本颜色（冷灰） */
+  --color-fg-muted: #94a3b8; /* 次要文本颜色 */
+  --color-fg-subtle: #64748b;
+
+  /* ================= 背景颜色 ================= */
+  /* 让主背景完全透明，透出你底层的深紫毛玻璃 */
+  --color-canvas-default: transparent; 
+  /* 评论输入框的背景（类似你代码块的深黑半透明） */
+  --color-canvas-inset: rgba(0, 0, 0, 0.3); 
+  /* 下拉菜单等悬浮层的背景 */
+  --color-canvas-overlay: rgba(13, 9, 20, 0.95); 
+
+  /* ================= 边框颜色 ================= */
+  /* 统一使用你的科技紫边框 */
+  --color-border-default: rgba(139, 92, 246, 0.2); 
+  --color-border-muted: rgba(139, 92, 246, 0.1); 
+
+  /* ================= 强调色 (链接、激活状态) ================= */
+  --color-accent-fg: #a78bfa; 
+  --color-accent-emphasis: #8b5cf6; 
+  --color-accent-muted: rgba(139, 92, 246, 0.4); 
+  --color-accent-subtle: rgba(139, 92, 246, 0.1); 
+
+  /* ================= 按钮样式 (匹配你的 back-btn) ================= */
+  --color-btn-text: #a78bfa; 
+  --color-btn-bg: rgba(139, 92, 246, 0.1); 
+  --color-btn-border: rgba(139, 92, 246, 0.3); 
+  --color-btn-hover-bg: rgba(139, 92, 246, 0.3); 
+  --color-btn-hover-border: #8b5cf6; 
+
+  /* ================= 主按钮样式 (如"发表评论"按钮) ================= */
+  --color-btn-primary-text: #ffffff; 
+  --color-btn-primary-bg: rgba(139, 92, 246, 0.6); 
+  --color-btn-primary-border: rgba(139, 92, 246, 0.8); 
+  --color-btn-primary-hover-bg: #8b5cf6; 
+  --color-btn-primary-hover-border: #a78bfa; 
+
+  /* 基础设置 */
+  color-scheme: dark;
+}
+
+/* 给输入框加一点发光过渡效果 */
+.form-control {
+  transition: all 0.3s ease;
+}
+.form-control:focus {
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.4) !important;
+}

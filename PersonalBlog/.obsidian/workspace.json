@@ -6,7 +6,7 @@
       {
         "id": "d6bba97dbb8d1932",
         "type": "tabs",
-        "dimension": 35.96802841918294,
+        "dimension": 35.96802841918295,
         "children": [
           {
             "id": "bdf2b30faf036263",
@@ -27,7 +27,7 @@
       {
         "id": "61088e4204018da3",
         "type": "tabs",
-        "dimension": 64.03197158081704,
+        "dimension": 64.03197158081706,
         "children": [
           {
             "id": "c21a17f1e87eed7a",
@@ -223,8 +223,8 @@
   "active": "c21a17f1e87eed7a",
   "lastOpenFiles": [
     "02_Devlogs/Devlog_005.md",
-    "02_Devlogs/Devlog_004.md",
     "03_Issues/Issues_005.md",
+    "02_Devlogs/Devlog_004.md",
     "03_Issues/Issues_004.md",
     "Template/Images/Pasted image 20260629163940.png",
     "03_Issues/Issues_001.md",

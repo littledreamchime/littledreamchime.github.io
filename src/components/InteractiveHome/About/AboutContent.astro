@@ -3,6 +3,7 @@ import '../../../styles/zIndex.css';
 import { Content } from '../../../content/about.md';
 import ChildrenOverlay from '../Main/ChildrenOverlay.astro';
 import { ANIMATION_TIMES } from '../../../config';
+import Giscus from '../Main/Giscus.astro';
 const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
 ---
 <div id="paper-wrapper" class="paper-wrapper">
@@ -14,6 +15,7 @@ const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
         <div class="red-line line-1"></div>
         <div class="red-line line-2"></div>
         <Content />
+        <Giscus />
     </div>
   </div>
 </div>
