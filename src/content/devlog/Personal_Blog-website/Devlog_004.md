@@ -16,10 +16,12 @@ With the core logic and layouts completed, it is time to bring everything togeth
 - The "Placeholder" : Instead of delaying the blog's launch to wait for the final illustrations, I Decided to use temporary color blocks for all inserted images.
 ## The Results:
 - Polished minor UI details and fully implemented mobile responsiveness.
-![[Pasted image 20260625113926.png|471]] 
-![[Pasted image 20260625114009.png|282]]
+
+ ![Mobile_Bookshelf](../_images/Personal_Blog-website/Mobile_Bookshelf.png) 
+ ![Mobile_computer](../_images/Personal_Blog-website/Mobile_computer.png) 
 - Better-looking CSS styles!
-  ![[Pasted image 20260627162549.png]]
+
+ ![BetterUI](../_images/Personal_Blog-website/BetterUI.png)
 - Version 1.0 released.
 - Established Issues_005.
 ## Next Steps:

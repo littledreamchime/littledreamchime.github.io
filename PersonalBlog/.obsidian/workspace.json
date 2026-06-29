@@ -6,46 +6,45 @@
       {
         "id": "d6bba97dbb8d1932",
         "type": "tabs",
-        "dimension": 57.415630550621664,
+        "dimension": 35.96802841918294,
         "children": [
           {
-            "id": "ac85e758fc3b0d33",
+            "id": "bdf2b30faf036263",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_Devlogs/Devlog_003.md",
+                "file": "02_Devlogs/Devlog_005.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Devlog_003"
-            }
-          },
-          {
-            "id": "51788b08e6e9b858",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "03_Issues/Issues_004.md",
-                "mode": "preview",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Issues_004"
+              "title": "Devlog_005"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       },
       {
         "id": "61088e4204018da3",
         "type": "tabs",
-        "dimension": 42.58436944937833,
+        "dimension": 64.03197158081704,
         "children": [
           {
-            "id": "821a3e808d1db534",
+            "id": "c21a17f1e87eed7a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "03_Issues/Issues_005.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Issues_005"
+            }
+          },
+          {
+            "id": "38c66a378bf1f87d",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -221,13 +220,17 @@
       "bases:新建数据库": false
     }
   },
-  "active": "821a3e808d1db534",
+  "active": "c21a17f1e87eed7a",
   "lastOpenFiles": [
+    "02_Devlogs/Devlog_005.md",
+    "02_Devlogs/Devlog_004.md",
+    "03_Issues/Issues_005.md",
+    "03_Issues/Issues_004.md",
+    "Template/Images/Pasted image 20260629163940.png",
+    "03_Issues/Issues_001.md",
+    "Template/Images/Pasted image 20260627162549.png",
     "Template/Images/Pasted image 20260625114009.png",
     "Template/Images/Pasted image 20260625113926.png",
-    "03_Issues/Issues_004.md",
-    "03_Issues/Issues_005.md",
-    "02_Devlogs/Devlog_004.md",
     "02_Devlogs/Devlog_003.md",
     "02_Devlogs/DevLog_002.md",
     "02_Devlogs/DevLog_001.md",
@@ -239,7 +242,6 @@
     "03_Issues/Issues_002.md",
     "Template/Images/Pasted image 20260618152655.png",
     "Template/Images/Pasted image 20260618153250.png",
-    "03_Issues/Issues_001.md",
     "01_Architecture/Main.canvas",
     "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
     "Template/Images/Pasted image 20260618151502.png",
@@ -256,9 +258,7 @@
     "01_Architecture/Component/Blog/ComputerScreen.md",
     "01_Architecture/Component/About/AboutContent.md",
     "01_Architecture/Component/Blog/Binder.md",
-    "01_Architecture/Z-index.md",
     "Template/Images/Pasted image 20260611151210.png",
-    "Template/Images/Pasted image 20260611142742.png",
     "04_Design/Config",
     "01_Architecture/Page/Blog",
     "01_Architecture/Component/Blog",
@@ -266,8 +266,6 @@
     "04_Design/MainScene",
     "04_Design",
     "01_Architecture/Component/About",
-    "Template/Images/Pasted image 20260605160026.png",
-    "Template/Images/Pasted image 20260605155912.png",
     "01_Architecture/Page/Devlog",
     "01_Architecture/Page",
     "01_Architecture/Component/Main"
