@@ -1,8 +1,8 @@
 ---
-title: Devlog_004
+title: Devlog_005
 description: Better UX, Faster Speed, and New Features
 pubDate: Jun 29 2026
-heroImage: ../../../assets/blog-placeholder-3.jpg
+heroImage: '../../../content/devlog/_images/Personal_Blog-website/Icon/Devlog_005.png'
 ---
 ##### Duration: Jun 27 2026 - Jun 30  2026
 ##### Tags: `#Assets` `#Fix` `#Code` `#Layout` `#Architecture` 
@@ -20,10 +20,11 @@ This update is all about leveling up the blog's overall performance and user exp
 - Enabled article search by title, path, or name.
 - Integrated the Giscus comment system.
 ## The Results:
-- Comment System:
-![[Pasted image 20260630181413.png]]
+- Comment system:
+ ![Comment](../_images/Personal_Blog-website/Comments.png) 
 - Search article:
-![[Pasted image 20260630181548.png]]
+ ![SearchBar](../_images/Personal_Blog-website/SearchBar.png) 
 - Added support for displaying post cover images on both the Description and Page views.
 ## Next Steps:
 - Breathe life and a vibrant soul into this blog!
+- To be Continued
