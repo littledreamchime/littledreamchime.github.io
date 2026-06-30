@@ -27,7 +27,8 @@ const { mode = 'desktop' } = Astro.props;
     </div>
     
     <!-- 【修改】新增视口包装层，解决阴影随滚动条移动的问题 -->
-    <div class="shelf-viewport">
+    <!-- 【修复】给 shelf-viewport 增加 id，用于移动端记录滚动位置 -->
+    <div class="shelf-viewport" id={`shelf-viewport-${mode}`}>
         <div class="bookshelf-scroll-container" id={`bookshelf-scroll-${mode}`}>
             <div class="bookshelf-track">
                 {
@@ -252,7 +253,6 @@ const { mode = 'desktop' } = Astro.props;
 </style>
 
 <script>
-    /* JS 逻辑完全保持不变 */
     import { ANIMATION_TIMES } from "../../../config";
     import { addLeaveHook } from "../../../store";
     import { handleAnimatedLinkClick } from "../../../utils/navigation";
@@ -262,9 +262,13 @@ const { mode = 'desktop' } = Astro.props;
     let savedScrollLeft = 0;
     let savedScrollTop = 0;
     let needReset = false;
+    
     document.addEventListener('astro:before-swap', () => {
+        // 桌面端横向滚动容器
         const scrollDesktop = document.getElementById('bookshelf-scroll-desktop');
-        const scrollMobile = document.getElementById('bookshelf-scroll-mobile');
+        // 【修复】移动端纵向滚动容器变成了 shelf-viewport
+        const viewportMobile = document.getElementById('shelf-viewport-mobile'); 
+        
         if (needReset) {
             savedScrollLeft = 0;
             savedScrollTop = 0;
@@ -273,16 +277,18 @@ const { mode = 'desktop' } = Astro.props;
             if (scrollDesktop && scrollDesktop.offsetParent !== null) {
                 savedScrollLeft = scrollDesktop.scrollLeft;
             }
-            if (scrollMobile && scrollMobile.offsetParent !== null) {
-                savedScrollTop = scrollMobile.scrollTop;
+            if (viewportMobile && viewportMobile.offsetParent !== null) {
+                savedScrollTop = viewportMobile.scrollTop;
             }
         }
     });
+    
     document.addEventListener('astro:after-swap', () => {
         const scrollDesktop = document.getElementById('bookshelf-scroll-desktop');
-        const scrollMobile = document.getElementById('bookshelf-scroll-mobile');
+        const viewportMobile = document.getElementById('shelf-viewport-mobile'); 
+        
         if (scrollDesktop) scrollDesktop.scrollLeft = savedScrollLeft;
-        if (scrollMobile) scrollMobile.scrollTop = savedScrollTop;
+        if (viewportMobile) viewportMobile.scrollTop = savedScrollTop;
     });
 
     document.addEventListener('astro:page-load', () => {
