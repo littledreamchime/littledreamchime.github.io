@@ -4,6 +4,7 @@ import desk_bg from "../assets/Images/desk_bg.png";
 import DeskItems from "../components/InteractiveHome/Main/DeskItems.astro";
 import ReturnHomeButton from "../components/InteractiveHome/Main/ReturnHomeButton.astro";
 import { ANIMATION_TIMES } from "../config";
+import Particle from "../components/InteractiveHome/Main/Particle.astro";
 import '../styles/zIndex.css';
 
 const timeZoomIn=`${ANIMATION_TIMES.ZOOM_IN/1000}s`;
@@ -15,6 +16,7 @@ const bg_image_url = await getOptimizedImageUrl(desk_bg);
 <div class="desk-container">
     <div id="desk-main" class="desk-main">
         <DeskItems/>
+        <Particle  transition:persist="particle"/>
         <slot />
     </div>
     <slot name="overlay"></slot>
