@@ -93,6 +93,8 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    transform: translateY(-200%);
     transition: all 0.3s ease;
   }
 
@@ -101,6 +103,9 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     width: 100%;
     height: 100%;
     transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+  }
+  .search-wrapper.is-on{
+    transform: translateY(0%);
   }
 
   .binders-wrapper {
@@ -135,8 +140,12 @@ const getFolderSlug = (id: string) => id.split('/')[0];
     .search-wrapper {
       width: 7%; 
       height: 90%; 
+      transform:  translateY(0%);
     }
 
+    .search-wrapper.is-on{
+      transform: translateY(0%);
+    }
     .search-wrapper :global(.cyber-search-wrapper) {
       position: absolute;
       /* 使用 JS 实时计算的尺寸，完美交换宽高 */
@@ -161,6 +170,8 @@ const getFolderSlug = (id: string) => id.split('/')[0];
   document.addEventListener('astro:page-load',()=>{
     /* on off*/
     const binderContainer=document.getElementById('binder-container');
+    const searchWrapper = document.querySelector('.search-wrapper') as HTMLElement;
+    
     if(!binderContainer) return;
       if (!binderContainer.classList.contains('is-on')){
           requestAnimationFrame(() => {
@@ -177,18 +188,20 @@ const getFolderSlug = (id: string) => id.split('/')[0];
       return Promise.resolve();
     });
 
-    /* 👇 新增：监听 search-wrapper 尺寸，用于垂直模式下的完美旋转适配 */
-    const searchWrapper = document.querySelector('.search-wrapper') as HTMLElement;
-    if (searchWrapper) {
-      const updateSize = () => {
-        // 将外壳的实时宽高注入为 CSS 变量
-        searchWrapper.style.setProperty('--sw-height', `${searchWrapper.clientHeight}px`);
-        searchWrapper.style.setProperty('--sw-width', `${searchWrapper.clientWidth}px`);
-      };
-      // 使用 ResizeObserver 确保在窗口缩放时依然完美贴合
-      const observer = new ResizeObserver(updateSize);
-      observer.observe(searchWrapper);
-      updateSize(); // 初始化调用一次
-    }
+    if(!searchWrapper) return;
+    if (!searchWrapper.classList.contains('is-on')){
+          requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                  searchWrapper.classList.add('is-on');
+              });
+          });
+      }
+    const updateSize = () => {
+      searchWrapper.style.setProperty('--sw-height', `${searchWrapper.clientHeight}px`);
+      searchWrapper.style.setProperty('--sw-width', `${searchWrapper.clientWidth}px`);
+    };
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(searchWrapper);
+    updateSize();
   });
 </script>

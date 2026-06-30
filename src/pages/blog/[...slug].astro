@@ -40,7 +40,7 @@ const folderSlug = post.id.split('/')[0];
 ---
 
 
-<BaseLayout title="Blog" description="This is my blog page.">
+<BaseLayout title={post.data.title} description="This is blog Page.">
 	<ComputerScreen/>
     <Page  slot="overlay" post={post} folderSlug={folderSlug}/>
 </BaseLayout>

@@ -31,7 +31,7 @@ const { folderTitle, entries, folderSlug } = Astro.props;
 
 ---
 
-<BaseLayout title="Devlog" description="This is my Devlog page.">
+<BaseLayout title={folderTitle} description="This is Devlog Folder.">
 	<Bookshelf />
 	<Bookshelf mode="mobile" slot="overlay" />
     <Binder slot="overlay" title={folderTitle} entries={entries} folderSlug={folderSlug}  />

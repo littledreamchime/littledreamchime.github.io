@@ -77,6 +77,8 @@ const littleTime=`${ANIMATION_TIMES.NO_ZOOM_LITTLE_WAIT}ms`;
     padding: 1.5rem 2rem;
 
     background: linear-gradient(to bottom,var(--header-dark-purple),var(--header-transparent));
+    
+    pointer-events: none; 
 }
 
 /*Logo and mobile menu */
@@ -117,6 +119,7 @@ const littleTime=`${ANIMATION_TIMES.NO_ZOOM_LITTLE_WAIT}ms`;
     color:var(--text-primary);
     text-decoration: none;
     cursor: pointer;
+    pointer-events: auto;
     transition: filter 0.3s ease;
 }
 .header-signature a:hover {
@@ -221,9 +224,10 @@ const littleTime=`${ANIMATION_TIMES.NO_ZOOM_LITTLE_WAIT}ms`;
     transform: translateY(0.45rem);
 }
 .header-social a {
-  display:flex;
-  color: var(--text-primary);
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    display:flex;
+    color: var(--text-primary);
+    pointer-events: auto;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .header-social a:hover {
   transform: scale(1.2) translateY(-2px);
@@ -303,6 +307,7 @@ const littleTime=`${ANIMATION_TIMES.NO_ZOOM_LITTLE_WAIT}ms`;
             0 15px 35px rgba(0,0,0,0.6),
             inset 0 0 20px rgba(164, 106, 226, 0.1);
         opacity: 1;
+        pointer-events: auto;
     }
 
     .header-signature {

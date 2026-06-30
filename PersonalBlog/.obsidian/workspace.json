@@ -220,10 +220,13 @@
       "bases:新建数据库": false
     }
   },
-  "active": "c21a17f1e87eed7a",
+  "active": "bdf2b30faf036263",
   "lastOpenFiles": [
-    "02_Devlogs/Devlog_005.md",
+    "Template/Images/Pasted image 20260630181548.png",
+    "Template/Images/Pasted image 20260630181457.png",
+    "Template/Images/Pasted image 20260630181413.png",
     "03_Issues/Issues_005.md",
+    "02_Devlogs/Devlog_005.md",
     "02_Devlogs/Devlog_004.md",
     "03_Issues/Issues_004.md",
     "Template/Images/Pasted image 20260629163940.png",
@@ -246,7 +249,6 @@
     "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
     "Template/Images/Pasted image 20260618151502.png",
     "02_Devlogs/Devlog_004：实现Blog界面.md",
-    "Template/Images/Pasted image 20260618123829.png",
     "2026-06-12.md",
     "01_Architecture/Component/Main/ComputerBackGround.md",
     "01_Architecture/Component/Devlog/BookShelf.md",
@@ -258,7 +260,6 @@
     "01_Architecture/Component/Blog/ComputerScreen.md",
     "01_Architecture/Component/About/AboutContent.md",
     "01_Architecture/Component/Blog/Binder.md",
-    "Template/Images/Pasted image 20260611151210.png",
     "04_Design/Config",
     "01_Architecture/Page/Blog",
     "01_Architecture/Component/Blog",

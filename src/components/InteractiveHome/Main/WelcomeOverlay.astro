@@ -7,12 +7,15 @@ import { getCollection } from 'astro:content';
 
 const allDevlogs = await getCollection('devlog');
 const allBlogs = await getCollection('blog');
-const autoPreloadDevlogUrls = allDevlogs
-    .filter(post => !post.id.endsWith('/config'))
-    .map(post => encodeURI(`/devlog/${post.id}`)); 
-const autoPreloadBlogUrls = allBlogs
-    .filter(post => !post.id.endsWith('/config'))
-    .map(post => encodeURI(`/blog/${post.id}`)); 
+const autoPreloadDevlogUrls = allDevlogs.map(post => {
+    const path = post.id.replace(/\/config$/, '');
+    return encodeURI(`/devlog/${path}`);
+});
+
+const autoPreloadBlogUrls = allBlogs.map(post => {
+    const path = post.id.replace(/\/config$/, '');
+    return encodeURI(`/blog/${path}`);
+});
 const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
 ---
 <script is:inline>

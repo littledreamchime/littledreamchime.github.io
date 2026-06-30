@@ -1,0 +1,202 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import BaseHead from '../components/BaseHead.astro';
+
+const title = "404 Not Found | DreamChime";
+const description = "404 Not Found ";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<ClientRouter />
+	</head>
+    <!-- 使用内联样式清除 body 默认边距，防止出现滚动条或白边 -->
+	<body style="margin: 0; padding: 0; overflow: hidden; background-color: #09090b;">
+        
+        <!-- 核心解法：用一个全屏的 wrapper 来承载所有局部样式 -->
+        <div class="not-found-wrapper">
+            <div class="ambient-glow"></div>
+            <div class="ambient-glow-2"></div>
+
+            <main class="error-container">
+                <div class="title-wrapper">
+                    <h1 class="glitch-text">404</h1>
+                </div>
+                
+                <h2 class="subtitle">Not Found</h2>
+                <p class="description">nothing here..........</p>
+                
+                <a href="/" class="return-btn">
+                    <span class="btn-text">← Back</span>
+                    <div class="btn-glow"></div>
+                </a>
+            </main>
+        </div>
+
+        <!-- 纯局部样式，没有任何 is:global -->
+        <style>
+            /* 将原本写在 body 上的样式转移到这个 wrapper 上 */
+            .not-found-wrapper {
+                background-color: #09090b; /* 极暗的背景色 */
+                color: #ffffff;
+                font-family: 'Inter', system-ui, -apple-system, sans-serif;
+                height: 100dvh; /* 完美适配移动端全屏 */
+                width: 100vw;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            /* 高级感紫色氛围光晕 */
+            .ambient-glow {
+                position: absolute;
+                top: -20%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60vw;
+                height: 60vw;
+                background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 0;
+            }
+            .ambient-glow-2 {
+                position: absolute;
+                bottom: -30%;
+                right: -10%;
+                width: 50vw;
+                height: 50vw;
+                background: radial-gradient(circle, rgba(192, 132, 252, 0.1) 0%, rgba(0,0,0,0) 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            /* 主内容容器 */
+            .error-container {
+                position: relative;
+                z-index: 10;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* 元素的交错进入动画 */
+            .error-container > * {
+                opacity: 0;
+                animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            }
+            .title-wrapper { animation-delay: 0.1s; }
+            .subtitle { animation-delay: 0.3s; }
+            .description { animation-delay: 0.5s; }
+            .return-btn { animation-delay: 0.7s; }
+
+            /* 404 数字样式与浮动动画 */
+            .title-wrapper {
+                animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, float 6s ease-in-out infinite;
+            }
+            .glitch-text {
+                font-size: clamp(6rem, 15vw, 12rem);
+                font-weight: 900;
+                margin: 0;
+                line-height: 1;
+                letter-spacing: -0.05em;
+                /* 紫色渐变文字 */
+                background: linear-gradient(135deg, #e9d5ff 0%, #a855f7 50%, #6d28d9 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.4));
+            }
+
+            /* Not Found 副标题 */
+            .subtitle {
+                font-size: clamp(1.5rem, 4vw, 2.5rem);
+                font-weight: 300;
+                letter-spacing: 0.3em;
+                text-transform: uppercase;
+                margin: 1rem 0;
+                color: #e2e8f0;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            }
+
+            /* 描述文字 */
+            .description {
+                font-size: 1.1rem;
+                color: #94a3b8;
+                margin-bottom: 3rem;
+                max-width: 400px;
+                line-height: 1.6;
+            }
+
+            /* 高级感按钮 */
+            .return-btn {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.8rem 2.5rem;
+                font-size: 1rem;
+                font-weight: 500;
+                color: #ffffff;
+                text-decoration: none;
+                background: rgba(139, 92, 246, 0.1);
+                border: 1px solid rgba(168, 85, 247, 0.3);
+                border-radius: 9999px;
+                overflow: hidden;
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(10px);
+            }
+
+            .return-btn:hover {
+                background: rgba(139, 92, 246, 0.25);
+                border-color: rgba(168, 85, 247, 0.8);
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.5);
+            }
+
+            /* 按钮悬浮时的内部扫光效果 */
+            .btn-glow {
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 50%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+                transform: skewX(-20deg);
+                transition: 0.5s;
+            }
+            .return-btn:hover .btn-glow {
+                left: 150%;
+                transition: 0.7s ease-in-out;
+            }
+
+            /* --- 关键帧动画 --- */
+            @keyframes fadeInUp {
+                0% {
+                    opacity: 0;
+                    transform: translateY(30px);
+                    filter: blur(10px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                    filter: blur(0);
+                }
+            }
+
+            @keyframes float {
+                0%, 100% {
+                    transform: translateY(0);
+                }
+                50% {
+                    transform: translateY(-20px);
+                }
+            }
+        </style>
+	</body>
+</html>
