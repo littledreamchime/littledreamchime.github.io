@@ -1,13 +1,18 @@
 ---
-import {render } from 'astro:content';
+import { render } from 'astro:content';
 import ChildrenOverlay from '../Main/ChildrenOverlay.astro';
 import '../../../styles/zIndex.css';
 import { ANIMATION_TIMES } from '../../../config';
 import Giscus from '../Main/Giscus.astro';
 const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
 
-const {post,folderSlug}=Astro.props;
+const { post, folderSlug } = Astro.props;
 const { Content } = await render(post);
+
+// 【新增】安全提取背景大图：优先 detailImage，其次 heroImage
+const { detailImage, heroImage } = post.data;
+const bgImage = detailImage || heroImage;
+const bgImageUrl = bgImage ? (typeof bgImage === 'string' ? bgImage : bgImage.src) : null;
 ---
 
 <ChildrenOverlay id="page-overlay"/>
@@ -29,6 +34,15 @@ const { Content } = await render(post);
 
     <!-- 渐变发光的头部 -->
     <div id="paper-header" class="paper-header">
+        
+        <!-- 【新增】画廊级全息背景图层 -->
+        {bgImageUrl && (
+            <div class="header-bg-wrapper">
+                <div class="header-bg-image" style={`background-image: url('${bgImageUrl}')`}></div>
+                <div class="header-bg-overlay"></div>
+            </div>
+        )}
+
         <div class="meta">
             <h1>{post.data.title}</h1>
             {post.data.description && <p class="description">{post.data.description}</p>}
@@ -59,13 +73,11 @@ const { Content } = await render(post);
         max-width: 900px;
         height: calc(95% - 6.5rem);
         
-        /* 【修改】未来感亚克力玻璃材质 */
         background-color: rgba(13, 9, 20, 0.75); 
         backdrop-filter: blur(24px) saturate(150%);
         -webkit-backdrop-filter: blur(24px) saturate(150%);
         
         border-radius: 12px;
-        /* 高级的高光边框与深邃阴影 */
         border: 1px solid rgba(139, 92, 246, 0.25);
         box-shadow: 
             0 2rem 4rem -1rem rgba(0, 0, 0, 0.9),
@@ -96,7 +108,6 @@ const { Content } = await render(post);
         font-size: 0.8rem;
         letter-spacing: 0.05em;
         
-        /* 顶部微弱的能量背景 */
         background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), rgba(0,0,0,0.2) 50%, transparent);
         border-bottom: 1px solid rgba(139, 92, 246, 0.2);
         color: #a78bfa;
@@ -117,7 +128,6 @@ const { Content } = await render(post);
         gap: 0.5rem;
     }
 
-    /* Holographic Close Button */
     .win-btn {
         display: inline-flex;
         align-items: center;
@@ -135,7 +145,6 @@ const { Content } = await render(post);
         transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .win-btn:hover {
-        /* 悬浮时呈现赛博警告红 */
         background: rgba(244, 63, 94, 0.15);
         border-color: rgba(244, 63, 94, 0.5);
         color: #fda4af;
@@ -157,14 +166,14 @@ const { Content } = await render(post);
         align-items: flex-start;
 
         padding: 2.5rem clamp(1.5rem, 5vw, 4rem) 1.5rem;
-        background: linear-gradient(to bottom, rgba(139, 92, 246, 0.05), transparent);
+        /* 移除原有的背景，交给底层图片和遮罩处理 */
+        background: transparent;
         
         max-height: 500px;
         opacity: 1;
         transition: all var(--pageShowTime) cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* 头部底部的发光射线 */
     .paper-header::after {
         content: '';
         position: absolute;
@@ -175,7 +184,57 @@ const { Content } = await render(post);
         transition: opacity var(--pageShowTime) ease;
     }
 
+    /* =========================================
+       【新增】画廊级背景动画层
+    ========================================= */
+    .header-bg-wrapper {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+        /* 核心魔法：使用 mask 让图片在底部自然淡出，完美融入正文背景 */
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 100%);
+    }
+
+    .header-bg-image {
+        position: absolute;
+        /* 故意将容器向外扩张 10%，为平移留出安全余量，绝不露边 */
+        top: -10%; left: -10%; right: -10%; bottom: -10%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.4; /* 保持半透明，不喧宾夺主 */
+        
+        /* 30秒极慢的呼吸平移缓动 */
+        animation: gallery-pan 30s ease-in-out infinite alternate;
+    }
+
+    /* 左右平移并伴随微小缩放，产生高级镜头感 */
+    @keyframes gallery-pan {
+        0% { transform: translateX(-3%) scale(1); }
+        100% { transform: translateX(3%) scale(1.05); }
+    }
+
+    .header-bg-overlay {
+        position: absolute;
+        inset: 0;
+        /* 叠加一层暗色渐变，确保文字清晰度 */
+        background: linear-gradient(
+            to right,
+            rgba(13, 9, 20, 0.8) 0%,
+            rgba(13, 9, 20, 0.4) 50%,
+            rgba(13, 9, 20, 0.8) 100%
+        );
+    }
+
+    /* =========================================
+       Meta Content (提升层级)
+    ========================================= */
     .meta {
+        position: relative;
+        z-index: 1; /* 确保文字在背景之上 */
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -294,7 +353,7 @@ const { Content } = await render(post);
         .paper-ui {
             width: 100%;
             height: calc(100% - 6.5rem);
-            border-radius: 0; /* 移动端占满屏幕时去掉圆角 */
+            border-radius: 0; 
             border: none;
         }
         .paper-content {
@@ -327,7 +386,6 @@ const { Content } = await render(post);
 </style>
 
 <script>
-    /* JS 逻辑完全保持不变 */
     import { addLeaveHook } from '../../../store';
     import { navigateWithAnimation } from '../../../utils/navigation';
     import { ANIMATION_TIMES } from '../../../config';
@@ -377,7 +435,6 @@ const { Content } = await render(post);
                 }
             });
 
-            /*prevent md auto scroll*/
             content.addEventListener('click', (e) => {
                 if(!e.target) return;
                 const link =(e.target as HTMLElement).closest('a[href^="#"]');

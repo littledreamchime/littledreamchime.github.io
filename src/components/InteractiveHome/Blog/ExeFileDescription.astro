@@ -2,6 +2,13 @@
 // ExeFileDescription.astro
 ---
 <div id="exe-desc-panel" class="exe-desc-panel">
+  
+  <!-- 高级全息背景图层 -->
+  <div class="desc-bg-wrapper">
+    <div class="desc-bg-image js-desc-bg-image"></div>
+    <div class="desc-bg-overlay"></div>
+  </div>
+
   <div class="panel-header">
     <span class="header-title">SYS.FILE_PROPERTIES</span>
     <div class="header-line"></div>
@@ -25,23 +32,21 @@
   .exe-desc-panel {
     --smooth-curve: cubic-bezier(0.22, 1, 0.36, 1);
     
+    /* 确保内外尺寸计算一致 */
+    box-sizing: border-box;
     position: absolute;
     top: 50%;
     padding: 0.4cqi;
     z-index: 1000;
     width: 45%;
 
-    /* 极客风玻璃面板 */
-    background: rgba(13, 9, 20, 0.85);
+    /* 基础极客风玻璃面板 */
+    background: rgba(13, 9, 20, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     
-    border: 0.05cqi solid var(--panel-color, #fff);
+    /* 【修改点 1】移除这里的 border 和 box-shadow，仅保留圆角 */
     border-radius: 0.3cqi;
-    box-shadow: 
-      0 10px 25px rgba(0,0,0,0.8),
-      inset 0 0 15px color-mix(in srgb, var(--panel-color) 20%, transparent),
-      0 0 15px color-mix(in srgb, var(--panel-color) 30%, transparent);
 
     color: #fff;
     font-family: monospace;
@@ -60,6 +65,84 @@
     transform: translateY(-50%) scale(1) translateX(0);
   }
 
+  /* 【修改点 2】新增顶层相框：将边框和发光内阴影提取到独立的顶层伪元素中 */
+  /* 这样可以绝对保证图片/遮罩层永远不会盖住边框和阴影 */
+  .exe-desc-panel::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0;
+    z-index: 10; /* 确保在图片和文字之上 */
+    border-radius: inherit;
+    pointer-events: none; /* 穿透鼠标事件，不影响内部点击 */
+    
+    border: 0.05cqi solid var(--panel-color, #fff);
+    box-shadow: 
+      0 10px 25px rgba(0,0,0,0.8),
+      inset 0 0 15px color-mix(in srgb, var(--panel-color) 20%, transparent),
+      0 0 15px color-mix(in srgb, var(--panel-color) 30%, transparent);
+  }
+
+  /* =========================================
+  高级背景图层 (Background Image & Overlay)
+  ========================================= */
+  .desc-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0; /* 必须在文字下方 */
+    border-radius: inherit; /* 完美贴合面板圆角 */
+    overflow: hidden;
+    
+    /* 【修改点 3】强制 WebKit 浏览器在做 transform 动画时严格裁剪圆角边缘 */
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: radial-gradient(white, black);
+  }
+
+  .desc-bg-image {
+    position: absolute;
+    inset: -15%; /* 故意放大一点，为了做缩放动画 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* 初始状态：放大且透明 */
+    opacity: 0;
+    transform: scale(1.15) translateZ(0);
+    /* 极度丝滑的缓动曲线，配合面板的出现 */
+    transition: opacity 0.4s ease, transform 1.2s var(--smooth-curve);
+  }
+
+  /* 当面板显示时，图片淡入并缓慢缩小到正常大小，形成高级的镜头感 */
+  .exe-desc-panel.is-visible .desc-bg-image {
+    opacity: 0.5; /* 保持半透明，不喧宾夺主 */
+    transform: scale(1) translateZ(0);
+  }
+
+  .desc-bg-overlay {
+    position: absolute;
+    inset: 0;
+    /* 科技感深色渐变遮罩：确保文字区域足够暗，同时融入当前主题色 */
+    background: linear-gradient(
+      145deg,
+      rgba(13, 9, 20, 0.95) 0%,
+      color-mix(in srgb, var(--panel-color) 10%, rgba(13, 9, 20, 0.5)) 50%,
+      rgba(13, 9, 20, 0.85) 100%
+    );
+    /* 叠加微弱的扫描线效果，增加质感 */
+    background-image: 
+      linear-gradient(145deg, rgba(13, 9, 20, 0.95) 0%, color-mix(in srgb, var(--panel-color) 10%, rgba(13, 9, 20, 0.5)) 50%, rgba(13, 9, 20, 0.85) 100%),
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.15) 2px, rgba(0, 0, 0, 0.15) 4px);
+  }
+
+  /* =========================================
+  Content (提升层级，确保在背景之上)
+  ========================================= */
+  .panel-header,
+  .panel-content {
+    position: relative;
+    z-index: 1;
+  }
+
   /* Header (Scanner Style) */
   .panel-header {
     display: flex;
@@ -72,7 +155,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* 扫描数据线 */
   .header-line {
     flex: 1;
     height: 0.05cqi;

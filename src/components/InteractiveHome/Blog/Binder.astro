@@ -3,7 +3,7 @@
 import ExeFile from './ExeFile.astro';
 import ExeFileDescription from './ExeFileDescription.astro';
 
-const { config, files, index,slug} = Astro.props;
+const { config, files, index, slug } = Astro.props;
 const { title, description, color, heroImage } = config.data;
 
 const driveLetter = String.fromCharCode(67 + index);
@@ -13,7 +13,6 @@ const themeColor = color || '#10b981';
 <div class="binder-item" data-color={themeColor} data-slug={slug} style={`--theme-color: ${themeColor}`}>
   <!-- vertical -->
   <div class="binder-vertical-view">
-    <!-- 【新增】用于悬浮时的全息渐变背景 -->
     <div class="vertical-bg-glow"></div>
     <div class="vertical-overlay"></div>
     <div class="vertical-content">
@@ -76,7 +75,6 @@ const themeColor = color || '#10b981';
     ========================================= */
     .binder-item {
         --u: 1cqi;
-        /* 高级阻尼动画曲线 */
         --smooth-curve: cubic-bezier(0.22, 1, 0.36, 1);
 
         position: relative;
@@ -85,12 +83,10 @@ const themeColor = color || '#10b981';
         flex: 1;
         height: 100%;
 
-        /* 【修改】深色毛玻璃材质 */
         background: rgba(13, 9, 20, 0.6);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         
-        /* 边框默认微亮，激活时变为主题色 */
         border: calc(0.05 * var(--u)) solid rgba(255, 255, 255, 0.08);
         border-radius: calc(0.4 * var(--u));
         box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -98,7 +94,6 @@ const themeColor = color || '#10b981';
         cursor: pointer;
         transform: translateY(150%);
         
-        /* 【修改】极度丝滑的过渡动画 */
         transition: 
             flex 0.8s var(--smooth-curve),
             opacity 0.4s ease, 
@@ -112,17 +107,15 @@ const themeColor = color || '#10b981';
         transform: translateY(0);
     }
     
-    /* Collapsed State */
     .binder-item.is-collapsed {
         flex: 0 0 calc(1.5 * var(--u));
         opacity: 0.5;
-        filter: grayscale(0.5); /* 折叠时稍微褪色，突出焦点 */
+        filter: grayscale(0.5); 
         transition: all 0.8s var(--smooth-curve), filter 0.4s ease;
     }
     .binder-item.is-collapsed:hover {
         opacity: 1;
         filter: grayscale(0);
-        /* 悬浮时边框发光 */
         border-color: var(--theme-color);
         box-shadow: 
             inset 0 0 15px rgba(255, 255, 255, 0.05), 
@@ -130,13 +123,11 @@ const themeColor = color || '#10b981';
         transform: translateY(-2px);
     }
 
-    /* Expanded State (Active) */
     .binder-item.is-expanded {
         flex: 10;
         cursor: default;
         background: rgba(15, 10, 25, 0.85);
         border-color: var(--theme-color);
-        /* 展开时强烈的霓虹内阴影与外发光 */
         box-shadow: 
             inset 0 0 40px color-mix(in srgb, var(--theme-color) 15%, transparent),
             0 15px 40px rgba(0, 0, 0, 0.8),
@@ -156,11 +147,10 @@ const themeColor = color || '#10b981';
     }
     .binder-item.is-expanded .binder-vertical-view {
         opacity: 0;
-        transform: scale(0.9); /* 展开时垂直内容微缩淡出 */
+        transform: scale(0.9); 
         pointer-events: none;
     }
 
-    /* 【新增】悬浮时的全息渐变背景 */
     .vertical-bg-glow {
         position: absolute;
         inset: 0;
@@ -202,7 +192,6 @@ const themeColor = color || '#10b981';
         transform: rotate(180deg);
     }
 
-    /* Vertical Image */
     .vertical-icon-wrapper {
         width: 60%;
         aspect-ratio: 1 / 1;
@@ -210,7 +199,6 @@ const themeColor = color || '#10b981';
         display: flex;
         justify-content: center;
         align-items: center;
-        /* 图标悬浮放大 */
         transition: transform 0.4s var(--smooth-curve);
     }
     .binder-item:hover .vertical-icon-wrapper {
@@ -220,7 +208,6 @@ const themeColor = color || '#10b981';
         width: 100%;
         height: 100%;
         object-fit: contain;
-        /* 【亮点】让 mask 图标产生发光投影 */
         filter: drop-shadow(0 0 8px color-mix(in srgb, var(--theme-color) 60%, transparent));
     }
     .vertical-icon.placeholder { opacity: 0; }
@@ -235,7 +222,7 @@ const themeColor = color || '#10b981';
         flex-direction: column;
         z-index: 5;
         opacity: 0;
-        transform: translateY(10px); /* 增加微小的滑入效果 */
+        transform: translateY(10px); 
         pointer-events: none;
         transition: opacity 0.4s 0.2s ease, transform 0.6s 0.2s var(--smooth-curve);
     }
@@ -245,7 +232,7 @@ const themeColor = color || '#10b981';
         pointer-events: auto;
     }
 
-    /* Header (Tech Dashboard) */
+    /* Header */
     .expanded-header {
         position: relative;
         display: flex;
@@ -253,7 +240,6 @@ const themeColor = color || '#10b981';
         gap: calc(1 * var(--u));
         padding: calc(0.4 * var(--u)) calc(0.8 * var(--u));
         
-        /* 顶部科技感渐变背景 */
         background: linear-gradient(90deg, color-mix(in srgb, var(--theme-color) 15%, transparent), transparent);
         font-family: monospace;
         font-size: calc(0.85 * var(--u));
@@ -262,7 +248,6 @@ const themeColor = color || '#10b981';
         color: var(--theme-color);
         text-shadow: 0 0 8px color-mix(in srgb, var(--theme-color) 50%, transparent);
     }
-    /* 发光分割线 */
     .expanded-header::after {
         content: '';
         position: absolute;
@@ -298,12 +283,11 @@ const themeColor = color || '#10b981';
     }
     .expanded-body::-webkit-scrollbar { display: none; }
 
-    /* Center Axis (Energy Pipeline) */
+    /* Center Axis */
     .center-axis {
         position: absolute;
         top: 0; bottom: 0; left: 50%;
         width: calc(0.1 * var(--u));
-        /* 能量管发光效果 */
         background: linear-gradient(180deg, transparent, var(--theme-color) 10%, var(--theme-color) 90%, transparent);
         box-shadow: 0 0 10px var(--theme-color);
         opacity: 0.4;
@@ -354,7 +338,7 @@ const themeColor = color || '#10b981';
     }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Watermark (Holographic Flicker) */
+    /* Watermark */
     .body-watermark {
         position: absolute; 
         top: 55%;
@@ -368,7 +352,7 @@ const themeColor = color || '#10b981';
         transition: opacity 0.8s ease, transform 0.8s var(--smooth-curve);
     }
     .binder-item.is-expanded .body-watermark {
-        opacity: 0.08; /* 降低透明度，不喧宾夺主 */
+        opacity: 0.08; 
         transform: translate(-50%, -50%) scale(1);
         transition-delay: 0.3s; 
     }
@@ -394,7 +378,7 @@ const themeColor = color || '#10b981';
     }
     
     /* =========================================
-    Media Queries (完全保留原有逻辑)
+    Media Queries
     ========================================= */
     @media (max-aspect-ratio: 0.5) {
         .binder-item {
@@ -404,14 +388,12 @@ const themeColor = color || '#10b981';
             flex-direction: row !important; 
         }
 
-        /* Header Rotated */
         .expanded-header {
             flex-direction: column-reverse; 
             justify-content: center;
             align-items: center;
             gap: calc(2 * var(--u));
             width: calc(3 * var(--u));
-            /* 移动端旋转后的渐变背景和发光线 */
             background: linear-gradient(180deg, color-mix(in srgb, var(--theme-color) 15%, transparent), transparent);
         }
         .expanded-header::after {
@@ -433,7 +415,6 @@ const themeColor = color || '#10b981';
             white-space: nowrap;
         }
 
-        /* Body */
         .body-watermark {
             transform: translate(-50%, -55%) rotate(-90deg) scale(0.9);
         }
@@ -448,13 +429,12 @@ const themeColor = color || '#10b981';
     @media (max-aspect-ratio: 0.5) and (max-width: 450px) {
         .binder-item {
             border: calc(0 * var(--u)) solid var(--theme-color);
-            background: rgba(15, 10, 25, 0.9); /* 移动端加深背景 */
+            background: rgba(15, 10, 25, 0.9); 
         }
     }
 </style>
 
 <script>
-/* JS 逻辑完全保持不变 */
 import { addLeaveHook, currentView } from "../../../store";
 import { navigateWithAnimation } from "../../../utils/navigation";
 
@@ -504,10 +484,46 @@ const eventControllers = new WeakMap<HTMLElement, AbortController>();
             let startScrollTop = 0;
             let scrollTimeout: any;
 
+            // ==========================================
+            // 【新增】自定义平滑滚动 (Lerp) 引擎变量
+            // ==========================================
+            let targetY = expandedBody.scrollTop;
+            let currentY = expandedBody.scrollTop;
+            let isAnimating = false;
+
+            // 核心动画循环
+            const smoothScrollLoop = () => {
+                if (!isAnimating) return;
+
+                // 缓动公式 (Lerp)：每次移动剩余距离的 15%
+                // (0.15 是顺滑度，数值越小越丝滑但越慢，数值越大越灵敏)
+                currentY += (targetY - currentY) * 0.15;
+
+                // 应用计算出的位置
+                expandedBody.scrollTop = currentY;
+
+                // 如果当前位置已经极其接近目标位置，停止动画，节省性能
+                if (Math.abs(targetY - currentY) < 0.5) {
+                    expandedBody.scrollTop = targetY;
+                    isAnimating = false;
+                } else {
+                    // 否则请求下一帧继续追赶
+                    requestAnimationFrame(smoothScrollLoop);
+                }
+            };
+
+            // ==========================================
+            // 1. 触摸事件处理
+            // ==========================================
             expandedBody.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
                 startScrollTop = expandedBody.scrollTop;
+                
+                // 触摸屏幕时，立即打断鼠标滚轮的惯性动画
+                isAnimating = false;
+                targetY = expandedBody.scrollTop;
+                currentY = expandedBody.scrollTop;
             }, { passive: true });
 
             expandedBody.addEventListener('touchmove', (e) => {
@@ -517,22 +533,65 @@ const eventControllers = new WeakMap<HTMLElement, AbortController>();
                     e.preventDefault(); 
                     
                     const currentX = e.touches[0].clientX;
-                    const currentY = e.touches[0].clientY;
+                    const currentTouchY = e.touches[0].clientY; // 避免与外部 currentY 命名冲突
                     
                     const deltaX = currentX - startX;
-                    const deltaY = currentY - startY;
+                    const deltaY = currentTouchY - startY;
+                    
+                    const sensitivity = Math.max(0.3, window.innerWidth / 1000);
                     
                     if (Math.abs(deltaX) > Math.abs(deltaY)) {
-                        expandedBody.scrollTop = startScrollTop + deltaX;
+                        expandedBody.scrollTop = startScrollTop + (deltaX * sensitivity);
                     } else {
-                        expandedBody.scrollTop = startScrollTop - deltaY;
+                        expandedBody.scrollTop = startScrollTop - (deltaY * sensitivity);
+                    }
+
+                    // 触摸滑动时，同步更新动画引擎的变量，防止松手后画面跳跃
+                    targetY = expandedBody.scrollTop;
+                    currentY = expandedBody.scrollTop;
+                }
+            }, { passive: false });
+
+            // ==========================================
+            // 2. 鼠标滚轮处理 (结合 1920px 比例 + 自定义平滑)
+            // ==========================================
+            expandedBody.addEventListener('wheel', (e) => {
+                if (binder.classList.contains('is-expanded')) {
+                    e.preventDefault();
+                    
+                    const ratio = window.innerWidth / 1920;
+                    
+                    // 如果动画没在运行，确保起点是最新的真实位置
+                    if (!isAnimating) {
+                        targetY = expandedBody.scrollTop;
+                        currentY = expandedBody.scrollTop;
+                    }
+                    
+                    // 累加目标位置（连续滚动时，目标位置会不断叠加）
+                    targetY += e.deltaY * ratio;
+                    
+                    // 限制滚动边界，防止目标位置超出容器导致回弹抖动
+                    const maxScroll = expandedBody.scrollHeight - expandedBody.clientHeight;
+                    targetY = Math.max(0, Math.min(targetY, maxScroll));
+                    
+                    // 启动动画引擎
+                    if (!isAnimating) {
+                        isAnimating = true;
+                        requestAnimationFrame(smoothScrollLoop);
                     }
                 }
             }, { passive: false });
 
-
-
+            // ==========================================
+            // 3. 滚动状态记录
+            // ==========================================
             expandedBody.addEventListener('scroll', () => {
+                // 如果用户手动拖动了原生滚动条（非滚轮触发），同步变量
+                if (!isAnimating) {
+                    targetY = expandedBody.scrollTop;
+                    currentY = expandedBody.scrollTop;
+                }
+
                 if (binder.classList.contains('is-expanded')) {
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(() => {
@@ -562,6 +621,10 @@ const eventControllers = new WeakMap<HTMLElement, AbortController>();
         const descTitle = binder.querySelector<HTMLElement>('.desc-title');
         const descText = binder.querySelector<HTMLElement>('.desc-text');
         const descSize = binder.querySelector<HTMLElement>('.desc-size');
+        
+        // 【新增】获取背景图片节点
+        const descBgImage = binder.querySelector<HTMLElement>('.js-desc-bg-image');
+
         exeFiles.forEach(file => {
             file.addEventListener('mouseenter', () => {
                 if (!descPanel) return;
@@ -581,7 +644,17 @@ const eventControllers = new WeakMap<HTMLElement, AbortController>();
 
                 if(descTitle) descTitle.textContent = `${file.dataset.title}`;
                 if(descText) descText.textContent = file.dataset.desc || '';
-                if(descSize) descSize.textContent = `SIZE: ${file.dataset.size} KB`;
+                if(descSize) descSize.textContent = `SIZE: ${file.dataset.size}`;
+                
+                // 【新增】动态设置背景大图
+                if (descBgImage) {
+                    const detailImgUrl = file.dataset.detailImage;
+                    if (detailImgUrl) {
+                        descBgImage.style.backgroundImage = `url('${detailImgUrl}')`;
+                    } else {
+                        descBgImage.style.backgroundImage = 'none';
+                    }
+                }
                 
                 void descPanel.offsetHeight; 
                 descPanel.style.setProperty('--panel-color', file.dataset.color || '#fff');
