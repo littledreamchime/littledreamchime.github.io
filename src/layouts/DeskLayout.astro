@@ -40,11 +40,11 @@ const bg_image_url = await getOptimizedImageUrl(desk_bg);
         --paper-origin-y:80.5%;
         /*Computer*/
         --computer-zoom-scale: 2.2;
-        --computer-zoom-scale-phone: 4.4;
+        --computer-zoom-scale-phone: 3.9;
         --computer-origin-x: 50%;
         --computer-origin-y: 50%;
-        --computer-origin-x-phone: 48%;
-        --computer-origin-y-phone: 51%;
+        --computer-origin-x-phone: 49.5%;
+        --computer-origin-y-phone: 50.5%;
 
         position:relative;
         display: flex;
@@ -105,7 +105,7 @@ const bg_image_url = await getOptimizedImageUrl(desk_bg);
     .no-transition {
         transition: none !important;
     }
-@media (max-aspect-ratio: 0.5) {
+@media (max-aspect-ratio: 9/16) {
     .desk-main.zoom-to-computer{
         transform-origin: var(--computer-origin-x-phone) calc(var(--computer-origin-y-phone));
         transform: scale(var(--computer-zoom-scale-phone)) rotate(90deg);

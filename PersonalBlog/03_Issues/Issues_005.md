@@ -18,7 +18,7 @@
 	 #Fix 
 - [x] 问题8：代码和博客分离（不解决）
 	 #Assets 
-- [ ] 问题9：Blog界面aspectRatio0.5太阴间了，并没有适配大多数机型
+- [x] 问题9：Blog界面aspectRatio0.5太阴间了，并没有适配大多数机型
 	 #Layout 
 - [ ] 问题10：性能问题，移动端太卡了
 	 #Assets 
