@@ -13,5 +13,7 @@ This update is all about leveling up the blog's overall performance and user exp
 - Performance Boosts: Enhanced mobile responsiveness.
 - Visual Upgrades: Spruced up the UI with some cool glowing particle effects and elegant device mockups.
 ## Approach & Decisions:
+- Categorized blogs into the following types:
+	 Shaders, Videos, Games, Tools, Arts, Webs
 ## The Results:
 ## Next Steps:

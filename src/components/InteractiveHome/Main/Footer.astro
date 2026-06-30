@@ -6,10 +6,12 @@ const today = new Date();
 import { getCollection } from "astro:content";
 const devlogs = (await getCollection('devlog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+	)
+    .filter(post => !post.id.endsWith('/config'));
 const blogs=(await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+	)
+    .filter(post => !post.id.endsWith('/config'));;
 ---
 
 <footer class="customer-footer" >
