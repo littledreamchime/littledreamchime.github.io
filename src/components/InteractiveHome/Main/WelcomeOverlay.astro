@@ -49,7 +49,7 @@ const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
         </div>
     </div>
 
-    <!--Scroll arrow (保留你的箭头) -->
+    <!--Scroll arrow -->
     <ScrollArrowIcon id="scroll-arrow" width="48" class="welcome-arrow" /> 
 </div>
 
@@ -250,21 +250,29 @@ const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
         const arrowBtn = document.getElementById('scroll-arrow');
         const titleEl = document.getElementById('type-title');
         const subtitleEl = document.getElementById('type-subtitle');
-        const loadingUi = document.getElementById('loading-ui'); // 【新增】获取加载动画容器
+        const loadingUi = document.getElementById('loading-ui'); 
         
         let isDismissed = false;
         let canDismiss = false;
         
         if (!overlay || !arrowBtn || !titleEl || !subtitleEl) return;
 
-        /*Input Overlay*/
+        /* =========================================================
+           【静默检查核心逻辑】
+           如果用户已经看过开场动画，直接隐藏 Overlay 并调用 preloadAssets()。
+           由于我们在 assets.ts 中移除了拦截，这里每次页面跳转都会执行静默检查。
+           如果有缺失的资源，它会在后台默默下载，完全不会打扰用户。
+           ========================================================= */
         if (sessionStorage.getItem('introSeen') === 'true' || isWelcomeDismissed.get()===true) {
             overlay.style.display = 'none';
             document.body.style.overflow = '';
             isWelcomeDismissed.set(true);  
+            
+            // 静默触发资源检查与下载
             preloadAssets(); 
-            return;
+            return; // 提前返回，后续的打字机动画代码不会执行！
         }
+        
         document.body.style.overflow = 'hidden';
         const dismissOverlay = () => {
             if (!canDismiss || isDismissed) return;
@@ -322,8 +330,8 @@ const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
                 typeWriter(subtitleEl, "> Loading core resources...", 3, () => {
                     if(subtitleEl) subtitleEl.classList.add('typing-cursor'); 
                     
+                    // 首次访问：带动画的加载
                     preloadAssets().then(() => {
-                        // 【新增逻辑】资源加载完毕后，优雅地淡出转圈和进度条
                         if(loadingUi) loadingUi.classList.add('fade-out');
                         
                         if(subtitleEl) subtitleEl.classList.remove('typing-cursor'); 
@@ -337,7 +345,6 @@ const allPreloadUrls = [...autoPreloadDevlogUrls, ...autoPreloadBlogUrls];
                 });
             });
         }, 500);
-
 
         /*Event Listener*/
         arrowBtn.addEventListener('click', dismissOverlay);
