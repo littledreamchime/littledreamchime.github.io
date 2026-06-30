@@ -14,6 +14,7 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			detailImage: z.optional(image()),
     		color: z.string().default('#a855f7'), 
 			size:z.string().default('114.51MB'),
 		}),
