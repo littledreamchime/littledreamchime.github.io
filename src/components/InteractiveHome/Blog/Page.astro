@@ -84,7 +84,8 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
             inset 0 0 20px rgba(139, 92, 246, 0.05);
         
         opacity: 0;
-        transform: translate(-50%, 20%) scale(0.95);
+        will-change: transform, opacity;
+        transform: translate(-50%, 20%) scale(0.95) translateZ(0);
         transition: all var(--pageShowTime) cubic-bezier(0.22, 1, 0.36, 1);
     }
     .paper-ui.open {
