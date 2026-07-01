@@ -10,20 +10,32 @@ const { Content } = await render(post);
 ---
 
 <div id="paper-ui" class="paper-ui">
-	<div id="paper-header" class="paper-header">
-		<button id="paper-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>
-			←
-		</button>
-		<div class="meta">
-			<h1>{post.data.title}</h1>
-			{post.data.description && <p class="description">{post.data.description}</p>}
-			<time>{post.data.pubDate.toLocaleDateString()}</time>
-		</div>
-	</div>
+    <!-- 新增：常驻的最小化导航栏 (默认隐藏) -->
+    <div id="sticky-header" class="sticky-header">
+        <button class="back-btn sticky-back-btn" data-target={`/devlog/${folderSlug}`}>
+            ←
+        </button>
+        <h1 class="sticky-title">{post.data.title}</h1>
+    </div>
 
 	<div id="paper-content" class="paper-content">
-		<Content />
-        <Giscus />
+        <!-- 原本的 Header 移入滚动区域，使其能自然随页面滚走 -->
+        <div id="paper-header" class="paper-header">
+            <button id="paper-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>
+                ←
+            </button>
+            <div class="meta">
+                <h1>{post.data.title}</h1>
+                {post.data.description && <p class="description">{post.data.description}</p>}
+                <time>{post.data.pubDate.toLocaleDateString()}</time>
+            </div>
+        </div>
+
+        <!-- 内容区域包裹层，用于替代原本 paper-content 的 padding -->
+        <div class="content-wrapper">
+		    <Content />
+            <Giscus />
+        </div>
 	</div>
 </div>
 
@@ -33,7 +45,6 @@ const { Content } = await render(post);
        Main Container (Holographic Glass Panel)
     ========================================= */
     .paper-ui {
-        /* 【保留】原有定位与宽高逻辑 */
         position: absolute;
         top: 6.5rem;
         left: 50%;
@@ -46,7 +57,6 @@ const { Content } = await render(post);
         max-width: 900px;
         height: calc(95% - 6.5rem);
         
-        /* 【修改】深紫毛玻璃材质 + 科技感边框与发光内阴影 */
         background-color: rgba(13, 9, 20, 0.85);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
@@ -67,26 +77,64 @@ const { Content } = await render(post);
     }
 
     /* =========================================
-       Header (Tech Dashboard Style)
+       Sticky Header (最小化的常驻导航栏)
+    ========================================= */
+    .sticky-header {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        display: flex;
+        align-items: center;
+        padding: 0.75rem clamp(1.5rem, 5vw, 4rem);
+        
+        /* 稍微深一点的背景，区分正文 */
+        background: rgba(13, 9, 20, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(139, 92, 246, 0.4);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        z-index: 10;
+        
+        /* 默认向上隐藏 */
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sticky-header.visible {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .sticky-header .back-btn {
+        margin-bottom: 0;
+        margin-right: 1rem;
+        padding: 0.4rem 0.8rem;
+    }
+    .sticky-title {
+        font-size: 1.1rem;
+        color: #f3e8ff;
+        font-family: 'Inter', system-ui, sans-serif; 
+        font-weight: 700;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    }
+
+    /* =========================================
+       Original Header (Tech Dashboard Style)
     ========================================= */
     .paper-header {
         position: relative;
-        display:flex;
-        flex: 0 0 auto;
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
 
         padding: 2rem clamp(1.5rem, 5vw, 4rem) 1.5rem;
-        /* 【修改】顶部增加微弱的渐变背景，区分头部和内容区 */
         background: linear-gradient(to bottom, rgba(76, 29, 149, 0.15), transparent);
-        border-bottom: none; /* 去掉原本的实线，改用发光射线 */
-        
-        max-height: 500px;
-        opacity: 1;
-        transition: all var(--pageShowTime) cubic-bezier(0.4, 0, 0.2, 1);
     }
     
-    /* 发光的能量分割线 */
     .paper-header::after {
         content: '';
         position: absolute;
@@ -94,10 +142,9 @@ const { Content } = await render(post);
         height: 1px;
         background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent);
         box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
-        transition: opacity var(--pageShowTime) ease;
     }
 
-    /* Back Button (Tech Switch) */
+    /* Back Button */
     .back-btn {
         display: inline-flex;
         align-items: center;
@@ -110,7 +157,6 @@ const { Content } = await render(post);
         font-size: clamp(0.875rem, 1vw + 0.5rem, 1rem);
         cursor: pointer;
 
-        /* 【修改】与 Binder 统一的科技感按钮 */
         background: rgba(139, 92, 246, 0.1); 
         border: 1px solid rgba(139, 92, 246, 0.3);
         color: #a78bfa; 
@@ -136,7 +182,6 @@ const { Content } = await render(post);
     .meta h1 {
         margin: 0;
         font-size: clamp(1.5rem, 4vw + 1rem, 2.5rem);
-        /* 【修改】高对比度亮色 + 紫色霓虹光晕 */
         color: #f3e8ff;
         text-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
         font-family: 'Inter', system-ui, sans-serif; 
@@ -150,7 +195,6 @@ const { Content } = await render(post);
         color: #cbd5e1;
         font-family: 'Inter', system-ui, sans-serif;
         line-height: 1.5;
-        /* 【修改】增加左侧引言线 */
         border-left: 3px solid rgba(139, 92, 246, 0.5);
         padding-left: 1rem;
     }
@@ -169,53 +213,51 @@ const { Content } = await render(post);
         overflow-y: auto;
         flex: 1;
         scroll-behavior: smooth;
-
-        padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
-
-        /* 【修改】冷灰色文字，更适合暗色背景阅读 */
-        color: #cbd5e1;
-        font-family: 'Inter', system-ui, sans-serif;
-        line-height: 1.8;
-        font-size: 1.05rem;
-        letter-spacing: 0.01em;
-        
+        padding: 0; /* padding 移交给了内部元素 */
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
     .paper-content::-webkit-scrollbar { display: none; }
 
+    .content-wrapper {
+        padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
+        color: #cbd5e1;
+        font-family: 'Inter', system-ui, sans-serif;
+        line-height: 1.8;
+        font-size: 1.05rem;
+        letter-spacing: 0.01em;
+    }
+
     /* Markdown Elements */
-    .paper-content :global(h2) { 
+    .content-wrapper :global(h2) { 
         margin-top: 3rem; 
         margin-bottom: 1.5rem;
         color: #f3e8ff; 
-        /* 【修改】科技感 H2 标题 */
         border-bottom: 1px solid rgba(139, 92, 246, 0.2); 
         border-left: 4px solid #8b5cf6;
         padding-left: 1rem;
         padding-bottom: 0.5rem; 
         text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
     }
-    .paper-content :global(h3) {
+    .content-wrapper :global(h3) {
         color: #e9d5ff;
         margin-top: 2rem;
     }
-    .paper-content :global(p) { 
+    .content-wrapper :global(p) { 
         margin-bottom: 1.5rem; 
     }
-    .paper-content :global(a) { 
+    .content-wrapper :global(a) { 
         color: #a78bfa; 
         text-decoration: none; 
         border-bottom: 1px solid rgba(167, 139, 250, 0.4); 
         transition: all 0.2s; 
     }
-    .paper-content :global(a:hover) { 
+    .content-wrapper :global(a:hover) { 
         color: #d8b4fe; 
         border-color: #d8b4fe; 
         text-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
     }
-    .paper-content :global(code) { 
-        /* 【修改】行内代码发光块 */
+    .content-wrapper :global(code) { 
         background: rgba(139, 92, 246, 0.15); 
         color: #d8b4fe; 
         padding: 0.2rem 0.4rem; 
@@ -224,8 +266,7 @@ const { Content } = await render(post);
         font-family: monospace;
         font-size: 0.9em; 
     }
-    .paper-content :global(pre) { 
-        /* 【修改】深黑终端代码块 */
+    .content-wrapper :global(pre) { 
         background: rgba(0, 0, 0, 0.5); 
         color: #e2d8ee; 
         padding: 1.25rem; 
@@ -235,8 +276,7 @@ const { Content } = await render(post);
         box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
         margin-bottom: 1.5rem;
     }
-    .paper-content :global(blockquote) {
-        /* 【新增】引言样式 */
+    .content-wrapper :global(blockquote) {
         border-left: 4px solid #8b5cf6;
         background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent);
         padding: 1rem 1.5rem;
@@ -247,28 +287,15 @@ const { Content } = await render(post);
     }
 
     /* =========================================
-       Media Queries (保留原有逻辑)
+       Media Queries
     ========================================= */
     @media (max-width: 768px) {
         .paper-ui {
             width: 100%;
             height: calc(100% - 6.5rem);
         }
-        .paper-content {
-            font-size: 0.95rem; /* 移动端稍微调小一点，但比原来的 0.75rem 更易读 */
-        }
-        
-        .paper-header.header-hidden {
-            max-height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            margin-bottom: 0;
-            border-bottom-width: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-        .paper-header.header-hidden::after {
-            opacity: 0; /* 隐藏时同时隐藏发光线 */
+        .content-wrapper {
+            font-size: 0.95rem;
         }
     }
 
@@ -283,6 +310,7 @@ const { Content } = await render(post);
         .paper-ui.open {
             transform: translate(0, 0) scale(1);
         }
+        /* 桌面端隐藏返回按钮 */
         .paper-ui .back-btn {
             display: none;
         }
@@ -290,16 +318,16 @@ const { Content } = await render(post);
 </style>
 
 <script>
-    /* JS 逻辑完全保持不变 */
     import { addLeaveHook } from '../../../store';
     import { navigateWithAnimation } from '../../../utils/navigation';
     import { ANIMATION_TIMES } from '../../../config';
 
     document.addEventListener('astro:page-load', () => {
         const paper = document.getElementById('paper-ui');
-        const backBtn = document.getElementById('paper-back-btn');
         const content = document.getElementById('paper-content');
         const header = document.getElementById('paper-header');
+        const stickyHeader = document.getElementById('sticky-header');
+        
         if(!paper) return;
 
         requestAnimationFrame(() => {
@@ -308,37 +336,30 @@ const { Content } = await render(post);
             });
         });
 
-        if (content && header) {
-            let lastScrollY = content.scrollTop;
+        if (content && header && stickyHeader) {
             let ticking = false; 
 
             content.addEventListener('scroll', () => {
                 if (!ticking) {
                     window.requestAnimationFrame(() => {
                         const currentScrollY = content.scrollTop;
-                        const maxScroll = content.scrollHeight - content.clientHeight;
+                        const headerHeight = header.offsetHeight;
 
-                        if (currentScrollY <= 0 || currentScrollY >= maxScroll - 10) {
-                            lastScrollY = currentScrollY;
-                            ticking = false;
-                            return; 
-                        }
-
-                        if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                            header.classList.add('header-hidden');
-                        } 
-                        else if (currentScrollY < lastScrollY) {
-                            header.classList.remove('header-hidden');
+                        // 核心逻辑：当向下滚动距离超过原Header的高度时，显示吸顶的Sticky Header
+                        // 减去20px是为了让过渡更平滑一点，在原Header快要完全消失时就出现
+                        if (currentScrollY > headerHeight - 20) {
+                            stickyHeader.classList.add('visible');
+                        } else {
+                            stickyHeader.classList.remove('visible');
                         }
                         
-                        lastScrollY = currentScrollY;
                         ticking = false;
                     });
                     ticking = true;
                 }
             });
 
-            /*prevent md auto scroll*/
+            /* prevent md auto scroll */
             content.addEventListener('click', (e) => {
                 if(!e.target) return;
                 const link =(e.target as HTMLElement).closest('a[href^="#"]');
@@ -353,19 +374,23 @@ const { Content } = await render(post);
 
                     const containerRect = content.getBoundingClientRect();
                     const targetRect = targetElement.getBoundingClientRect();
-                    const scrollPos = content.scrollTop + (targetRect.top - containerRect.top) - 20;
+                    // 减去 sticky-header 的高度 (大约 60px) 防止锚点跳转后标题被遮挡
+                    const scrollPos = content.scrollTop + (targetRect.top - containerRect.top) - 60;
 
                     content.scrollTo({ top: scrollPos, behavior: 'smooth' });
                 }
             });
         }
 
-        const goBack = () => {
-            const targetUrl = backBtn?.getAttribute('data-target') || '/devlog';
+        const goBack = (e:any) => {
+            // 获取当前点击的按钮的 target
+            const targetUrl = (e.currentTarget as HTMLElement).getAttribute('data-target') || '/devlog';
             navigateWithAnimation(targetUrl);
         };
 
-        backBtn?.addEventListener('click', goBack);
+        // 绑定所有返回按钮 (包括原Header和Sticky Header里的)
+        const backBtns = document.querySelectorAll('.back-btn');
+        backBtns.forEach(btn => btn.addEventListener('click', goBack));
 
         addLeaveHook(() => {
             return new Promise((resolve) => {

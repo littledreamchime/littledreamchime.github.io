@@ -18,10 +18,11 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
 <div id="paper-ui" class="paper-ui">
     
     <!-- 升级后的 HUD 视窗标题栏 -->
-    <div class="window-titlebar">
+    <div class="window-titlebar" id="window-titlebar" data-post-title={post.data.title}>
         <div class="titlebar-left">
             <span class="sys-prefix">SYS.TASK // </span>
-            <span class="process-name">BLOG_READER.EXE</span>
+            <!-- 【新增】加上 id="process-name" 以便 JS 操作，并增加防溢出样式 -->
+            <span class="process-name" id="process-name">BLOG_READER.EXE</span>
             <span class="blinking-cursor">_</span>
         </div>
         <div class="titlebar-right">
@@ -31,27 +32,30 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         </div>
     </div>
 
-    <!-- 渐变发光的头部 -->
-    <div id="paper-header" class="paper-header">
-        
-        <!-- 【修改】画廊级全息背景图层 -->
-        {bgImageUrl && (
-            <div class="header-bg-wrapper">
-                <div class="header-bg-image" style={`background-image: url('${bgImageUrl}')`}></div>
-                <div class="header-bg-overlay"></div>
-            </div>
-        )}
-
-        <div class="meta">
-            <h1>{post.data.title}</h1>
-            {post.data.description && <p class="description">{post.data.description}</p>}
-            <time>{post.data.pubDate.toLocaleDateString()}</time>
-        </div>
-    </div>
-
     <div id="paper-content" class="paper-content">
-        <Content />
-        <Giscus />
+        <!-- 【修改】将 paper-header 移入滚动区域，使其自然滚走 -->
+        <div id="paper-header" class="paper-header">
+            
+            <!-- 画廊级全息背景图层 -->
+            {bgImageUrl && (
+                <div class="header-bg-wrapper">
+                    <div class="header-bg-image" style={`background-image: url('${bgImageUrl}')`}></div>
+                    <div class="header-bg-overlay"></div>
+                </div>
+            )}
+
+            <div class="meta">
+                <h1>{post.data.title}</h1>
+                {post.data.description && <p class="description">{post.data.description}</p>}
+                <time>{post.data.pubDate.toLocaleDateString()}</time>
+            </div>
+        </div>
+
+        <!-- 【新增】内容包裹层，接管原本 paper-content 的 padding -->
+        <div class="content-wrapper">
+            <Content />
+            <Giscus />
+        </div>
     </div>
 </div>
 
@@ -117,15 +121,36 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         display: flex;
         align-items: center;
         gap: 0.2rem;
+        /* 【新增】防止左侧内容挤压右侧按钮 */
+        flex: 1;
+        min-width: 0; 
+        padding-right: 1rem;
     }
-    .sys-prefix { opacity: 0.5; }
-    .process-name { font-weight: bold; color: #e9d5ff; text-shadow: 0 0 8px rgba(139, 92, 246, 0.5); }
-    .blinking-cursor { animation: blink 1s step-end infinite; color: #8b5cf6; }
+    .sys-prefix { 
+        opacity: 0.5; 
+        flex-shrink: 0;
+    }
+    .process-name { 
+        font-weight: bold; 
+        color: #e9d5ff; 
+        text-shadow: 0 0 8px rgba(139, 92, 246, 0.5); 
+        /* 【新增】超出省略号显示，防止长标题破坏布局 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color 0.3s ease;
+    }
+    .blinking-cursor { 
+        animation: blink 1s step-end infinite; 
+        color: #8b5cf6; 
+        flex-shrink: 0;
+    }
     @keyframes blink { 50% { opacity: 0; } }
 
     .titlebar-right {
         display: flex;
         gap: 0.5rem;
+        flex-shrink: 0;
     }
 
     .win-btn {
@@ -170,7 +195,7 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         
         max-height: 500px;
         opacity: 1;
-        transition: all var(--pageShowTime) cubic-bezier(0.4, 0, 0.2, 1);
+        /* 移除了原本 header-hidden 的过渡动画，因为现在是自然滚动 */
     }
     
     .paper-header::after {
@@ -180,7 +205,6 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         height: 1px;
         background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.4), transparent);
         box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
-        transition: opacity var(--pageShowTime) ease;
     }
 
     /* =========================================
@@ -200,7 +224,6 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         position: absolute;
         top: 0; 
         left: 0; 
-        /* 强制宽度为120%，为平移留出刚好20%的充裕空间 */
         width: 120%; 
         height: 100%;
         background-size: cover;
@@ -208,19 +231,12 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         background-repeat: no-repeat;
         opacity: 0.4; 
         
-        /* 90秒极慢平移，ease-out(cubic-bezier)确保到边缘后缓缓停止，forwards让其停留在最后一帧 */
         animation: gallery-pan 20s cubic-bezier(0.2, 0, 0.2, 1) forwards;
     }
 
-    /* 模拟镜头从左向右平移（即图片从右向左滑动） */
     @keyframes gallery-pan {
-        0% { 
-            transform: translateX(0); 
-        }
-        100% { 
-            /* 移动自身宽度的 -16.666% (即父容器宽度的 -20%)，恰好让右侧边缘完美对齐，绝不露黑边 */
-            transform: translateX(-16.666%); 
-        }
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-16.666%); }
     }
 
     .header-bg-overlay {
@@ -235,7 +251,7 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
     }
 
     /* =========================================
-       Meta Content (提升层级)
+       Meta Content
     ========================================= */
     .meta {
         position: relative;
@@ -283,21 +299,22 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         overflow-y: auto;
         flex: 1;
         scroll-behavior: smooth;
-
-        padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
-
-        color: #cbd5e1;
-        font-family: 'Inter', system-ui, sans-serif;
-        line-height: 1.8;
-        font-size: 1.05rem;
-        letter-spacing: 0.01em;
-        
+        padding: 0; /* 【修改】外层 padding 归零，交给 content-wrapper */
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
     .paper-content::-webkit-scrollbar { display: none; }
 
-    .paper-content :global(h2) { 
+    .content-wrapper {
+        padding: 2rem clamp(1.5rem, 5vw, 4rem) 4rem;
+        color: #cbd5e1;
+        font-family: 'Inter', system-ui, sans-serif;
+        line-height: 1.8;
+        font-size: 1.05rem;
+        letter-spacing: 0.01em;
+    }
+
+    .content-wrapper :global(h2) { 
         margin-top: 3rem; 
         margin-bottom: 1.5rem;
         color: #f3e8ff;
@@ -307,22 +324,22 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         padding-bottom: 0.5rem; 
         text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
     }
-    .paper-content :global(h3) { color: #e9d5ff; margin-top: 2rem; }
-    .paper-content :global(p) { margin-bottom: 1.5rem; }
+    .content-wrapper :global(h3) { color: #e9d5ff; margin-top: 2rem; }
+    .content-wrapper :global(p) { margin-bottom: 1.5rem; }
     
-    .paper-content :global(a) { 
+    .content-wrapper :global(a) { 
         color: #a78bfa;
         text-decoration: none; 
         border-bottom: 1px solid rgba(167, 139, 250, 0.4); 
         transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1); 
     }
-    .paper-content :global(a:hover) { 
+    .content-wrapper :global(a:hover) { 
         color: #d8b4fe; 
         border-color: #d8b4fe; 
         text-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
     }
     
-    .paper-content :global(code) { 
+    .content-wrapper :global(code) { 
         background: rgba(139, 92, 246, 0.15);
         color: #d8b4fe;
         padding: 0.2rem 0.4rem; 
@@ -331,7 +348,7 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         font-family: monospace;
         font-size: 0.9em; 
     }
-    .paper-content :global(pre) { 
+    .content-wrapper :global(pre) { 
         background: rgba(0, 0, 0, 0.6);
         color: #e2d8ee;
         padding: 1.25rem; 
@@ -341,7 +358,7 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
         margin-bottom: 1.5rem;
     }
-    .paper-content :global(blockquote) {
+    .content-wrapper :global(blockquote) {
         border-left: 4px solid #8b5cf6;
         background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), transparent);
         padding: 1rem 1.5rem;
@@ -361,25 +378,12 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
             border-radius: 0; 
             border: none;
         }
-        .paper-content {
+        .content-wrapper {
             font-size: 0.95rem; 
         }
         
         .window-titlebar {
             padding: 0.4rem 0.8rem;
-        }
-        
-        .paper-header.header-hidden {
-            max-height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
-            margin-bottom: 0;
-            border-bottom-width: 0;
-            opacity: 0;
-            overflow: hidden;
-        }
-        .paper-header.header-hidden::after {
-            opacity: 0;
         }
         
         .win-btn {
@@ -401,6 +405,11 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
         const overlay = document.getElementById('page-overlay');
         const content = document.getElementById('paper-content');
         const header = document.getElementById('paper-header');
+        
+        // 【新增】获取标题栏相关元素
+        const titlebar = document.getElementById('window-titlebar');
+        const processName = document.getElementById('process-name');
+
         if(!paper || !overlay) return;
 
         requestAnimationFrame(() => {
@@ -410,30 +419,34 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
             });
         });
 
-        if (content && header) {
-            let lastScrollY = content.scrollTop;
+        if (content && header && titlebar && processName) {
+            const originalName = "BLOG_READER.EXE";
+            const postTitle = titlebar.getAttribute('data-post-title') || originalName;
+            let isTitleChanged = false;
             let ticking = false; 
 
             content.addEventListener('scroll', () => {
                 if (!ticking) {
                     window.requestAnimationFrame(() => {
                         const currentScrollY = content.scrollTop;
-                        const maxScroll = content.scrollHeight - content.clientHeight;
+                        const headerHeight = header.offsetHeight;
 
-                        if (currentScrollY <= 0 || currentScrollY >= maxScroll - 10) {
-                            lastScrollY = currentScrollY;
-                            ticking = false;
-                            return; 
-                        }
-
-                        if (currentScrollY > lastScrollY && currentScrollY > 50) {
-                            header.classList.add('header-hidden');
-                        } 
-                        else if (currentScrollY < lastScrollY) {
-                            header.classList.remove('header-hidden');
+                        // 【核心逻辑】当向下滚动距离超过原Header的高度时，替换标题文字
+                        if (currentScrollY > headerHeight - 20) {
+                            if (!isTitleChanged) {
+                                processName.textContent = postTitle;
+                                // 可选：改变颜色以示区分
+                                processName.style.color = '#f3e8ff';
+                                isTitleChanged = true;
+                            }
+                        } else {
+                            if (isTitleChanged) {
+                                processName.textContent = originalName;
+                                processName.style.color = ''; // 恢复默认颜色
+                                isTitleChanged = false;
+                            }
                         }
                         
-                        lastScrollY = currentScrollY;
                         ticking = false;
                     });
                     ticking = true;
@@ -454,6 +467,7 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
 
                     const containerRect = content.getBoundingClientRect();
                     const targetRect = targetElement.getBoundingClientRect();
+                    // 这里的偏移量保持 -20 即可，因为 titlebar 并不在滚动区域内，不会遮挡内容
                     const scrollPos = content.scrollTop + (targetRect.top - containerRect.top) - 20;
 
                     content.scrollTo({ top: scrollPos, behavior: 'smooth' });
