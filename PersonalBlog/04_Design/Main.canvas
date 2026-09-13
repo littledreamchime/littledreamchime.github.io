@@ -9,7 +9,9 @@
 		{"id":"c4d8f1e28d0d6bd8","type":"text","text":"# BlogDescription:\n悬浮在exe上出现，在左下角\n### 静态信息：\n- Double Click To Run\n- FILE_PROPERTIES\n### 动态信息（从md读取）：\n- 名称\n- 描述\n- 大小\n- *图片","x":1420,"y":-80,"width":320,"height":460},
 		{"id":"c98c8dfb3b7cf745","type":"text","text":"# exeFILE\n显示图标、名称、日期","x":1420,"y":415,"width":320,"height":135},
 		{"id":"7df6b9052c7703e5","type":"text","text":"# BlogBinder\n颜色、名称、图标\n- 默认状态：平时是竖状，宽度平均分布在整个屏幕上。轮播部分图片；\n- 收缩状态：竖着显示颜色、名称、图标、简要描述；名称为\"C:\\Shader\" 这种格式；\n- 展开状态：可以上下滑动，一根直线分布着exeFILE，用线相连\n","x":800,"y":50,"width":445,"height":365},
-		{"id":"d25bef53a81f9336","type":"text","text":"关闭按钮、返回按钮","x":898,"y":490,"width":250,"height":60}
+		{"id":"d25bef53a81f9336","type":"text","text":"关闭按钮、返回按钮","x":898,"y":490,"width":250,"height":60},
+		{"id":"af60372f20ec4f92","x":-227,"y":-4141,"width":1967,"height":1981,"type":"link","url":"https://littledreamchime.github.io"},
+		{"id":"902aa9cc0858d412","x":1740,"y":-4141,"width":1200,"height":941,"type":"link","url":"http://localhost:4321/"}
 	],
 	"edges":[
 		{"id":"1b2457792a4f8617","fromNode":"7df6b9052c7703e5","fromSide":"right","toNode":"c98c8dfb3b7cf745","toSide":"left"},

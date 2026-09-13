@@ -20,11 +20,11 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
             <div class="left-controls">
                 <!-- ClosePower -->
                 <button id="power-btn" class="ctrl-btn">
-                    <PowerIcon size="calc(1 * var(--u))" />
+                    <PowerIcon class="ctrl-icon" />
                 </button>
                 <!-- Return -->
                 <button id="return-btn" class="ctrl-btn">
-                    <ReturnIcon size="calc(1 * var(--u))" />
+                    <ReturnIcon class="ctrl-icon" />
                 </button>
             </div>
 
@@ -47,6 +47,7 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
        Outer Shell (Quantum Holographic Casing)
     ========================================= */
     .computer-screen {
+        --u: 1vw;
         --u: 1cqi;
 
         position: absolute;
@@ -55,7 +56,6 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         transform: translate(-50%, -50%);
         padding: calc(0.45 * var(--u));
         z-index: var(--z-desk-items-mid);
-        will-change: transform;
 
         /* 【保留】原有尺寸与圆角 */
         width: 45%;
@@ -75,6 +75,7 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
             inset 0 calc(-0.05 * var(--u)) calc(0.1 * var(--u)) rgba(0, 0, 0, 0.6);
         
         box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
     }
 
     /* 待机扫描线 (Energy Scanline) */
@@ -109,6 +110,8 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         gap: calc(0.5 * var(--u));
         width: 100%;
         height: 100%;
+        min-width: 0;
+        min-height: 0;
     }
 
     /* =========================================
@@ -119,6 +122,7 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         overflow: hidden;
         width: 100%;
         position: relative;
+        min-height: 0;
 
         /* 【保留】原有边框与圆角 */
         border: calc(0.05 * var(--u)) solid rgba(139, 92, 246, 0.2);
@@ -218,17 +222,21 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-shrink: 0;
         height: calc(0.6 * var(--u));
+        min-height: calc(0.6 * var(--u));
         padding: 0 calc(0.4 * var(--u));
         background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.03), transparent);
         border-radius: calc(0.2 * var(--u));
+        min-width: 0;
     }
 
     .left-controls {
         display: flex;
         gap: calc(1.5 * var(--u));
         align-items: center;
-        flex: 1; 
+        flex: 1;
+        min-width: 0;
     }
 
     /* =========================================
@@ -246,9 +254,20 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
 
         color: #6b7280;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        transition: color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                    filter 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        flex-shrink: 0;
+        line-height: 0;
     }
 
+    .ctrl-btn :global(svg),
+    .ctrl-btn :global(.ctrl-icon),
+    .ctrl-icon {
+        width: calc(1 * var(--u));
+        height: calc(1 * var(--u));
+        display: block;
+        flex-shrink: 0;
+    }
 
     /* 激活状态 (Active / Power On) */
     .ctrl-btn.is-white {
@@ -267,9 +286,14 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
        Typography (Neon HUD Text)
     ========================================= */
     .center-text, .right-signature {
-        font-family: 'Inter', ui-monospace, SFMono-Regular, monospace;
+        font-family: 'Inter', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         font-size: calc(0.7 * var(--u));
-        letter-spacing: calc(0.08 * var(--u));
+        letter-spacing: 0.08em;
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
     }
 
     .center-text {
@@ -301,6 +325,7 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
     ========================================= */
     @media (max-aspect-ratio: 9/16){
         .computer-screen {
+            --u: 1vw;
             --u: 1cqw;
         }
     }

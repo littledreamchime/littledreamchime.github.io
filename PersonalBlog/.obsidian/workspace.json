@@ -6,20 +6,23 @@
       {
         "id": "d6bba97dbb8d1932",
         "type": "tabs",
-        "dimension": 54.70692717584369,
+        "dimension": 54.706927175843695,
         "children": [
           {
             "id": "bdf2b30faf036263",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "02_Devlogs/Devlog_005.md",
-                "mode": "source",
-                "source": false
+                "file": "04_Design/Main.canvas",
+                "viewState": {
+                  "x": 2239.210013358741,
+                  "y": -3555.575116160194,
+                  "zoom": -1.3333333333333333
+                }
               },
-              "icon": "lucide-file",
-              "title": "Devlog_005"
+              "icon": "lucide-layout-dashboard",
+              "title": "Main"
             }
           }
         ]
@@ -27,7 +30,7 @@
       {
         "id": "61088e4204018da3",
         "type": "tabs",
-        "dimension": 45.293072824156305,
+        "dimension": 45.29307282415631,
         "children": [
           {
             "id": "c21a17f1e87eed7a",
@@ -77,7 +80,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "文件列表"
@@ -222,11 +227,12 @@
   },
   "active": "bdf2b30faf036263",
   "lastOpenFiles": [
+    "03_Issues/Issues_005.md",
+    "04_Design/Main.canvas",
+    "02_Devlogs/Devlog_005.md",
     "Template/Images/Pasted image 20260630181548.png",
     "Template/Images/Pasted image 20260630181457.png",
     "Template/Images/Pasted image 20260630181413.png",
-    "03_Issues/Issues_005.md",
-    "02_Devlogs/Devlog_005.md",
     "02_Devlogs/Devlog_004.md",
     "03_Issues/Issues_004.md",
     "Template/Images/Pasted image 20260629163940.png",
@@ -241,13 +247,11 @@
     "02_Devlogs/Devlog_001.md",
     "Template/Images/Pasted image 20260622115506.png",
     "03_Issues/Issues_003.md",
-    "04_Design/Main.canvas",
     "03_Issues/Issues_002.md",
     "Template/Images/Pasted image 20260618152655.png",
     "Template/Images/Pasted image 20260618153250.png",
     "01_Architecture/Main.canvas",
     "02_Devlogs/DevLog_003：解决Issues_002，设计Blog界面.md",
-    "Template/Images/Pasted image 20260618151502.png",
     "02_Devlogs/Devlog_004：实现Blog界面.md",
     "2026-06-12.md",
     "01_Architecture/Component/Main/ComputerBackGround.md",
