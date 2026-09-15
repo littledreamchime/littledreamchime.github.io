@@ -3,12 +3,16 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
+import { remarkLanguageSections } from './src/plugins/remark-language-sections.ts';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://littledreamchime.github.io',
 	integrations: [mdx(), sitemap()],
-	prefetch:true,
+	prefetch: true,
+	markdown: {
+		remarkPlugins: [remarkLanguageSections],
+	},
 	fonts: [
 		{
 			provider: fontProviders.local(),

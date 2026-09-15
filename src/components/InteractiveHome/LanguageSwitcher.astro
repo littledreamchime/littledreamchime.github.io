@@ -1,0 +1,405 @@
+---
+import '../../styles/langSections.css';
+
+interface Props {
+	/** CSS selector for the element that contains [data-lang-section] nodes */
+	contentRoot?: string;
+	/** Visual placement variant */
+	variant?: 'inline' | 'floating';
+	/** Optional id for the root element */
+	id?: string;
+}
+
+const {
+	contentRoot = '.content-wrapper, .content-area',
+	variant = 'inline',
+	id,
+} = Astro.props;
+---
+
+<div
+	class:list={['lang-switcher', `lang-switcher--${variant}`]}
+	id={id}
+	data-lang-switcher
+	data-content-root={contentRoot}
+	hidden
+>
+	<button
+		type="button"
+		class="lang-switcher__btn"
+		aria-haspopup="listbox"
+		aria-expanded="false"
+		aria-label="Switch language"
+	>
+		<span class="lang-switcher__label">Language</span>
+		<span class="lang-switcher__chevron" aria-hidden="true">▾</span>
+	</button>
+	<ul class="lang-switcher__menu" role="listbox" hidden></ul>
+</div>
+
+<style>
+	.lang-switcher {
+		position: relative;
+		z-index: 30;
+		font-family: 'Inter', monospace, system-ui, sans-serif;
+		user-select: none;
+	}
+
+	.lang-switcher--floating {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+	}
+
+	.lang-switcher__btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		max-width: 10rem;
+		padding: 0.35rem 0.7rem;
+		border-radius: 6px;
+		border: 1px solid rgba(139, 92, 246, 0.35);
+		background: rgba(139, 92, 246, 0.12);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		color: #c4b5fd;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		cursor: pointer;
+		box-shadow:
+			0 0 12px rgba(139, 92, 246, 0.15),
+			inset 0 1px 0 rgba(255, 255, 255, 0.06);
+		transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.lang-switcher__btn:hover,
+	.lang-switcher__btn[aria-expanded='true'] {
+		background: rgba(139, 92, 246, 0.28);
+		border-color: rgba(167, 139, 250, 0.7);
+		color: #f3e8ff;
+		box-shadow: 0 0 18px rgba(139, 92, 246, 0.4);
+		transform: scale(1.03);
+	}
+
+	.lang-switcher__btn:active {
+		transform: scale(0.97);
+	}
+
+	.lang-switcher__label {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.lang-switcher__chevron {
+		flex-shrink: 0;
+		font-size: 0.65rem;
+		opacity: 0.8;
+		transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.lang-switcher__btn[aria-expanded='true'] .lang-switcher__chevron {
+		transform: rotate(180deg);
+	}
+
+	.lang-switcher__menu {
+		position: absolute;
+		top: calc(100% + 0.35rem);
+		right: 0;
+		min-width: 100%;
+		margin: 0;
+		padding: 0.35rem;
+		list-style: none;
+		border-radius: 8px;
+		border: 1px solid rgba(139, 92, 246, 0.35);
+		background: rgba(13, 9, 20, 0.92);
+		backdrop-filter: blur(16px) saturate(140%);
+		-webkit-backdrop-filter: blur(16px) saturate(140%);
+		box-shadow:
+			0 0.75rem 1.5rem rgba(0, 0, 0, 0.55),
+			0 0 20px rgba(139, 92, 246, 0.15),
+			inset 0 1px 0 rgba(255, 255, 255, 0.06);
+		transform-origin: top right;
+		transform: scaleY(0.85) translateY(-4px);
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+			transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+		z-index: 40;
+	}
+
+	.lang-switcher__menu.is-open {
+		opacity: 1;
+		transform: scaleY(1) translateY(0);
+		pointer-events: auto;
+	}
+
+	.lang-switcher__option {
+		display: block;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0.45rem 0.7rem;
+		margin: 0;
+		border: none;
+		border-radius: 5px;
+		appearance: none;
+		-webkit-appearance: none;
+		background: transparent;
+		color: #a78bfa;
+		font-family: inherit;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		text-align: left;
+		text-transform: none;
+		cursor: pointer;
+		white-space: nowrap;
+		transition: all 0.2s ease;
+	}
+
+	.lang-switcher__option:hover,
+	.lang-switcher__option:focus-visible {
+		background: rgba(139, 92, 246, 0.25);
+		color: #f3e8ff;
+		outline: none;
+	}
+
+	.lang-switcher__option[aria-selected='true'] {
+		background: rgba(139, 92, 246, 0.35);
+		color: #f3e8ff;
+		text-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+	}
+
+	@media (max-width: 768px) {
+		.lang-switcher__btn {
+			padding: 0.4rem 0.65rem;
+			font-size: 0.7rem;
+			max-width: 8rem;
+		}
+		.lang-switcher--floating {
+			top: 0.75rem;
+			right: 0.75rem;
+		}
+	}
+</style>
+
+<script>
+	import { resolveLanguage, setPreferredLanguage } from '../../utils/languagePreference';
+
+	const FADE_MS = 220;
+	const SYNC_EVENT = 'lang-switcher:change';
+
+	type SwitcherEl = HTMLElement & { dataset: DOMStringMap };
+
+	/** Copy Astro scoped attrs so dynamically created nodes match component CSS. */
+	function stampScope(from: Element, to: Element) {
+		for (const attr of Array.from(from.attributes)) {
+			if (attr.name.startsWith('data-astro-cid-')) {
+				to.setAttribute(attr.name, attr.value);
+			}
+		}
+	}
+
+	function resolveRoot(switcher: SwitcherEl): ParentNode {
+		const selector = switcher.dataset.contentRoot || '.content-wrapper, .content-area';
+		const scoped =
+			switcher.closest('#paper-ui, #paper-wrapper, .paper-ui, .paper-wrapper') ||
+			document;
+		const found =
+			(scoped as Element).querySelector?.(selector) || document.querySelector(selector);
+		return found || document;
+	}
+
+	function getSections(root: ParentNode): HTMLElement[] {
+		return Array.from(root.querySelectorAll<HTMLElement>('[data-lang-section]'));
+	}
+
+	function closeMenu(switcher: SwitcherEl) {
+		const btn = switcher.querySelector<HTMLButtonElement>('.lang-switcher__btn');
+		const menu = switcher.querySelector<HTMLElement>('.lang-switcher__menu');
+		if (!btn || !menu) return;
+		btn.setAttribute('aria-expanded', 'false');
+		menu.classList.remove('is-open');
+		window.setTimeout(() => {
+			if (!menu.classList.contains('is-open')) menu.hidden = true;
+		}, 200);
+	}
+
+	function openMenu(switcher: SwitcherEl) {
+		const btn = switcher.querySelector<HTMLButtonElement>('.lang-switcher__btn');
+		const menu = switcher.querySelector<HTMLElement>('.lang-switcher__menu');
+		if (!btn || !menu) return;
+		menu.hidden = false;
+		void menu.offsetHeight;
+		menu.classList.add('is-open');
+		btn.setAttribute('aria-expanded', 'true');
+	}
+
+	function setSwitcherLabel(switcher: SwitcherEl, lang: string) {
+		const label = switcher.querySelector('.lang-switcher__label');
+		if (label) label.textContent = lang;
+		switcher.querySelectorAll<HTMLButtonElement>('.lang-switcher__option').forEach((opt) => {
+			opt.setAttribute('aria-selected', opt.dataset.lang === lang ? 'true' : 'false');
+		});
+	}
+
+	let switching = false;
+
+	async function activateLanguage(lang: string, root: ParentNode) {
+		if (switching) return;
+		const sections = getSections(root);
+		const current = sections.find((s) => s.classList.contains('is-active'));
+		const next = sections.find((s) => s.dataset.langSection === lang);
+		if (!next || current === next) return;
+
+		switching = true;
+
+		if (current) {
+			current.classList.add('is-fading-out');
+			await new Promise((r) => setTimeout(r, FADE_MS));
+			current.classList.remove('is-active', 'is-fading-out');
+			current.classList.add('is-hidden');
+		}
+
+		next.classList.remove('is-hidden');
+		next.classList.add('is-fading-in', 'is-active');
+		void next.offsetHeight;
+		requestAnimationFrame(() => {
+			next.classList.remove('is-fading-in');
+		});
+
+		await new Promise((r) => setTimeout(r, FADE_MS));
+		switching = false;
+	}
+
+	function buildMenu(switcher: SwitcherEl, langs: string[], active: string, signal: AbortSignal) {
+		const menu = switcher.querySelector<HTMLElement>('.lang-switcher__menu');
+		if (!menu) return;
+		menu.innerHTML = '';
+		for (const lang of langs) {
+			const li = document.createElement('li');
+			li.setAttribute('role', 'presentation');
+			stampScope(switcher, li);
+
+			const btn = document.createElement('button');
+			btn.type = 'button';
+			btn.className = 'lang-switcher__option';
+			btn.setAttribute('role', 'option');
+			btn.dataset.lang = lang;
+			btn.textContent = lang;
+			btn.setAttribute('aria-selected', lang === active ? 'true' : 'false');
+			stampScope(switcher, btn);
+
+			btn.addEventListener(
+				'click',
+				() => {
+					document.dispatchEvent(
+						new CustomEvent(SYNC_EVENT, { detail: { lang, source: switcher } }),
+					);
+					closeMenu(switcher);
+				},
+				{ signal },
+			);
+			li.appendChild(btn);
+			menu.appendChild(li);
+		}
+	}
+
+	function applyLanguageInstant(lang: string, root: ParentNode) {
+		const sections = getSections(root);
+		const next = sections.find((s) => s.dataset.langSection === lang);
+		if (!next) return;
+		for (const section of sections) {
+			const on = section === next;
+			section.classList.toggle('is-active', on);
+			section.classList.toggle('is-hidden', !on);
+			section.classList.remove('is-fading-in', 'is-fading-out');
+		}
+	}
+
+	function initSwitcher(switcher: SwitcherEl, signal: AbortSignal) {
+		const root = resolveRoot(switcher);
+		const sections = getSections(root);
+
+		if (sections.length < 2) {
+			switcher.hidden = true;
+			return;
+		}
+
+		const langs = sections.map((s) => s.dataset.langSection || '').filter(Boolean);
+		const active = resolveLanguage(langs);
+		applyLanguageInstant(active, root);
+
+		buildMenu(switcher, langs, active, signal);
+		setSwitcherLabel(switcher, active);
+		switcher.hidden = false;
+
+		const btn = switcher.querySelector<HTMLButtonElement>('.lang-switcher__btn');
+		btn?.addEventListener(
+			'click',
+			(e) => {
+				e.stopPropagation();
+				const expanded = btn.getAttribute('aria-expanded') === 'true';
+				if (expanded) closeMenu(switcher);
+				else {
+					document.querySelectorAll<SwitcherEl>('[data-lang-switcher]').forEach((other) => {
+						if (other !== switcher) closeMenu(other);
+					});
+					openMenu(switcher);
+				}
+			},
+			{ signal },
+		);
+	}
+
+	let pageAbort: AbortController | null = null;
+
+	document.addEventListener('astro:page-load', () => {
+		pageAbort?.abort();
+		pageAbort = new AbortController();
+		const { signal } = pageAbort;
+
+		const switchers = Array.from(
+			document.querySelectorAll<SwitcherEl>('[data-lang-switcher]'),
+		);
+		switchers.forEach((sw) => initSwitcher(sw, signal));
+
+		document.addEventListener(
+			'click',
+			(e) => {
+				switchers.forEach((sw) => {
+					if (!sw.contains(e.target as Node)) closeMenu(sw);
+				});
+			},
+			{ signal },
+		);
+
+		document.addEventListener(
+			'keydown',
+			(e) => {
+				if (e.key === 'Escape') switchers.forEach(closeMenu);
+			},
+			{ signal },
+		);
+
+		document.addEventListener(
+			SYNC_EVENT,
+			async (e) => {
+				const { lang } = (e as CustomEvent<{ lang: string }>).detail;
+				const first = switchers[0];
+				if (!first) return;
+				const root = resolveRoot(first);
+				setPreferredLanguage(lang);
+				await activateLanguage(lang, root);
+				switchers.forEach((sw) => {
+					setSwitcherLabel(sw, lang);
+					closeMenu(sw);
+				});
+			},
+			{ signal },
+		);
+	});
+</script>

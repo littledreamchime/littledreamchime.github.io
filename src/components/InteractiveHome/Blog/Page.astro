@@ -4,6 +4,7 @@ import ChildrenOverlay from '../Main/ChildrenOverlay.astro';
 import '../../../styles/zIndex.css';
 import { ANIMATION_TIMES } from '../../../config';
 import Giscus from '../Main/Giscus.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
 const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
 
 const { post, folderSlug } = Astro.props;
@@ -26,6 +27,7 @@ const bgImageUrl = detailImage ? (typeof detailImage === 'string' ? detailImage 
             <span class="blinking-cursor">_</span>
         </div>
         <div class="titlebar-right">
+            <LanguageSwitcher contentRoot=".content-wrapper" variant="inline" />
             <button id="paper-back-btn" class="win-btn" data-target={`/blog/${folderSlug}`} aria-label="Close Window">
                 <span class="btn-icon">✕</span>
             </button>
