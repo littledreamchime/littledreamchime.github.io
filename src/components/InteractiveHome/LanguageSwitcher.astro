@@ -55,6 +55,7 @@ const {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.4rem;
+		box-sizing: border-box;
 		max-width: 10rem;
 		padding: 0.35rem 0.7rem;
 		border-radius: 6px;
@@ -68,10 +69,17 @@ const {
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		cursor: pointer;
+		overflow: hidden;
 		box-shadow:
 			0 0 12px rgba(139, 92, 246, 0.15),
 			inset 0 1px 0 rgba(255, 255, 255, 0.06);
-		transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+		transition:
+			width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+			background 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+			border-color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+			color 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+			transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	.lang-switcher__btn:hover,
@@ -238,9 +246,29 @@ const {
 		btn.setAttribute('aria-expanded', 'true');
 	}
 
-	function setSwitcherLabel(switcher: SwitcherEl, lang: string) {
-		const label = switcher.querySelector('.lang-switcher__label');
-		if (label) label.textContent = lang;
+	function setSwitcherLabel(switcher: SwitcherEl, lang: string, animateWidth = true) {
+		const label = switcher.querySelector<HTMLElement>('.lang-switcher__label');
+		const btn = switcher.querySelector<HTMLButtonElement>('.lang-switcher__btn');
+		if (label && btn && animateWidth) {
+			const startWidth = btn.getBoundingClientRect().width;
+			label.textContent = lang;
+			btn.style.width = 'auto';
+			const endWidth = btn.getBoundingClientRect().width;
+			btn.style.width = `${startWidth}px`;
+			void btn.offsetWidth;
+			btn.style.width = `${endWidth}px`;
+			const clearWidth = () => {
+				if (btn.style.width === `${endWidth}px`) btn.style.width = '';
+				btn.removeEventListener('transitionend', onEnd);
+			};
+			const onEnd = (e: TransitionEvent) => {
+				if (e.propertyName === 'width') clearWidth();
+			};
+			btn.addEventListener('transitionend', onEnd);
+			window.setTimeout(clearWidth, 320);
+		} else if (label) {
+			label.textContent = lang;
+		}
 		switcher.querySelectorAll<HTMLButtonElement>('.lang-switcher__option').forEach((opt) => {
 			opt.setAttribute('aria-selected', opt.dataset.lang === lang ? 'true' : 'false');
 		});
@@ -334,7 +362,7 @@ const {
 		applyLanguageInstant(active, root);
 
 		buildMenu(switcher, langs, active, signal);
-		setSwitcherLabel(switcher, active);
+		setSwitcherLabel(switcher, active, false);
 		switcher.hidden = false;
 
 		const btn = switcher.querySelector<HTMLButtonElement>('.lang-switcher__btn');
