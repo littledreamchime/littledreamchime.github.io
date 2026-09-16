@@ -274,6 +274,15 @@ const {
 		});
 	}
 
+
+	function silenceYouTubeIn(section: Element | null | undefined) {
+		if (!section) return;
+		section.querySelectorAll<HTMLElement>('[data-yt-lazy]').forEach((el) => {
+			el.querySelectorAll('iframe').forEach((frame) => frame.remove());
+			el.classList.remove('is-playing', 'is-ready');
+		});
+	}
+
 	let switching = false;
 
 	async function activateLanguage(lang: string, root: ParentNode) {
@@ -286,6 +295,7 @@ const {
 		switching = true;
 
 		if (current) {
+			silenceYouTubeIn(current);
 			current.classList.add('is-fading-out');
 			await new Promise((r) => setTimeout(r, FADE_MS));
 			current.classList.remove('is-active', 'is-fading-out');
@@ -345,6 +355,7 @@ const {
 			section.classList.toggle('is-active', on);
 			section.classList.toggle('is-hidden', !on);
 			section.classList.remove('is-fading-in', 'is-fading-out');
+			if (!on) silenceYouTubeIn(section);
 		}
 	}
 

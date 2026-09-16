@@ -294,6 +294,15 @@ const thumb = id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '';
 		return document.querySelector<HTMLElement>('[data-yt-lazy-host]');
 	}
 
+	function resetEmbed(root: HTMLElement) {
+		root.querySelectorAll('iframe.yt-lazy__iframe').forEach((frame) => frame.remove());
+		root.classList.remove('is-playing', 'is-ready');
+	}
+
+	function resetAllPlayingEmbeds() {
+		document.querySelectorAll<HTMLElement>('[data-yt-lazy].is-playing').forEach(resetEmbed);
+	}
+
 	function wirePlay(root: HTMLElement, signal?: AbortSignal) {
 		if (root.dataset.ytWired === '1') return;
 		root.dataset.ytWired = '1';
@@ -413,6 +422,9 @@ const thumb = id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '';
 		const { signal } = pageAbort;
 
 		enhanceLinks(signal);
+		document.addEventListener('lang-switcher:change', () => {
+			resetAllPlayingEmbeds();
+		}, { signal });
 		wireExisting(signal);
 	});
 </script>
