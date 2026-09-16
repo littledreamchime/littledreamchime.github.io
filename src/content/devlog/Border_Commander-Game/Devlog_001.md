@@ -1,27 +1,36 @@
 ---
-title: Devlog_001
-description: Organizing Docs & Untangling Logic
-pubDate: Jun 01 2026
-heroImage: '../../../content/devlog/_images/Personal_Blog-website/Icon/Devlog_001.png'
+title: Version_0.0.0.1
+description: InputSystem, SceneManager and Main menu
+pubDate: Sep 17 2026
+heroImage: ../../../content/devlog/_images/Border_Commander-Game/Icons/Version_0.0.0.1.png
 ---
-##### Duration: Jun 01 2026 - Jun 08 2026
-##### Tags: `#Docs` `#Architecture` 
-## Context & Goals
-- Recently, the underlying logic of the project started getting chaotic, leading to an increasing number of bugs. I realized I needed to take a step back, untangle the mess, and plan the next steps.
-- Clear my mind, establish a solid foundation, and build a habit of writing continuous dev logs.
-- To be completely honest, the codebase was turning into ~~a piece of shit~~ spaghetti code. If I didn't stop to refactor and organize things now, it would eventually become an unmanageable pile of technical debt.
-## Approach & Decisions
-I decide to divide the project documentation into four core modules:
 
-![FourCoreModules](../_images/Personal_Blog-website/Four-Core-Modules.png)
-- Architecture: Documenting Components, Layout, Utils, Z-index management and the relationships between them.
-    ![ArchitectureMap](../_images/Personal_Blog-website/ArchitectureMap.png)
-- Dev logs: A dedicated space to track progress over time.
-- Issues: A temporary tracker for development roadblocks, their resolution status, and any newly derived bugs.
-- Design: Planning the website layout and CSS implementation strategies.
-## The Result
-- Identified and cataloged a series of underlying logic issues.
-- Created comprehensive component diagrams to map out the operational logic visually.
-- Established a standardized documentation process for future development.
-## Next Steps
-- Start tackling and resolving the backlog of issues identified during this documentation phase.
+--Language-- 中文 --Language--
+
+##### 时间：Sep 17 2026 - Sep 27 2026
+
+## 背景与目标
+
+- 项目刚开始，把地基打牢，但不能光搭地基，所以：
+
+- 先做出主界面的建模和美术，有一个看得见的成果。
+
+- 然后，做好场景控制和输入映射，为主界面的完整做准备。
+
+- 之后，做出游戏进入的场景加载界面。
+  
+- 最后，结合输入映射完成主界面的动画、交互等等内容。
+
+## 方法与决策
+
+待定
+
+## 成果
+
+无
+## 下一步
+
+待定
+
+
+ISM

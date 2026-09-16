@@ -3,6 +3,8 @@ import {render } from 'astro:content';
 import '../../../styles/zIndex.css';
 import { ANIMATION_TIMES } from '../../../config';
 import Giscus from '../Main/Giscus.astro';
+import LanguageSwitcher from '../LanguageSwitcher.astro';
+import YouTube from '../YouTube.astro';
 const pageShowTime=`${ANIMATION_TIMES.PAGE_SHOW}ms`;
 
 const {post,folderSlug}=Astro.props;
@@ -16,14 +18,22 @@ const { Content } = await render(post);
             ←
         </button>
         <h1 class="sticky-title">{post.data.title}</h1>
+        <div class="sticky-header-right">
+            <LanguageSwitcher contentRoot=".content-wrapper" variant="inline" id="devlog-lang-sticky" />
+        </div>
     </div>
+
+    <YouTube />
 
 	<div id="paper-content" class="paper-content">
         <!-- 原本的 Header 移入滚动区域，使其能自然随页面滚走 -->
         <div id="paper-header" class="paper-header">
-            <button id="paper-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>
-                ←
-            </button>
+            <div class="paper-header-top">
+                <button id="paper-back-btn" class="back-btn" data-target={`/devlog/${folderSlug}`}>
+                    ←
+                </button>
+                <LanguageSwitcher contentRoot=".content-wrapper" variant="inline" id="devlog-lang-header" />
+            </div>
             <div class="meta">
                 <h1>{post.data.title}</h1>
                 {post.data.description && <p class="description">{post.data.description}</p>}
@@ -120,7 +130,33 @@ const { Content } = await render(post);
         overflow: hidden;
         text-overflow: ellipsis;
         text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+        min-width: 0;
+        flex: 1;
     }
+
+    .sticky-header-right {
+        margin-left: auto;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .paper-header-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        width: 100%;
+        gap: 1rem;
+        margin-bottom: 0;
+    }
+    .paper-header-top .back-btn {
+        margin-bottom: 1.5rem;
+    }
+    .paper-header-top :global(.lang-switcher) {
+        margin-top: 0.15rem;
+        flex-shrink: 0;
+    }
+
 
     /* =========================================
        Original Header (Tech Dashboard Style)
@@ -313,6 +349,9 @@ const { Content } = await render(post);
         /* 桌面端隐藏返回按钮 */
         .paper-ui .back-btn {
             display: none;
+        }
+        .paper-header-top {
+            justify-content: flex-end;
         }
     }
 </style>

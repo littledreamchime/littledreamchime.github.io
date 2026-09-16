@@ -4,6 +4,9 @@ description: Squashing Bugs, Clean Git Trees, and Building the Blog UI
 pubDate: Jun 08 2026
 heroImage: '../../../content/devlog/_images/Personal_Blog-website/Icon/Devlog_002.png'
 ---
+
+--Language-- English --Language--
+
 ##### Duration: Jun 08 2026 - Jun 15 2026
 ##### Tags: `#Code` `#Design` `#Refactor` `#fix`
 
@@ -29,3 +32,31 @@ Coming off the documentation and component-mapping phase, I had a significant ba
 - Squash the newly logged bugs in Issues_003.
 - Refine and finalize the code for the "About" page.
 - Prepare and integrate the final image assets into the UI.
+
+--Language-- 中文 --Language--
+
+##### 时间：Jun 08 2026 - Jun 15 2026
+##### Tags: `#Code` `#Design` `#Refactor` `#fix`
+
+## 背景与目标
+结束文档整理和组件梳理之后，我手里积压了不少待解决问题。过去一周的大方向是：
+- 解决上一阶段梳理出的 bug（Issues_001 & Issues_002）。
+- 建立并严格执行标准的 Git 工作流。
+
+- 完整设计并实现新 Blog 板块的逻辑与 UI。
+## 方法与决策
+1. Bug 修复与优化
+	 - 资源预加载：现在首次进入站点就会加载好所需资源，转场因此非常丝滑。
+	 - 重构：把几个臃肿组件拆成更小、可复用的模块，代码库清爽多了。
+	 - 重写部分 CSS 样式。
+2. 构建 Blog 板块
+## 成果
+- 漂亮的 Git 历史：
+![ABuautifulGitHistory](../_images/Personal_Blog-website/ABuautifulGitHistory.png)
+- Blog UI 完成：
+![BlogUI](../_images/Personal_Blog-website/BlogUI.png)
+
+## 下一步
+- 消灭 Issues_003 里新记录的 bug。
+- 完善并收尾 About 页面代码。
+- 准备最终图片资源并接入 UI。

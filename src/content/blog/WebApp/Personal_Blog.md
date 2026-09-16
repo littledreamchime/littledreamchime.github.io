@@ -8,6 +8,108 @@ color: '#3B82F6'
 size: '15.4MB'
 ---
 
+--Language-- English --Language--
+
+> **WOW**! Not only did you find this blog, you even opened the post *about* this blog—on the blog itself!
+
+Weird as that is, here's the address anyway: <https://littledreamchime.github.io>
+
+---
+
+## Why this blog?
+
+Lately I've had a lot I want to make—learn to draw, try some 3D modeling, study Shader, edit a video, build a game? I wanted one place to showcase everything I'd make in the future, and a blog felt perfect. I looked at plenty of other blogs and templates: some are silky-smooth and gorgeous, some are plain—but none of them were what I wanted. **Too generic and ordinary!**
+
+I planned to skip templates and build something distinctive myself, and pick up some front-end skills along the way. So this blog was born—smooth page transitions, a little light pollution, and all. It's modeled after the computer desk of my dreams. Aside from not being too kind to low-end phones, I'm already very happy with the overall result.
+
+---
+
+## What's on the blog
+
+The blog has four pages: <kbd>Home</kbd>, <kbd>Blog</kbd>, <kbd>Devlog</kbd>, and <kbd>About</kbd>. Page jumps use smooth transitions so you barely feel like you're navigating at all (assuming a decent connection, of course).
+
+### Blog
+
+![Blog](../_images/Web_Personal_Blog/Blog.png)
+
+Anyway, I might add more sections later—or abandon one forever? I can't say for sure, but I hope I can slowly fill this place up.
+
+### Devlog
+The `devlog` section is for development logs of programs that are **too big to finish in one go**.
+
+### About
+The `About` page is my self-introduction—feel free to take a look if you're curious.
+
+---
+
+## Building the blog
+
+I originally planned about a month for the blog. Looking back, that turned out roughly right.
+
+#### At the start:
+I worked on it on and off for a few days until I hit a wall—**the blog had already outgrown my mental capacity!** I had to stop and spend several days organizing the development logs. Those logs turned this month of building the blog into five stages:
+
+##### <kbd>[Stage 1: Organizing Docs]</kbd>
+Yes—just organizing this blog's development logs took me a full eight days. Luckily I'd recently taken the Software Designer exam and picked up a few basics.
+
+Over those eight days I cataloged the bugs I'd already found, then drew something that isn't quite a component diagram or a class diagram—but it ran through almost my entire development process, kept me from getting lost, and gave me a rough sense of how front-end work fits together.
+
+![ArchitectureMap](../../devlog/_images/Personal_Blog-website/ArchitectureMap.png)
+
+##### <kbd>[Stage 2: Building the Blog page]</kbd>
+This was the hardest part for me. On one hand, the monitor sits in the center of the screen from the start and stays visible during page switches, so layering had to be managed carefully. On the other, for mobile I chose to rotate the screen 90 degrees—no small challenge for layout, and the stage with the most bugs.
+
+![BlogUI](../../devlog/_images/Personal_Blog-website/BlogUI.png)
+
+From here on, the site's v1.0 features were officially done; everything left was bug fixes and polish.
+
+##### <kbd>[Stage 3: About page & bug fixes]</kbd>
+
+Most of this was reusing the earlier Page setup with style tweaks—very straightforward!
+
+##### <kbd>[Stage 4: Mobile adaptation & UI restyle]</kbd>
+
+The project moved along steadily until every feature was done and the bugs were fixed—then I realized the interface was just too ugly!
+
+So I enlisted the power of AI, which is great at CSS, and it easily refreshed my styles. The UI went roughly from this (left) to this (right), with lots of animation, glow, and frosted-glass effects added.
+
+![Compare](../_images/Web_Personal_Blog/Devlog_Compare.png)
+
+Finally, the blog gained two more features:
+
+##### <kbd>[Stage 5: Search & comments]</kbd>
+
+![Comment](../_images/Web_Personal_Blog/Comment.png)
+
+By then it was time to stop building the blog! With a tight schedule, I went straight with GitHub's native `Giscus`—my site is already deployed on GitHub, so it was the easiest option. Ugly? Sure. But does it work? You tell me.
+
+Of course, I'll eventually replace it with something that works without logging in.
+
+![Search](../_images/Web_Personal_Blog/Search.png)
+
+With search added: it's a pretty complete version now. I'll put a comma on blog development here for now.
+
+---
+
+## Plans for this blog going forward?
+
+Of course, a few things still catch my eye:
+- Is the home screen *only* a home screen? No other features—weather, time, a little alarm clock?
+- Since it's a computer, that home-page PC might later play webGL Unity projects, art pieces, interactive toys, and more.
+- On first visit the blog loads all resources, but after sitting idle a few minutes the device may clear them, so jumping between pages still feels laggy!
+- Language switching—I'll master Chinese, Japanese, and English (￣︶￣*))
+- And that comment system I mentioned earlier!
+
+> **But!**
+> 
+> That's all for later!
+
+If you'd like to be friends or have other questions, feel free to reach out: [`littledreamchime@gmail.com`](mailto:littledreamchime@gmail.com)
+
+**Hope this blog can carry my creativity and keep going for a long time.**
+
+--Language-- 中文 --Language--
+
 > **WOW**！你不仅找到了这个博客网站，并且点开了博客网站上这个关于这个博客网站的博客！
 
 虽然很奇怪，但还是要在这里贴上地址：<https://littledreamchime.github.io>
