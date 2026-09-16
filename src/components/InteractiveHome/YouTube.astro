@@ -1,0 +1,418 @@
+---
+interface Props {
+	/** YouTube video id — when set, renders one visible embed */
+	id?: string;
+	/** Accessible title for the video / iframe */
+	title?: string;
+}
+
+const { id, title = 'YouTube video' } = Astro.props;
+const thumb = id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '';
+---
+
+{id && (
+	<div
+		class="yt-lazy"
+		data-yt-lazy
+		data-yt-id={id}
+		data-yt-title={title}
+	>
+		<button
+			type="button"
+			class="yt-lazy__facade"
+			aria-label={`Play ${title}`}
+		>
+			<img
+				class="yt-lazy__thumb"
+				src={thumb}
+				alt=""
+				loading="lazy"
+				decoding="async"
+			/>
+			<span class="yt-lazy__play" aria-hidden="true">
+				<svg viewBox="0 0 68 48" width="68" height="48" focusable="false">
+					<path
+						class="yt-lazy__play-bg"
+						d="M66.52 7.42a8.38 8.38 0 0 0-5.9-5.93C55.35.05 34 0 34 0S12.65.05 7.38 1.49A8.38 8.38 0 0 0 1.48 7.42C.04 12.69 0 24 0 24s.04 11.31 1.48 16.58a8.38 8.38 0 0 0 5.9 5.93C12.65 47.95 34 48 34 48s21.35-.05 26.62-1.49a8.38 8.38 0 0 0 5.9-5.93C67.96 35.31 68 24 68 24s-.04-11.31-1.48-16.58z"
+					/>
+					<path class="yt-lazy__play-tri" d="M45 24 27 14v20" fill="#fff" />
+				</svg>
+			</span>
+			<span class="yt-lazy__hud" aria-hidden="true">YT // LAZY</span>
+		</button>
+	</div>
+)}
+
+{/* Hidden template used to enhance markdown YouTube links at runtime */}
+<template data-yt-lazy-template>
+	<div
+		class="yt-lazy"
+		data-yt-lazy
+		data-yt-id=""
+		data-yt-title="YouTube video"
+	>
+		<button
+			type="button"
+			class="yt-lazy__facade"
+			aria-label="Play YouTube video"
+		>
+			<img
+				class="yt-lazy__thumb"
+				src=""
+				alt=""
+				loading="lazy"
+				decoding="async"
+			/>
+			<span class="yt-lazy__play" aria-hidden="true">
+				<svg viewBox="0 0 68 48" width="68" height="48" focusable="false">
+					<path
+						class="yt-lazy__play-bg"
+						d="M66.52 7.42a8.38 8.38 0 0 0-5.9-5.93C55.35.05 34 0 34 0S12.65.05 7.38 1.49A8.38 8.38 0 0 0 1.48 7.42C.04 12.69 0 24 0 24s.04 11.31 1.48 16.58a8.38 8.38 0 0 0 5.9 5.93C12.65 47.95 34 48 34 48s21.35-.05 26.62-1.49a8.38 8.38 0 0 0 5.9-5.93C67.96 35.31 68 24 68 24s-.04-11.31-1.48-16.58z"
+					/>
+					<path class="yt-lazy__play-tri" d="M45 24 27 14v20" fill="#fff" />
+				</svg>
+			</span>
+			<span class="yt-lazy__hud" aria-hidden="true">YT // LAZY</span>
+		</button>
+	</div>
+</template>
+
+{/* Host marker so the page-load script can find scope attrs + template */}
+<div class="yt-lazy-host" data-yt-lazy-host hidden aria-hidden="true"></div>
+
+<style>
+	.yt-lazy-host {
+		display: none;
+	}
+
+	.yt-lazy {
+		position: relative;
+		width: 100%;
+		max-width: 720px;
+		margin: 1.75rem auto;
+		aspect-ratio: 16 / 9;
+		border-radius: 10px;
+		border: 1px solid rgba(139, 92, 246, 0.4);
+		background: rgba(13, 9, 20, 0.72);
+		backdrop-filter: blur(12px) saturate(140%);
+		-webkit-backdrop-filter: blur(12px) saturate(140%);
+		box-shadow:
+			0 0 24px rgba(139, 92, 246, 0.2),
+			inset 0 1px 0 rgba(255, 255, 255, 0.06);
+		overflow: hidden;
+		font-family: 'Inter', monospace, system-ui, sans-serif;
+		opacity: 0;
+		transform: translateY(12px);
+		animation: yt-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+	}
+
+	@keyframes yt-enter {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.yt-lazy__facade {
+		position: absolute;
+		inset: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		overflow: hidden;
+	}
+
+	.yt-lazy__thumb {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition:
+			transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+			filter 0.35s ease,
+			opacity 0.4s ease;
+		filter: saturate(1.05) brightness(0.85);
+	}
+
+	.yt-lazy__facade:hover .yt-lazy__thumb,
+	.yt-lazy__facade:focus-visible .yt-lazy__thumb {
+		transform: scale(1.04);
+		filter: saturate(1.15) brightness(0.95);
+	}
+
+	.yt-lazy__play {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2;
+		filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.55));
+		transition:
+			transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+			filter 0.3s ease;
+		animation: yt-pulse 2.4s ease-in-out infinite;
+	}
+
+	.yt-lazy__play-bg {
+		fill: rgba(139, 92, 246, 0.85);
+		transition: fill 0.25s ease;
+	}
+
+	.yt-lazy__facade:hover .yt-lazy__play,
+	.yt-lazy__facade:focus-visible .yt-lazy__play {
+		transform: translate(-50%, -50%) scale(1.1);
+		filter: drop-shadow(0 0 22px rgba(167, 139, 250, 0.9));
+		animation: none;
+	}
+
+	.yt-lazy__facade:hover .yt-lazy__play-bg,
+	.yt-lazy__facade:focus-visible .yt-lazy__play-bg {
+		fill: #a78bfa;
+	}
+
+	.yt-lazy__facade:focus-visible {
+		outline: 2px solid #c4b5fd;
+		outline-offset: 2px;
+	}
+
+	@keyframes yt-pulse {
+		0%,
+		100% {
+			filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.45));
+			transform: translate(-50%, -50%) scale(1);
+		}
+		50% {
+			filter: drop-shadow(0 0 20px rgba(167, 139, 250, 0.85));
+			transform: translate(-50%, -50%) scale(1.05);
+		}
+	}
+
+	.yt-lazy__hud {
+		position: absolute;
+		bottom: 0.65rem;
+		left: 0.75rem;
+		z-index: 2;
+		padding: 0.2rem 0.5rem;
+		border-radius: 4px;
+		border: 1px solid rgba(139, 92, 246, 0.35);
+		background: rgba(13, 9, 20, 0.7);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		color: #c4b5fd;
+		font-size: 0.65rem;
+		font-weight: 600;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		pointer-events: none;
+		box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+	}
+
+	.yt-lazy__iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+		opacity: 0;
+		transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.yt-lazy.is-playing .yt-lazy__facade {
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.35s ease;
+	}
+
+	.yt-lazy.is-ready .yt-lazy__iframe {
+		opacity: 1;
+	}
+
+	@media (max-width: 768px) {
+		.yt-lazy {
+			margin: 1.25rem 0;
+			border-radius: 8px;
+		}
+		.yt-lazy__play svg {
+			width: 56px;
+			height: 40px;
+		}
+	}
+</style>
+
+<script>
+	/** Copy Astro scoped attrs so dynamically created nodes match component CSS. */
+	function stampScope(from: Element, to: Element) {
+		for (const attr of Array.from(from.attributes)) {
+			if (attr.name.startsWith('data-astro-cid-')) {
+				to.setAttribute(attr.name, attr.value);
+			}
+		}
+		for (const child of Array.from(to.children)) {
+			stampScope(from, child);
+		}
+	}
+
+	function parseYouTubeId(href: string): string | null {
+		try {
+			const url = new URL(href, window.location.origin);
+			const host = url.hostname.replace(/^www\./, '');
+
+			if (host === 'youtu.be') {
+				const id = url.pathname.split('/').filter(Boolean)[0];
+				return id || null;
+			}
+
+			if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'music.youtube.com') {
+				if (url.pathname === '/watch') {
+					return url.searchParams.get('v');
+				}
+				const embed = url.pathname.match(/^\/embed\/([^/?#]+)/);
+				if (embed) return embed[1];
+				const shorts = url.pathname.match(/^\/shorts\/([^/?#]+)/);
+				if (shorts) return shorts[1];
+			}
+		} catch {
+			/* ignore invalid URLs */
+		}
+		return null;
+	}
+
+	function getTemplate(): HTMLTemplateElement | null {
+		return document.querySelector<HTMLTemplateElement>('template[data-yt-lazy-template]');
+	}
+
+	function getHost(): HTMLElement | null {
+		return document.querySelector<HTMLElement>('[data-yt-lazy-host]');
+	}
+
+	function wirePlay(root: HTMLElement, signal?: AbortSignal) {
+		if (root.dataset.ytWired === '1') return;
+		root.dataset.ytWired = '1';
+
+		const btn = root.querySelector<HTMLButtonElement>('.yt-lazy__facade');
+		if (!btn) return;
+
+		const activate = () => {
+			if (root.classList.contains('is-playing')) return;
+			const videoId = root.dataset.ytId;
+			if (!videoId) return;
+			const videoTitle = root.dataset.ytTitle || 'YouTube video';
+
+			const iframe = document.createElement('iframe');
+			iframe.className = 'yt-lazy__iframe';
+			iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+			iframe.title = videoTitle;
+			iframe.allow =
+				'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+			iframe.allowFullscreen = true;
+			iframe.setAttribute('loading', 'lazy');
+			stampScope(root, iframe);
+
+			root.appendChild(iframe);
+			root.classList.add('is-playing');
+
+			iframe.addEventListener(
+				'load',
+				() => {
+					root.classList.add('is-ready');
+				},
+				{ once: true, signal },
+			);
+		};
+
+		btn.addEventListener('click', activate, { signal });
+	}
+
+	function fillEmbed(el: HTMLElement, videoId: string, label: string) {
+		el.dataset.ytId = videoId;
+		el.dataset.ytTitle = label || 'YouTube video';
+
+		const btn = el.querySelector<HTMLButtonElement>('.yt-lazy__facade');
+		if (btn) {
+			btn.setAttribute('aria-label', `Play ${label || 'YouTube video'}`);
+		}
+
+		const img = el.querySelector<HTMLImageElement>('.yt-lazy__thumb');
+		if (img) {
+			img.src = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+			img.alt = '';
+		}
+	}
+
+	function enhanceLinks(signal: AbortSignal) {
+		const template = getTemplate();
+		const host = getHost();
+		if (!template || !host) return;
+
+		const roots = document.querySelectorAll('.content-wrapper, .content-area');
+		const linkSelector =
+			'a[href*="youtube.com/watch"], a[href*="youtu.be/"], a[href*="youtube.com/embed/"]';
+
+		roots.forEach((root) => {
+			const links = Array.from(root.querySelectorAll<HTMLAnchorElement>(linkSelector));
+			for (const link of links) {
+				if (link.closest('[data-yt-lazy]')) continue;
+
+				const href = link.getAttribute('href');
+				if (!href) continue;
+				const videoId = parseYouTubeId(href);
+				if (!videoId) continue;
+
+				const label = (link.textContent || '').trim() || 'YouTube video';
+				const clone = template.content.firstElementChild?.cloneNode(true) as HTMLElement | null;
+				if (!clone) continue;
+
+				stampScope(host, clone);
+				fillEmbed(clone, videoId, label);
+
+				const parent = link.parentElement;
+				const onlyLinkInP =
+					parent &&
+					parent.tagName === 'P' &&
+					Array.from(parent.childNodes).every((n) => {
+						if (n === link) return true;
+						if (n.nodeType === Node.TEXT_NODE) return !(n.textContent || '').trim();
+						if (n.nodeType === Node.ELEMENT_NODE) {
+							const el = n as Element;
+							return el === link || (el.tagName === 'BR' && !el.textContent?.trim());
+						}
+						return false;
+					});
+
+				if (onlyLinkInP && parent) {
+					parent.replaceWith(clone);
+				} else {
+					link.replaceWith(clone);
+				}
+
+				wirePlay(clone, signal);
+			}
+		});
+	}
+
+	function wireExisting(signal: AbortSignal) {
+		document.querySelectorAll<HTMLElement>('[data-yt-lazy]').forEach((el) => {
+			wirePlay(el, signal);
+		});
+	}
+
+	let pageAbort: AbortController | null = null;
+
+	document.addEventListener('astro:page-load', () => {
+		pageAbort?.abort();
+		pageAbort = new AbortController();
+		const { signal } = pageAbort;
+
+		enhanceLinks(signal);
+		wireExisting(signal);
+	});
+</script>
