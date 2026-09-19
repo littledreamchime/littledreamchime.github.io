@@ -17,7 +17,7 @@ Here is my portrait (shy).
 
 --Language-- 中文 --Language--
 
-# 关于页面
+# 关于我
 
 你好，我是一个人类！
 
