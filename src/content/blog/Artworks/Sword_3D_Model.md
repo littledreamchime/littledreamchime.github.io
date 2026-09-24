@@ -10,7 +10,7 @@ size: '45.2MB'
 
 --Language-- English --Language--
 
-[Download Model](https://drive.google.com/file/d/1MxVVYxrMp8rRlnl7XHA_74fEYyzD2DRH/view?usp=sharing)
+[Click here to download the model](https://drive.google.com/file/d/1MxVVYxrMp8rRlnl7XHA_74fEYyzD2DRH/view?usp=sharing)
 
 5,300 triangles · PBR workflow
 
@@ -26,7 +26,7 @@ size: '45.2MB'
 
 --Language-- 中文 --Language--
 
-[【下载模型】](https://drive.google.com/file/d/1MxVVYxrMp8rRlnl7XHA_74fEYyzD2DRH/view?usp=sharing)
+[点我下载模型](https://drive.google.com/file/d/1MxVVYxrMp8rRlnl7XHA_74fEYyzD2DRH/view?usp=sharing)
 
 5300 三角面，PBR 流程
 
@@ -42,7 +42,7 @@ size: '45.2MB'
 
 --Language-- 日本語 --Language--
 
-[【モデルをダウンロード】](https://drive.google.com/file/d/1MxVVYxrMp8rRlnl7XHA_74fEYyzD2DRH/view?usp=sharing)
+[ここをタップしてモデルをダウンロード](https://drive.google.com/file/d/1MxVVYxrMp8rRlnl7XHA_74fEYyzD2DRH/view?usp=sharing)
 
 三角面 5300、PBR ワークフロー
 
