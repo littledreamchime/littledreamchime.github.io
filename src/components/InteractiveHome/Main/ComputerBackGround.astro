@@ -342,6 +342,26 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
     import { addLeaveHook, currentView } from "../../../store";
     import { navigateWithAnimation } from "../../../utils/navigation";
 
+    /** Original meaning: active only on BlogBinder/BlogPaper; click always goes to /blog. */
+    function canComputerReturn(view: string) {
+        return view.startsWith('Blog') && view !== 'Blog';
+    }
+
+    function onComputerReturnClick() {
+        if (!canComputerReturn(currentView.get())) return;
+        navigateWithAnimation('/blog');
+    }
+
+    function syncReturnBtn(returnBtn: HTMLElement, view: string) {
+        if (canComputerReturn(view)) {
+            returnBtn.classList.add('is-white');
+        } else {
+            returnBtn.classList.remove('is-white');
+        }
+    }
+
+    let unsubReturnBtn: (() => void) | undefined;
+
     document.addEventListener('astro:page-load',()=>{
         const powerBtn=document.getElementById("power-btn");
         const returnBtn=document.getElementById("return-btn");
@@ -366,17 +386,15 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
             powerBtn.classList.remove('is-white');
         }
 
-        /*Return Button*/
-        const ReturnBtnEvent=()=>{
-            navigateWithAnimation('/blog');
-        };
-        if(currentView.get()!=='Blog' && currentView.get().startsWith('Blog')){
-            returnBtn?.addEventListener('click',ReturnBtnEvent);
-            returnBtn?.classList.add('is-white');
-        }else{
-            returnBtn.classList.remove('is-white');
-            returnBtn.removeEventListener('click',ReturnBtnEvent);
+        /*Return Button — same action as before; follow currentView so pushState binder updates style */
+        if (!returnBtn.dataset.initialized) {
+            returnBtn.addEventListener('click', onComputerReturnClick);
+            returnBtn.dataset.initialized = 'true';
         }
+        unsubReturnBtn?.();
+        unsubReturnBtn = currentView.subscribe((view: string) => {
+            syncReturnBtn(returnBtn, view);
+        });
 
         /* Power on/off */
         
