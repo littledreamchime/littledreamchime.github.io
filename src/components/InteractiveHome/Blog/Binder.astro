@@ -438,9 +438,88 @@ const themeColor = color || '#10b981';
 <script>
 import { addLeaveHook, currentView } from "../../../store";
 import { navigateWithAnimation } from "../../../utils/navigation";
+import { ANIMATION_TIMES } from "../../../config";
 
 const eventControllers = new WeakMap<HTMLElement, AbortController>();
+
+/** Cancels in-flight binder switch when another drive is clicked mid-flex. */
+let binderFlexEpoch = 0;
+let popstateBound = false;
+
+function applyBinderFlexState(active: HTMLElement) {
+	document.querySelectorAll<HTMLElement>('.binder-item').forEach((b) => {
+		if (b === active) {
+			b.classList.add('is-expanded');
+			b.classList.remove('is-collapsed');
+		} else {
+			b.classList.add('is-collapsed');
+			b.classList.remove('is-expanded');
+		}
+	});
+	void active.offsetWidth;
+}
+
+function binderPathFromLocation(): string {
+	return decodeURIComponent(window.location.pathname).replace(/\/$/, '') || '/';
+}
+
+/** Binder ↔ binder (and Blog → binder): flex + pushState only — no Astro navigate. */
+function switchBinderLocally(active: HTMLElement, targetUrl: string) {
+	const epoch = ++binderFlexEpoch;
+	applyBinderFlexState(active);
+
+	const next = targetUrl.replace(/\/$/, '');
+	const cur = binderPathFromLocation();
+	if (cur !== next) {
+		history.pushState({ blogBinder: true }, '', next);
+	}
+	currentView.set('BlogBinder');
+
+	const body = active.querySelector<HTMLElement>('.expanded-body');
+	const slug = active.dataset.slug;
+	if (body && slug) {
+		const saved = sessionStorage.getItem(`binder-scroll-${slug}`);
+		if (saved) {
+			requestAnimationFrame(() => {
+				if (epoch !== binderFlexEpoch) return;
+				body.scrollTop = parseInt(saved, 10);
+			});
+		}
+	}
+}
+
+function syncBindersFromUrl() {
+	const path = binderPathFromLocation();
+	const binders = document.querySelectorAll<HTMLElement>('.binder-item');
+	if (!binders.length) return;
+
+	if (path === '/blog') {
+		binders.forEach((b) => b.classList.remove('is-expanded', 'is-collapsed'));
+		currentView.set('Blog');
+		return;
+	}
+
+	let matched: HTMLElement | null = null;
+	binders.forEach((b) => {
+		const url = `/blog/${b.dataset.slug}`;
+		const isMatch = path === url || path.startsWith(url + '/');
+		if (isMatch) matched = b;
+	});
+	if (matched) {
+		applyBinderFlexState(matched);
+		currentView.set('BlogBinder');
+	}
+}
+
   document.addEventListener('astro:page-load', () => {
+	if (!popstateBound) {
+		popstateBound = true;
+		window.addEventListener('popstate', () => {
+			const view = currentView.get();
+			if (!view.startsWith('Blog')) return;
+			syncBindersFromUrl();
+		});
+	}
     const binders = document.querySelectorAll('.binder-item');
     const currentPath = decodeURIComponent(window.location.pathname);
     
@@ -452,7 +531,13 @@ const eventControllers = new WeakMap<HTMLElement, AbortController>();
         });
     }
     binders.forEach((binder,index) => {
-        const slug = (binder as HTMLElement).dataset.slug;
+        const el = binder as HTMLElement;
+        eventControllers.get(el)?.abort();
+        const ac = new AbortController();
+        eventControllers.set(el, ac);
+        const { signal } = ac;
+
+        const slug = el.dataset.slug;
         const targetUrl = `/blog/${slug}`;
         const expandedBody = binder.querySelector<HTMLElement>('.expanded-body');
         const scrollKey = `binder-scroll-${slug}`;
@@ -612,10 +697,10 @@ const eventControllers = new WeakMap<HTMLElement, AbortController>();
         }
 
         binder.addEventListener('click', (e) => {
-            if (binder.classList.contains('is-expanded')) return;
-
-            navigateWithAnimation(targetUrl);
-        });
+            if (el.classList.contains('is-expanded')) return;
+            // Flex + URL only — never Astro navigate for drive switches
+            switchBinderLocally(el, targetUrl);
+        }, { signal });
 
         const exeFiles = binder.querySelectorAll<HTMLElement>('.exe-file-box');
         const descPanel = binder.querySelector<HTMLElement>('.exe-desc-panel');

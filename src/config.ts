@@ -17,6 +17,7 @@ export const ANIMATION_TIMES={
     PAGE_SHOW:300,
 
     /*Blog*/
+    BINDER_FLEX:800,
     COMPUTER_OPEN:500,
     COMPUTER_CLOSE:400,
 };
