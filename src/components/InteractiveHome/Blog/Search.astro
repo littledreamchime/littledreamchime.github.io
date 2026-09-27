@@ -102,8 +102,13 @@
     background: transparent;
     border: none;
     color: var(--cyber-text-main);
-    font-size: 0.85cqi;
-    padding: 1.5cqi 1cqi;
+    --hud-fs: 0.85cqi;
+    font-size: 16px;
+    zoom: calc(var(--hud-fs) / 16px);
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    /* padding in pre-zoom px so visual padding stays 1.5cqi / 1cqi after zoom */
+    padding: calc(1.5cqi * 16px / var(--hud-fs)) calc(1cqi * 16px / var(--hud-fs));
     outline: none;
     width: 100%;
   }

@@ -183,7 +183,11 @@ const themeColor = color || '#10b981';
     .vertical-title {
         writing-mode: vertical-rl;
         font-family: 'Inter', monospace, sans-serif;
-        font-size: 0.85cqw;
+        --hud-fs: 0.85cqw;
+        font-size: 16px;
+        zoom: calc(var(--hud-fs) / 16px);
+        text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
         font-weight: 700;
         letter-spacing: 0.1em;
         white-space: nowrap;
@@ -271,6 +275,14 @@ const themeColor = color || '#10b981';
         filter: drop-shadow(0 0 5px var(--theme-color));
     }
     .header-icon-img.placeholder { opacity: 0; }
+
+    .header-path {
+        --hud-fs: calc(0.85 * var(--u));
+        font-size: 16px;
+        zoom: calc(var(--hud-fs) / 16px);
+        text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+    }
 
     /* Body */
     .expanded-body {
@@ -410,7 +422,7 @@ const themeColor = color || '#10b981';
             margin-left: 0;
             margin-bottom: 0;
             writing-mode: vertical-rl;
-            font-size: calc(1.15 * var(--u));
+            --hud-fs: calc(1.15 * var(--u));
             transform: rotate(180deg);
             white-space: nowrap;
         }

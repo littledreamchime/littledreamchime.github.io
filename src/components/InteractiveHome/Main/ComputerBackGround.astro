@@ -287,7 +287,11 @@ const close=`${ANIMATION_TIMES.COMPUTER_CLOSE}ms`;
     ========================================= */
     .center-text, .right-signature {
         font-family: 'Inter', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        font-size: calc(0.7 * var(--u));
+        --hud-fs: calc(0.7 * var(--u));
+        font-size: 16px;
+        zoom: calc(var(--hud-fs) / 16px);
+        text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
         letter-spacing: 0.08em;
         line-height: 1;
         white-space: nowrap;

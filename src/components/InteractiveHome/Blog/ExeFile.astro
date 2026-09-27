@@ -151,7 +151,11 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
   }
   .exe-title {
     font-family: 'Inter', monospace, sans-serif;
-    font-size: 0.8cqi;
+    --hud-fs: 0.8cqi;
+    font-size: 16px;
+    zoom: calc(var(--hud-fs) / 16px);
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
     font-weight: 600;
     color: #f3e8ff;
     white-space: nowrap;
@@ -166,7 +170,11 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
   }
   .exe-date {
     font-family: monospace;
-    font-size: 0.5cqi;
+    --hud-fs: 0.5cqi;
+    font-size: 16px;
+    zoom: calc(var(--hud-fs) / 16px);
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
     color: #8b7a9f;
     letter-spacing: 0.05em;
   }
@@ -204,10 +212,10 @@ const fileRoute = file.slug || file.id.replace(/\.(md|mdx)$/, '');
     gap: 2.5cqw;
   }
   .exe-title {
-    font-size: 1.1cqw;
+    --hud-fs: 1.1cqw;
   }
   .exe-date {
-    font-size: 0.75cqw;
+    --hud-fs: 0.75cqw;
   }
   .exe-icon {
     width: 2cqw;
