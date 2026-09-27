@@ -41,14 +41,14 @@ const themeColor = color || '#10b981';
       <span class="header-path">{driveLetter}:\ {title}</span>
     </div>
     
-    <!--water mark -->
-    {heroImage && (
-    <div class="body-watermark">
-        <div class="watermark-img colorized-mask" style={`--icon-url: url(${typeof heroImage === 'string' ? heroImage : heroImage.src})`}></div>
-    </div>
-    )}
     <!-- Body -->
     <div class="expanded-body">
+        <!--water mark: absolute vs expanded-body (excludes Header) -->
+        {heroImage && (
+        <div class="body-watermark">
+            <div class="watermark-img colorized-mask" style={`--icon-url: url(${typeof heroImage === 'string' ? heroImage : heroImage.src})`}></div>
+        </div>
+        )}
         {files.length === 0 ? (
             <div class="empty-message">SYS.WARN // PARTITION EMPTY<span class="cursor">_</span></div>
         ) : (
@@ -337,7 +337,11 @@ const themeColor = color || '#10b981';
         left: 50%;
         transform: translate(-50%, -50%);
         font-family: monospace;
-        font-size: calc(0.85 * var(--u));
+        --hud-fs: calc(0.85 * var(--u));
+        font-size: 16px;
+        zoom: calc(var(--hud-fs) / 16px);
+        text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
         color: var(--theme-color);
         opacity: 0.7;
         letter-spacing: 0.1em;
@@ -428,11 +432,12 @@ const themeColor = color || '#10b981';
         }
 
         .body-watermark {
-            top:50%;
-            transform: translate(-50%, -55%) rotate(-90deg) scale(0.9);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg) scale(0.9);
         }
         .binder-item.is-expanded .body-watermark {
-            transform: translate(-50%, -55%) rotate(-90deg) scale(1);
+            transform: translate(-50%, -50%) rotate(-90deg) scale(1);
         }
         .center-axis { 
             display: none; 
